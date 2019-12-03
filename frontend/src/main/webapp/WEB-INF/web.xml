@@ -12,9 +12,29 @@
 		<servlet-name>Main</servlet-name>
 		<jsp-file>main.jsp</jsp-file>
 	</servlet>
+	<servlet>
+		<servlet-name>NewIncentive</servlet-name>
+		<jsp-file>incentive_form.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>IncentiveServlet</display-name>
+		<servlet-name>IncentiveServlet</servlet-name>
+		<servlet-class>de.uniba.dsg.dsam.client.IncentiveServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Main</servlet-name>
 		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewIncentive</servlet-name>
+		<url-pattern>/incentives/incentive_form</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>IncentiveServlet</servlet-name>
+		<url-pattern>/incentives</url-pattern>
 	</servlet-mapping>
 
 </web-app>
