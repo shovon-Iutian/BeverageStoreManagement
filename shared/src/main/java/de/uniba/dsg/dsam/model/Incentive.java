@@ -1,18 +1,8 @@
 package de.uniba.dsg.dsam.model;
 
-public abstract class Incentive {
+public abstract class Incentive extends AbstractDtoWithId{
 	
 	private String name;
-	
-	private IncentiveType incentiveType;
-
-	public IncentiveType getIncentiveType() {
-		return incentiveType;
-	}
-
-	public void setIncentiveType(IncentiveType incentiveType) {
-		this.incentiveType = incentiveType;
-	}
 
 	public String getName() {
 		return name;
@@ -22,4 +12,11 @@ public abstract class Incentive {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "Incentive{" +
+				"name='" + name + '\'' +
+				", id=" + id +
+				'}';
+	}
 }

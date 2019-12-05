@@ -1,17 +1,15 @@
 package de.uniba.dsg.dsam.client;
 
-import java.io.IOException;
+import de.uniba.dsg.dsam.model.*;
+import de.uniba.dsg.dsam.persistence.IncentiveManagement;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.uniba.dsg.dsam.model.Incentive;
-import de.uniba.dsg.dsam.model.PromotionalGift;
-import de.uniba.dsg.dsam.model.TrialPackage;
-import de.uniba.dsg.dsam.persistence.IncentiveManagement;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Servlet implementation class IncentiveServlet
@@ -20,13 +18,15 @@ public class IncentiveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private IncentiveManagement incentiveManager;
+	private IncentiveManagement<?, Incentive> incentiveManager;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		List<Incentive> incentives = this.incentiveManager.getAllIncentives();
+		System.out.println(incentives.size());
+		request.setAttribute("incentives", incentives);
 		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
 	}
 
@@ -34,14 +34,18 @@ public class IncentiveServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String incentiveName = request.getParameter("incentive_name").trim();
 		String incentiveType = request.getParameter("incentive_type").trim();
-		response.getWriter().write(incentiveName);
-		response.getWriter().write("\n"+incentiveType);
-		Incentive incentive = (incentiveType.equals("trial_package")) ? new TrialPackage() : new PromotionalGift();
+		Incentive incentive = null;
+		if(incentiveType.equals("trial_package")){
+			incentive = new TrialPackage();
+		}
+		else{
+			incentive = new PromotionalGift();
+		}
 		incentive.setName(incentiveName);
-		incentiveManager.addIncentive(incentive);
+		incentive = incentiveManager.addIncentive(incentive);
+		response.getWriter().write(incentive.toString());
 	}
 
 	/**

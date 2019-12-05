@@ -12,4 +12,13 @@ public class SalesManagementBean implements SalesManagement {
 		
 	}
 
+	@Override
+	public Object converEntityToDTO(Object o) {
+		return null;
+	}
+
+	@Override
+	public Object convertDTOToEntity(Object o) {
+		return null;
+	}
 }

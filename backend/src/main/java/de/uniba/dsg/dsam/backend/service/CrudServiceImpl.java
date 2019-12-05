@@ -1,16 +1,17 @@
 package de.uniba.dsg.dsam.backend.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+//import de.uniba.dsg.dsam.service.CrudService;
 
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import de.uniba.dsg.dsam.service.CrudService;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -18,6 +19,9 @@ import de.uniba.dsg.dsam.service.CrudService;
  *
  * @param <ENTITY>
  */
+
+@Stateless
+@Remote(CrudService.class)
 public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 
 	@PersistenceContext(type=PersistenceContextType.TRANSACTION)
@@ -35,8 +39,8 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 	}
 
 	@Override
-	public Optional<ENTITY> getOne(Class<ENTITY> entityClass, int id) {
-		return Optional.ofNullable(em.find(entityClass, id));
+	public Optional<ENTITY> getOne(Class<?> entityClass, int id) {
+		return (Optional<ENTITY>) Optional.ofNullable(em.find(entityClass, id));
 	}
 
 	@Override
@@ -45,11 +49,11 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 	}
 
 	@Override
-	public List<ENTITY> getAll(Class<ENTITY> entityClass) {
-		CriteriaQuery<ENTITY> criteriaQuery = em.getCriteriaBuilder().createQuery(entityClass);
-		Root<ENTITY> root = criteriaQuery.from(entityClass);
+	public List<ENTITY> getAll(Class<?> entityClass) {
+		CriteriaQuery<ENTITY> criteriaQuery = (CriteriaQuery<ENTITY>) em.getCriteriaBuilder().createQuery(entityClass);
+		Root<ENTITY> root = (Root<ENTITY>) criteriaQuery.from(entityClass);
 		criteriaQuery.select(root);
-		criteriaQuery.orderBy(em.getCriteriaBuilder().asc(root.get("timestamp")));
+		criteriaQuery.orderBy(em.getCriteriaBuilder().asc(root.get("id")));
 		return em.createQuery(criteriaQuery).getResultList();
 	}
 
