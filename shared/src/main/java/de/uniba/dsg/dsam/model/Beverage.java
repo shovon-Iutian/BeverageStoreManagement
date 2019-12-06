@@ -1,5 +1,7 @@
 package de.uniba.dsg.dsam.model;
 
+import java.util.Optional;
+
 public class Beverage extends AbstractDtoWithId{
     private String manufacturer;
     private String name;
@@ -40,11 +42,23 @@ public class Beverage extends AbstractDtoWithId{
         this.price = price;
     }
 
-    public Incentive getIncentive() {
-        return incentive;
+    public Optional<Incentive> getIncentive() {
+        return Optional.ofNullable(incentive);
     }
 
     public void setIncentive(Incentive incentive) {
         this.incentive = incentive;
+    }
+
+    @Override
+    public String toString() {
+        return "Beverage{" +
+                "manufacturer='" + manufacturer + '\'' +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", incentive=" + incentive +
+                ", id=" + id +
+                '}';
     }
 }

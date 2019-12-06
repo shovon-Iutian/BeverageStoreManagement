@@ -1,14 +1,12 @@
 package de.uniba.dsg.dsam.backend.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
-
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class IncentiveEntity implements Serializable {
 
 	/**
@@ -17,13 +15,16 @@ public abstract class IncentiveEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id;
 
 	@Version
 	private int version;
 
 	private String name;
+
+	@OneToMany(mappedBy = "incentive", fetch = FetchType.LAZY, targetEntity = BeverageEntity.class)
+	private Set<BeverageEntity> beverageEntities = new HashSet<>();
 
 	public int getId() {
 		return id;
@@ -47,6 +48,14 @@ public abstract class IncentiveEntity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<BeverageEntity> getBeverageEntities() {
+		return beverageEntities;
+	}
+
+	public void setBeverageEntities(Set<BeverageEntity> beverageEntities) {
+		this.beverageEntities = beverageEntities;
 	}
 
 	@Override

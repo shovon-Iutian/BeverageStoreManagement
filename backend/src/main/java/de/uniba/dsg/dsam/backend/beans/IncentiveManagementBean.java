@@ -40,11 +40,12 @@ public class IncentiveManagementBean implements IncentiveManagement<IncentiveEnt
 
 	@Override
 	public Optional<Incentive> getOneIncentive(int id) {
-		Optional<IncentiveEntity> optionalIncentiveEntity = incentiveService.getOne(TrialPackageEntity.class, id);
-		if(!optionalIncentiveEntity.isPresent()){
-			optionalIncentiveEntity = incentiveService.getOne(PromotionalGiftEntity.class, id);
+		IncentiveEntity incentiveEntity = incentiveService.getOne(TrialPackageEntity.class, id);
+		if(incentiveEntity == null){
+			incentiveEntity = incentiveService.getOne(PromotionalGiftEntity.class, id);
 		}
-		return optionalIncentiveEntity.map(this::converEntityToDTO);
+		if(incentiveEntity == null)return null;
+		return Optional.ofNullable(this.converEntityToDTO(incentiveEntity));
 	}
 
 	@Override

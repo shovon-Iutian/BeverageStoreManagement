@@ -18,7 +18,7 @@
 	<div class="container">
 		<h1>Beverage Store</h1>
 		
-		<p><a href="/new" class="btn btn-primary">Create new beverage</a></p>
+		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
 	</div>
 </body>
 </html>

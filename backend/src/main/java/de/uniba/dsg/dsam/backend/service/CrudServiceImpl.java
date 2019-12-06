@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -39,8 +38,8 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 	}
 
 	@Override
-	public Optional<ENTITY> getOne(Class<?> entityClass, int id) {
-		return (Optional<ENTITY>) Optional.ofNullable(em.find(entityClass, id));
+	public ENTITY getOne(Class<?> entityClass, int id) {
+		return (ENTITY) em.find(entityClass, id);
 	}
 
 	@Override
