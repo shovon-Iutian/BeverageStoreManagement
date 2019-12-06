@@ -38,7 +38,7 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 	}
 
 	@Override
-	public ENTITY getOne(Class<?> entityClass, int id) {
+	public ENTITY getOne(Class<ENTITY> entityClass, int id) {
 		return (ENTITY) em.find(entityClass, id);
 	}
 
@@ -48,9 +48,9 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 	}
 
 	@Override
-	public List<ENTITY> getAll(Class<?> entityClass) {
-		CriteriaQuery<ENTITY> criteriaQuery = (CriteriaQuery<ENTITY>) em.getCriteriaBuilder().createQuery(entityClass);
-		Root<ENTITY> root = (Root<ENTITY>) criteriaQuery.from(entityClass);
+	public List<ENTITY> getAll(Class<ENTITY> entityClass) {
+		CriteriaQuery<ENTITY> criteriaQuery = em.getCriteriaBuilder().createQuery(entityClass);
+		Root<ENTITY> root = criteriaQuery.from(entityClass);
 		criteriaQuery.select(root);
 		criteriaQuery.orderBy(em.getCriteriaBuilder().asc(root.get("id")));
 		return em.createQuery(criteriaQuery).getResultList();

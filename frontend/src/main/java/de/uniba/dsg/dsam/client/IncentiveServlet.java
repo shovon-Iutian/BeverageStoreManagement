@@ -24,7 +24,7 @@ public class IncentiveServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Incentive> incentives = this.incentiveManager.getAllIncentives();
+		List<Incentive> incentives = this.incentiveManager.getAll();
 		System.out.println(incentives.size());
 		request.setAttribute("incentives", incentives);
 		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
@@ -36,7 +36,7 @@ public class IncentiveServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String incentiveName = request.getParameter("incentive_name").trim();
 		String incentiveType = request.getParameter("incentive_type").trim();
-		Incentive incentive = null;
+		Incentive incentive;
 		if(incentiveType.equals("trial_package")){
 			incentive = new TrialPackage();
 		}
@@ -44,7 +44,7 @@ public class IncentiveServlet extends HttpServlet {
 			incentive = new PromotionalGift();
 		}
 		incentive.setName(incentiveName);
-		incentive = incentiveManager.addIncentive(incentive);
+		incentive = incentiveManager.create(incentive);
 		response.getWriter().write(incentive.toString());
 	}
 
