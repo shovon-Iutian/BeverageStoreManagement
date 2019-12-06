@@ -10,11 +10,48 @@
 	<!-- JSPs -->
 	<servlet>
 		<servlet-name>Main</servlet-name>
-		<jsp-file>main.jsp</jsp-file>
+		<jsp-file>beverages.jsp</jsp-file>
+	</servlet>
+	<servlet>
+		<servlet-name>NewIncentive</servlet-name>
+		<jsp-file>incentive_form.jsp</jsp-file>
+	</servlet>
+	<servlet>
+		<servlet-name>NewBeverage</servlet-name>
+		<jsp-file>beverage_form.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>IncentiveServlet</display-name>
+		<servlet-name>IncentiveServlet</servlet-name>
+		<servlet-class>de.uniba.dsg.dsam.client.IncentiveServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>BeveragesServlet</display-name>
+		<servlet-name>BeveragesServlet</servlet-name>
+		<servlet-class>de.uniba.dsg.dsam.client.BeveragesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Main</servlet-name>
 		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewBeverage</servlet-name>
+		<url-pattern>/beverages/beverage_form</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewIncentive</servlet-name>
+		<url-pattern>/incentives/incentive_form</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>IncentiveServlet</servlet-name>
+		<url-pattern>/incentives</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BeveragesServlet</servlet-name>
+		<url-pattern>/beverages</url-pattern>
 	</servlet-mapping>
 
 </web-app>
