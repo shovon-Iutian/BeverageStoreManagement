@@ -31,6 +31,7 @@ public class IncentiveManagementBean extends AbstractCrudBean<IncentiveEntity, I
 			incentive = new PromotionalGift();
 		}
 		incentive.setId(entity.getId());
+		incentive.setVersion(entity.getVersion());
 		incentive.setName(entity.getName());
 		return incentive;
 	}
@@ -43,6 +44,10 @@ public class IncentiveManagementBean extends AbstractCrudBean<IncentiveEntity, I
 		}
 		else {
 			incentiveEntity = new PromotionalGiftEntity();
+		}
+		if(incentive.getId() != -1){
+			incentiveEntity.setId(incentive.getId());
+			incentiveEntity.setVersion(incentive.getVersion());
 		}
 		incentiveEntity.setName(incentive.getName());
 		return incentiveEntity;

@@ -1,6 +1,8 @@
 package de.uniba.dsg.dsam.client;
 
-import de.uniba.dsg.dsam.model.*;
+import de.uniba.dsg.dsam.model.Incentive;
+import de.uniba.dsg.dsam.model.PromotionalGift;
+import de.uniba.dsg.dsam.model.TrialPackage;
 import de.uniba.dsg.dsam.persistence.IncentiveManagement;
 
 import javax.ejb.EJB;
@@ -26,7 +28,7 @@ public class IncentiveServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Incentive> incentives = this.incentiveManager.getAll();
 		System.out.println(incentives.size());
-		request.setAttribute("incentives", incentives);
+		request.getSession().setAttribute("incentives", incentives);
 		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
 	}
 
@@ -35,24 +37,28 @@ public class IncentiveServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String incentiveName = request.getParameter("incentive_name").trim();
-		String incentiveType = request.getParameter("incentive_type").trim();
+		String incentiveType = request.getParameter("incentive_type");
+		String id = request.getParameter("incentive_id");
+		List<Incentive> incentives = (List<Incentive>) request.getSession().getAttribute("incentives");
 		Incentive incentive;
-		if(incentiveType.equals("trial_package")){
-			incentive = new TrialPackage();
+
+		if(id != null){
+			incentive = incentives.stream().filter(incnt -> incnt.getId() == Integer.valueOf(id)).findAny().get();
+			incentive.setName(incentiveName);
+			incentiveManager.update(incentive);
 		}
 		else{
-			incentive = new PromotionalGift();
+			if(incentiveType.equals("trial_package")){
+				incentive = new TrialPackage();
+			}
+			else{
+				incentive = new PromotionalGift();
+			}
+			incentive.setName(incentiveName);
+			incentive = incentiveManager.create(incentive);
+			incentives.add(incentive);
 		}
-		incentive.setName(incentiveName);
-		incentive = incentiveManager.create(incentive);
-		response.getWriter().write(incentive.toString());
-	}
-
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
 	}
 
 	/**

@@ -31,6 +31,7 @@ public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Bev
     public Beverage converEntityToDTO(BeverageEntity beverageEntity) {
         Beverage beverage = new Beverage();
         beverage.setId(beverageEntity.getId());
+        beverage.setVersion(beverageEntity.getVersion());
         IncentiveEntity incentiveEntity = beverageEntity.getIncentive();
         if(incentiveEntity != null){
             Incentive incentive = this.incentiveManagement.converEntityToDTO(incentiveEntity);
@@ -51,6 +52,10 @@ public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Bev
             beverageEntity.setIncentive(incentiveEntity);
             return beverageEntity;
         });
+        if(beverage.getId() != -1){
+            beverageEntity.setId(beverage.getId());
+            beverageEntity.setVersion(beverage.getVersion());
+        }
         beverageEntity.setManufacturer(beverage.getManufacturer());
         beverageEntity.setName(beverage.getName());
         beverageEntity.setPrice(beverage.getPrice());
