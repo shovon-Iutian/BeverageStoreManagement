@@ -1,6 +1,6 @@
 package de.uniba.dsg.dsam.model;
 
-public abstract class Incentive extends AbstractDtoWithId{
+public abstract class Incentive extends AbstractDto {
 	
 	private String name;
 

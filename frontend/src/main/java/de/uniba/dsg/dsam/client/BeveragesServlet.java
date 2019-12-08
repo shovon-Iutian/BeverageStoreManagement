@@ -17,16 +17,17 @@ import java.util.Optional;
 public class BeveragesServlet extends HttpServlet {
 
 	@EJB
-	private BeverageManagement<?, Beverage> beverageManagement;
+	private BeverageManagement<Beverage> beverageManagement;
 
 	@EJB
 	private IncentiveManagement<?, Incentive> incentiveManagement;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<Incentive> incentives = this.incentiveManagement.getAllIncentives();
-		System.out.println(incentives.size());
+		List<Incentive> incentives = incentiveManagement.getAll();
+		List<Beverage> beverages = beverageManagement.getAll();
 		request.getSession().setAttribute("incentives", incentives);
+		request.setAttribute("beverages", beverages);
 		request.getRequestDispatcher("/beverages.jsp").forward(request, response);
 	}
 	

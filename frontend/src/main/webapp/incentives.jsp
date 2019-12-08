@@ -29,11 +29,12 @@
 					<th scope="col">ID</th>
 					<th scope="col">NAME</th>
 					<th scope="col">TYPE</th>
+					<th scope="col">ACTION</th>
 				</tr>
 				</thead>
 				<tbody>
 				<%
-					List<Incentive> incentives = (List<Incentive>) request.getAttribute("incentives");
+					List<Incentive> incentives = (List<Incentive>) request.getSession().getAttribute("incentives");
 					int i=1;
 					for(Incentive incentive: incentives) {
 				%>
@@ -45,7 +46,16 @@
 				}
 				else {%>
 					Promotional gift
-					<%}}%></td></tr>
+					<%}%></td>
+					<td>
+						<p><a href="/frontend/incentives/incentive_form?id=<%= incentive.getId()%>"
+							  class="btn btn-primary">Update</a>
+							<a href="/frontend/incentives" class="btn btn-primary"
+							   name="incentive_id" value="<%= incentive.getId()%>">Delete</a>
+						</p>
+					</td>
+				</tr>
+				<%}%>
 				</tbody>
 			</table>
 		</div>

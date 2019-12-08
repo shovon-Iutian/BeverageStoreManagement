@@ -1,5 +1,6 @@
 package de.uniba.dsg.dsam.backend.beans;
 
+import de.uniba.dsg.dsam.backend.abstractbean.AbstractCrudBean;
 import de.uniba.dsg.dsam.backend.entities.BeverageEntity;
 import de.uniba.dsg.dsam.backend.entities.IncentiveEntity;
 import de.uniba.dsg.dsam.backend.service.CrudService;
@@ -14,10 +15,7 @@ import javax.ejb.Stateless;
 
 @Stateless
 @Remote(BeverageManagement.class)
-public class BeverageManagementBean implements BeverageManagement<BeverageEntity, Beverage> {
-
-    @EJB
-    private CrudService<BeverageEntity> beverageService;
+public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Beverage> {
 
     @EJB
     private CrudService<IncentiveEntity> incentiveService;
@@ -25,27 +23,20 @@ public class BeverageManagementBean implements BeverageManagement<BeverageEntity
     @EJB
     private IncentiveManagement<IncentiveEntity, Incentive> incentiveManagement;
 
-    @Override
-    public Beverage create(Beverage beverage) {
-        BeverageEntity beverageEntity = this.convertDTOToEntity(beverage);
-        beverageEntity = this.beverageService.addOne(beverageEntity);
-        beverage = this.converEntityToDTO(beverageEntity);
-        return beverage;
-    }
-
-    @Override
-    public Beverage update(Beverage beverage) {
-        BeverageEntity beverageEntity = this.convertDTOToEntity(beverage);
-        beverageEntity = this.beverageService.updateOne(beverageEntity);
-        beverage = this.converEntityToDTO(beverageEntity);
-        return beverage;
+    public BeverageManagementBean() {
+        this.persistentClass = BeverageEntity.class;
     }
 
     @Override
     public Beverage converEntityToDTO(BeverageEntity beverageEntity) {
         Beverage beverage = new Beverage();
         beverage.setId(beverageEntity.getId());
-        beverageEntity.getIncentive().map(this.incentiveManagement::converEntityToDTO).ifPresent(beverage::setIncentive);
+        beverage.setVersion(beverageEntity.getVersion());
+        IncentiveEntity incentiveEntity = beverageEntity.getIncentive();
+        if(incentiveEntity != null){
+            Incentive incentive = this.incentiveManagement.converEntityToDTO(incentiveEntity);
+            beverage.setIncentive(incentive);
+        }
         beverage.setManufacturer(beverageEntity.getManufacturer());
         beverage.setName(beverageEntity.getName());
         beverage.setPrice(beverageEntity.getPrice());
@@ -61,6 +52,10 @@ public class BeverageManagementBean implements BeverageManagement<BeverageEntity
             beverageEntity.setIncentive(incentiveEntity);
             return beverageEntity;
         });
+        if(beverage.getId() != -1){
+            beverageEntity.setId(beverage.getId());
+            beverageEntity.setVersion(beverage.getVersion());
+        }
         beverageEntity.setManufacturer(beverage.getManufacturer());
         beverageEntity.setName(beverage.getName());
         beverageEntity.setPrice(beverage.getPrice());

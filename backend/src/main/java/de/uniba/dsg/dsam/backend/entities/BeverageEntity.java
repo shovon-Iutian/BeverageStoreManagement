@@ -1,11 +1,11 @@
 package de.uniba.dsg.dsam.backend.entities;
 
 import javax.persistence.*;
-import java.util.Optional;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "beverage")
-public class BeverageEntity {
+public class BeverageEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class BeverageEntity {
     private int quantity;
     private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "incentive_id")
     private IncentiveEntity incentive;
 
@@ -73,8 +73,8 @@ public class BeverageEntity {
         this.price = price;
     }
 
-    public Optional<IncentiveEntity> getIncentive() {
-        return Optional.ofNullable(incentive);
+    public IncentiveEntity getIncentive() {
+        return incentive;
     }
 
     public void setIncentive(IncentiveEntity incentive) {
