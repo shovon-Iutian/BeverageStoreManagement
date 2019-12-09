@@ -1,11 +1,14 @@
 package de.uniba.dsg.dsam.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class CustomerOrder extends AbstractDtoWithId{
-
-    private Date issueDate;
+public final class CustomerOrder extends AbstractDtoWithId implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private Date issueDate;
     private List<Beverage> orderItems;
 
     public Date getIssueDate() {
