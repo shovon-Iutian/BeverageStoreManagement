@@ -70,6 +70,7 @@
 					<% }%>
 				</div>
 			</div>
+			<% if(beverage != null){ %>
 			<div class="form-group">
 				<div class="input-group">
 					<select class="custom-select" name="incentive">
@@ -79,13 +80,17 @@
 							if(incentives != null){for(Incentive incentive: incentives) {
 						%>
 						<option value="<%= incentive.getId()%>" <%
-						if(beverage != null && beverage.getIncentive().isPresent() && beverage.getIncentive().get().getId() == incentive.getId()){%>
-							selected
-						<%}%>><%= incentive.getName().toUpperCase()%></option>
+							if(beverage.getIncentive().isPresent() && beverage.getIncentive().get().getId() == incentive.getId()){%>
+								selected
+								<%}%>><%= incentive.getName().toUpperCase()%></option>
 						<% }}%>
 					</select>
 				</div>
 			</div>
+			<% }else{ %>
+				<input type="hidden" name="incentive" value="-1">
+			<% }%>
+
 			<a href="/frontend/beverages" class="btn btn-default">Cancel</a>
 			<button type="submit" class="btn btn-success">Save</button>
 		</form>					
