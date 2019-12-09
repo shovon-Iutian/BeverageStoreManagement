@@ -50,8 +50,7 @@
 					<td>
 						<p><a href="/frontend/incentives/incentive_form?id=<%= incentive.getId()%>"
 							  class="btn btn-primary">Update</a>
-							<a href="/frontend/incentives" class="btn btn-primary"
-							   name="incentive_id" value="<%= incentive.getId()%>">Delete</a>
+							<a href="" class="btn btn-primary delete-incentive" id="<%= incentive.getId()%>">Delete</a>
 						</p>
 					</td>
 				</tr>
@@ -60,5 +59,21 @@
 			</table>
 		</div>
 	</div>
+	<a href="/frontend/incentives" id="home"/>
+	<script>
+		$(document).ready(function() {
+			$(".delete-incentive").click(function() {
+				event.preventDefault();
+
+				$.ajax({
+					url: '/frontend/incentives?id=' + event.target.id,
+					type: 'DELETE',
+					success: function(response) {
+						location.replace(location.toString().split('?')[0]);
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

@@ -33,11 +33,12 @@
 					<th scope="col">INCENTIVE_ID</th>
 					<th scope="col">INCENTIVE_NAME</th>
 					<th scope="col">INCENTIVE_TYPE</th>
+					<th scope="col">ACTION</th>
 				</tr>
 				</thead>
 				<tbody>
 				<%
-					List<Beverage> beverages = (List<Beverage>) request.getAttribute("beverages");
+					List<Beverage> beverages = (List<Beverage>) request.getSession().getAttribute("beverages");
 					int i=1;
 					for(Beverage beverage : beverages) {
 				%>
@@ -52,18 +53,41 @@
 					%>
 					<td><%= incentive.getId()%></td>
 					<td><%= incentive.getName()%></td>
-					<td><% if(incentive instanceof TrialPackage){
-					%> Trial package <%
+					<% if(incentive instanceof TrialPackage){
+					%> <td> Trial package </td> <%
 					}
 					else {%>
-						Promotional gift
-						<%}}%></td>
-					<% } %>
+					<td> Promotional gift </td>
+						<%}}else{%> <td>-</td><td>-</td><td>-</td> <% }%>
+
+					<td>
+						<p><a href="/frontend/beverages/beverage_form?id=<%= beverage.getId()%>"
+							  class="btn btn-primary">Update</a>
+							<a href="" class="btn btn-primary delete-beverage" id="<%= beverage.getId()%>">Delete</a>
+						</p>
+					</td>
 					</tr>
+				<% } %>
 				</tbody>
 			</table>
 		</div>
 		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
 	</div>
+
+	<script>
+		$(document).ready(function() {
+			$(".delete-beverage").click(function() {
+				event.preventDefault();
+
+				$.ajax({
+					url: '/frontend/beverages?id=' + event.target.id,
+					type: 'DELETE',
+					success: function(response) {
+						location.replace(location.toString().split('?')[0]);
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
