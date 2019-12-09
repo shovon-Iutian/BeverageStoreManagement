@@ -10,6 +10,8 @@ public class Beverage extends AbstractDto {
 
     private Incentive incentive;
 
+    private CustomerOrder customerOrder;
+
     public String getManufacturer() {
         return manufacturer;
     }
@@ -50,6 +52,14 @@ public class Beverage extends AbstractDto {
         this.incentive = incentive;
     }
 
+    public Optional<CustomerOrder> getCustomerOrder() {
+        return Optional.ofNullable(customerOrder);
+    }
+
+    public void setCustomerOrder(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
+    }
+
     @Override
     public String toString() {
         return "Beverage{" +
@@ -58,6 +68,7 @@ public class Beverage extends AbstractDto {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", incentive=" + incentive +
+                ", customerOrder=" + customerOrder +
                 ", id=" + id +
                 '}';
     }

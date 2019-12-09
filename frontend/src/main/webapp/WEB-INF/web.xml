@@ -25,6 +25,11 @@
 		<servlet-class>de.uniba.dsg.dsam.client.IncentiveServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<display-name>ReportServlet</display-name>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>de.uniba.dsg.dsam.client.ReportServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<display-name>BeveragesServlet</display-name>
 		<servlet-name>BeveragesServlet</servlet-name>
 		<servlet-class>de.uniba.dsg.dsam.client.BeveragesServlet</servlet-class>
@@ -48,6 +53,10 @@
 	<servlet-mapping>
 		<servlet-name>BeveragesServlet</servlet-name>
 		<url-pattern>/beverages</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/report</url-pattern>
 	</servlet-mapping>
 
 </web-app>
