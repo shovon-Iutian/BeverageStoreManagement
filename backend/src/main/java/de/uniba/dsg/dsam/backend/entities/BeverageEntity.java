@@ -23,7 +23,11 @@ public class BeverageEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "incentive_id")
-    private IncentiveEntity incentive;
+    private IncentiveEntity incentiveEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_order_id")
+    private CustomerOrderEntity customerOrderEntity;
 
     public int getId() {
         return id;
@@ -73,11 +77,19 @@ public class BeverageEntity implements Serializable {
         this.price = price;
     }
 
-    public IncentiveEntity getIncentive() {
-        return incentive;
+    public IncentiveEntity getIncentiveEntity() {
+        return incentiveEntity;
     }
 
-    public void setIncentive(IncentiveEntity incentive) {
-        this.incentive = incentive;
+    public void setIncentiveEntity(IncentiveEntity incentive) {
+        this.incentiveEntity = incentive;
+    }
+
+    public CustomerOrderEntity getCustomerOrderEntity() {
+        return customerOrderEntity;
+    }
+
+    public void setCustomerOrderEntity(CustomerOrderEntity customerOrderEntity) {
+        this.customerOrderEntity = customerOrderEntity;
     }
 }
