@@ -39,7 +39,7 @@ public class IncentiveServlet extends HttpServlet {
 		String incentiveName = request.getParameter("incentive_name").trim();
 		String incentiveType = request.getParameter("incentive_type");
 		String id = request.getParameter("incentive_id");
-		List<Incentive> incentives = (List<Incentive>) request.getSession().getAttribute("incentives");
+		List<Incentive> incentives = this.incentiveManager.getAll();
 		Incentive incentive;
 
 		if(id != null){
@@ -58,6 +58,7 @@ public class IncentiveServlet extends HttpServlet {
 			incentive = incentiveManager.create(incentive);
 			incentives.add(incentive);
 		}
+		request.getSession().setAttribute("incentives", incentives);
 		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
 	}
 
@@ -65,7 +66,10 @@ public class IncentiveServlet extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		int id = Integer.valueOf(request.getParameter("id"));
+		List<Incentive> incentives = this.incentiveManager.getAll();
+		Incentive incentive = incentives.stream().filter(incnt -> incnt.getId() == Integer.valueOf(id)).findAny().get();
+		incentiveManager.deleteOne(incentive);
 	}
 
 }

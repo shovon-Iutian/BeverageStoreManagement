@@ -58,6 +58,9 @@ public class CrudServiceImpl<ENTITY> implements CrudService<ENTITY> {
 
 	@Override
 	public void deleteOne(ENTITY entity) {
+		if(!em.contains(entity)){
+			entity = em.merge(entity);
+		}
 		em.remove(entity);
 	}
 
