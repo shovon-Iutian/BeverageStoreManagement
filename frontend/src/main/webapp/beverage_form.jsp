@@ -80,7 +80,7 @@
 							if(incentives != null){for(Incentive incentive: incentives) {
 						%>
 						<option value="<%= incentive.getId()%>" <%
-							if(beverage.getIncentive().isPresent() && beverage.getIncentive().get().getId() == incentive.getId()){%>
+							if(beverage != null && beverage.getIncentive().isPresent() && beverage.getIncentive().get().getId() == incentive.getId()){%>
 								selected
 								<%}%>><%= incentive.getName().toUpperCase()%></option>
 						<% }}%>
