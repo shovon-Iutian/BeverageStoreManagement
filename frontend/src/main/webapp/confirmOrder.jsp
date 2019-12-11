@@ -15,8 +15,8 @@
 <body>
 <div class="container" align="center">
     <form action="confirmOrder.jsp" method="post">
-        <h3>Thank you for your order confirmation!</h3>
-        <table border="1" class="table table-striped table-responsive">
+        <h3 style="color: red"><b>Thank you for your order confirmation!</b></h3>
+        <table border="2" class="table table-striped table-responsive">
 
             <tr>
                 <th>Beverage Manufacturer</th>
@@ -45,7 +45,7 @@
             </tbody>
         </table>
 
-        <div class="col-1" align="center"><a href="/frontend/main.jsp" class="btn btn-default">Home</a>&nbsp;&nbsp;
+        <div class="col-1" align="center"><a href="/frontend/main.jsp" class="btn btn-default" style="background-color: bisque">Home</a>&nbsp;&nbsp;
 
         </div>
 
