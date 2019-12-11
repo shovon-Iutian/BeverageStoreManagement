@@ -20,6 +20,7 @@
 		<servlet-name>NewBeverage</servlet-name>
 		<jsp-file>beverage_form.jsp</jsp-file>
 	</servlet>
+
 	
 	<servlet>
 		<description>
@@ -33,10 +34,12 @@
 		<servlet-name>BeveragesServlet</servlet-name>
 		<servlet-class>de.uniba.dsg.dsam.client.BeveragesServlet</servlet-class>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>Main</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>NewBeverage</servlet-name>
 		<url-pattern>/beverages/beverage_form</url-pattern>
@@ -53,5 +56,14 @@
 		<servlet-name>BeveragesServlet</servlet-name>
 		<url-pattern>/beverages</url-pattern>
 	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>OrderJMSQueueServlet</servlet-name>
+		<servlet-class>de.uniba.dsg.dsam.client.OrderJMSQueueServlet</servlet-class>
+	</servlet><servlet-mapping>
+	<servlet-name>OrderJMSQueueServlet</servlet-name>
+	<url-pattern>/createorder</url-pattern>
+</servlet-mapping>
 
 </web-app>
