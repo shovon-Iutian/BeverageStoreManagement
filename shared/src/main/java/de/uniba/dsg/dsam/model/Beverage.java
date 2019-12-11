@@ -1,8 +1,9 @@
 package de.uniba.dsg.dsam.model;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class Beverage extends AbstractDtoWithId{
+public class Beverage extends AbstractDtoWithId  {
     private String manufacturer;
     private String name;
     private int quantity;
