@@ -21,6 +21,7 @@
 		<h1>Incentives</h1>
 
 		<p><a href="/frontend/incentives/incentive_form" class="btn btn-primary">Create new incentive</a></p>
+		<span class="text-success">${messages.noErrors}</span>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>

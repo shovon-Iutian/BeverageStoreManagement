@@ -6,12 +6,15 @@ import de.uniba.dsg.dsam.model.TrialPackage;
 import de.uniba.dsg.dsam.persistence.IncentiveManagement;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Servlet implementation class IncentiveServlet
@@ -36,6 +39,8 @@ public class IncentiveServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		Map<String,String> messages = new HashMap<String, String>();
 		String incentiveName = request.getParameter("incentive_name").trim();
 		String incentiveType = request.getParameter("incentive_type");
 		String id = request.getParameter("incentive_id");
@@ -44,8 +49,24 @@ public class IncentiveServlet extends HttpServlet {
 
 		if(id != null){
 			incentive = incentives.stream().filter(incnt -> incnt.getId() == Integer.valueOf(id)).findAny().get();
-			incentive.setName(incentiveName);
-			incentiveManager.update(incentive);
+			if (incentiveName == null || incentiveName.isEmpty()){
+				messages.put("incentive_name", "Please enter an Incentive name");
+			}
+			else{
+				incentive.setName(incentiveName);
+			}
+			if (messages.isEmpty()){
+				incentiveManager.update(incentive);
+				messages.put("noErrors", "Updated successfully");
+				request.setAttribute("messages", messages);
+				request.getSession().setAttribute("incentives", incentives);
+				request.getRequestDispatcher("/incentives.jsp").forward(request, response);
+			}
+			else{
+				request.setAttribute("messages", messages);
+				request.getRequestDispatcher("/incentive_form.jsp?id="+id).forward(request, response);
+			}
+
 		}
 		else{
 			if(incentiveType.equals("trial_package")){
@@ -54,12 +75,27 @@ public class IncentiveServlet extends HttpServlet {
 			else{
 				incentive = new PromotionalGift();
 			}
-			incentive.setName(incentiveName);
-			incentive = incentiveManager.create(incentive);
-			incentives.add(incentive);
+			if (incentiveName == null || incentiveName.isEmpty()){
+				messages.put("incentive_name", "Please enter Incentive name");
+			}
+			else{
+				incentive.setName(incentiveName);
+			}
+			if (messages.isEmpty()){
+				incentive = incentiveManager.create(incentive);
+				incentives.add(incentive);
+				messages.put("noErrors", "Incentive added successfully");
+				request.setAttribute("messages", messages);
+				request.getSession().setAttribute("incentives", incentives);
+				request.getRequestDispatcher("/incentives.jsp").forward(request, response);
+			}
+			else{
+				request.setAttribute("messages", messages);
+				request.getRequestDispatcher("/incentive_form.jsp").forward(request, response);
+			}
+
 		}
-		request.getSession().setAttribute("incentives", incentives);
-		request.getRequestDispatcher("/incentives.jsp").forward(request, response);
+
 	}
 
 	/**

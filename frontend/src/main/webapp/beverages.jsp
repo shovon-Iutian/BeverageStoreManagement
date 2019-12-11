@@ -20,6 +20,7 @@
 <body>
 	<div class="container">
 		<h1>Beverage Store</h1>
+		<span class="text-success">${messages.noErrors}</span>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
