@@ -1,29 +1,63 @@
 package de.uniba.dsg.dsam.model;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-public final class CustomerOrder extends AbstractDto implements Serializable {
+public final class CustomerOrder extends AbstractDto {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Date issueDate;
-    private List<Beverage> orderItems;
+	private int orderAmount;
+	private Beverage orderItems;
 
-    public Date getIssueDate() {
-        return issueDate;
-    }
+	/**
+	 * @return the issueDate
+	 */
+	public Date getIssueDate() {
+		return issueDate;
+	}
 
-    public void setIssueDate(Date issueDate) {
-        this.issueDate = issueDate;
-    }
+	/**
+	 * @param issueDate the issueDate to set
+	 */
+	public void setIssueDate(Date issueDate) {
+		this.issueDate = issueDate;
+	}
 
-    public List<Beverage> getOrderItems() {
-        return orderItems;
-    }
+	/**
+	 * @return the orderAmount
+	 */
+	public int getOrderAmount() {
+		return orderAmount;
+	}
 
-    public void setOrderItems(List<Beverage> orderItems) {
-        this.orderItems = orderItems;
-    }
+	/**
+	 * @param orderAmount the orderAmount to set
+	 */
+	public void setOrderAmount(int orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+	/**
+	 * @return the orderItems
+	 */
+	public Beverage getOrderItems() {
+		return orderItems;
+	}
+
+	/**
+	 * @param orderItems the orderItems to set
+	 */
+	public void setOrderItems(Beverage orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CustomerOrder [issueDate=" + issueDate + ", orderAmount=" + orderAmount + ", orderItems=" + orderItems
+				+ "]";
+	}
 }

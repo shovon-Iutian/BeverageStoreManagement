@@ -23,8 +23,16 @@
 		<form role="form" action="/frontend/orders" method="post">
 			<div class="form-group">
 				<div class="input-group">
-					<span class="input-group-addon">Beverage Name</span>
+					<span class="input-group-addon">Order Issued</span>
+					<input name="issue_date" type="text" class="form-control">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Item Name</span>
 					<input name="beverage_name" type="text" class="form-control">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Item Amount</span>
+					<input name="beverage_amount" type="number" class="form-control">
 				</div>
 			</div>
 			<a href="/frontend/orders/order_form" class="btn btn-default">Cancel</a>
