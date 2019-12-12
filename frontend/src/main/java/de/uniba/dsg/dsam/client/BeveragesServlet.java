@@ -100,7 +100,7 @@ public class BeveragesServlet extends HttpServlet {
 				}
 				if(messages.isEmpty()){
 					beverageManagement.update(beverage);
-					messages.put("noErrors", "Incentive updated successfully");
+					messages.put("noErrors", "Beverage updated successfully");
 					req.getSession().setAttribute("beverages", beverages);
 					req.getSession().setAttribute("messages", messages);
 					req.getRequestDispatcher("/beverages.jsp").forward(req, res);
