@@ -1,4 +1,5 @@
 <%@ page import="java.util.*" %>
+<%@ page import="de.uniba.dsg.dsam.model.Beverage" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +28,16 @@
 					<input name="issue_date" type="text" class="form-control">
 				</div>
 				<div class="input-group">
-					<span class="input-group-addon">Item Name</span>
-					<input name="beverage_name" type="text" class="form-control">
+					<select class="custom-select" name="beverage_name">
+						<option value="-1">Open this select menu</option>
+						<%
+							List<Beverage> beverages = (List<Beverage>) request.getSession().getAttribute("beverages");
+							if(beverages != null){for(Beverage beverage: beverages) {
+						%>
+						<option value="<%= beverage.getId()%>" selected
+							><%= beverage.getName().toUpperCase()%></option>
+						<% }}%>
+					</select>
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon">Item Amount</span>

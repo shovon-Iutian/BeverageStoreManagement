@@ -6,9 +6,24 @@ public final class CustomerOrder extends AbstractDto {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private int order_id;
 	private Date issueDate;
 	private int orderAmount;
 	private Beverage orderItems;
+
+	/**
+	 * @return the order_id
+	 */
+	public int getOrder_id() {
+		return order_id;
+	}
+
+	/**
+	 * @param order_id the order_id to set
+	 */
+	public void setOrder_id(int order_id) {
+		this.order_id = order_id;
+	}
 
 	/**
 	 * @return the issueDate

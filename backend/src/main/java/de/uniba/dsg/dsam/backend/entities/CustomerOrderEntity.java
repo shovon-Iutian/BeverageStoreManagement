@@ -24,11 +24,16 @@ public class CustomerOrderEntity implements Serializable {
 	@Version
 	private int version;
 	
+	private int order_id;
 	private Date issueDate;
 	private int orderAmount;
 	
 	@OneToMany(mappedBy = "customerOrderEntity", fetch = FetchType.LAZY, targetEntity = BeverageEntity.class)
 	private List<BeverageEntity> beverageEntities = new ArrayList<>();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "beverage_id")
+	private BeverageEntity beverageEntity;
 	
 	/**
 	 * Default constructor
@@ -63,6 +68,20 @@ public class CustomerOrderEntity implements Serializable {
 	 */
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	/**
+	 * @return the order_id
+	 */
+	public int getOrder_id() {
+		return order_id;
+	}
+
+	/**
+	 * @param order_id the order_id to set
+	 */
+	public void setOrder_id(int order_id) {
+		this.order_id = order_id;
 	}
 
 	/**
@@ -105,5 +124,19 @@ public class CustomerOrderEntity implements Serializable {
 	 */
 	public void setBeverageEntities(List<BeverageEntity> beverageEntities) {
 		this.beverageEntities = beverageEntities;
+	}
+
+	/**
+	 * @return the beverageEntity
+	 */
+	public BeverageEntity getBeverageEntity() {
+		return beverageEntity;
+	}
+
+	/**
+	 * @param beverageEntity the beverageEntity to set
+	 */
+	public void setBeverageEntity(BeverageEntity beverageEntity) {
+		this.beverageEntity = beverageEntity;
 	}
 }

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -27,10 +28,10 @@ public class OrderJMSQueueServlet extends HttpServlet {
 	private static final Logger logger = Logger.getLogger(OrderJMSQueueServlet.class.getName());
 	
 	@EJB
-	OrderJMSQueueSender sender;
+	private OrderJMSQueueSender sender;
 	
 	@EJB
-	private BeverageManagement<Beverage> beverageManagement;
+	private BeverageManagement<?, Beverage> beverageManagement;
 	
 	/**
 	 * Default constructor.
@@ -50,7 +51,9 @@ public class OrderJMSQueueServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String date = req.getParameter("issue_date").trim();
 		int amount = Integer.valueOf(req.getParameter("beverage_amount").trim());
+		int item = Integer.valueOf(req.getParameter("beverage_name").trim());
 		Date date1 = null;
+		int order_id = (int) ((Math.random() * ((5000 - 50) + 1)) + 50);
 		
 		try {
 			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
@@ -59,7 +62,12 @@ public class OrderJMSQueueServlet extends HttpServlet {
 		}
 		
 		CustomerOrder customerOrder = new CustomerOrder();
+		customerOrder.setOrder_id(order_id);
 		customerOrder.setIssueDate(date1);
+		if(item != -1) {
+			Optional<Beverage> beverage = beverageManagement.getAll().stream().filter(bever -> bever.getId() == item).findAny();
+			beverage.ifPresent(customerOrder::setOrderItems);
+		}
 		customerOrder.setOrderAmount(amount);
 		
 		sender.sendMessage(customerOrder);

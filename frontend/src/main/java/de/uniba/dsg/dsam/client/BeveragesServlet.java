@@ -17,7 +17,7 @@ import java.util.Optional;
 public class BeveragesServlet extends HttpServlet {
 
 	@EJB
-	private BeverageManagement<Beverage> beverageManagement;
+	private BeverageManagement<?, Beverage> beverageManagement;
 
 	@EJB
 	private IncentiveManagement<?, Incentive> incentiveManagement;
