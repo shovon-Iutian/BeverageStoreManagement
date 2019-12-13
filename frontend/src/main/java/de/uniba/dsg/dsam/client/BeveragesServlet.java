@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class BeveragesServlet extends HttpServlet {
 
 	@EJB
-	private BeverageManagement<Beverage> beverageManagement;
+	private BeverageManagement<?, Beverage> beverageManagement;
 
 	@EJB
 	private IncentiveManagement<?, Incentive> incentiveManagement;

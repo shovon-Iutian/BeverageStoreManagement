@@ -2,6 +2,8 @@ package de.uniba.dsg.dsam.backend.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "beverage")
@@ -28,6 +30,9 @@ public class BeverageEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_order_id")
     private CustomerOrderEntity customerOrderEntity;
+    
+    @OneToMany(mappedBy = "beverageEntity", fetch = FetchType.LAZY, targetEntity = CustomerOrderEntity.class)
+    private List<CustomerOrderEntity> customerOrderEntities = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -92,4 +97,18 @@ public class BeverageEntity implements Serializable {
     public void setCustomerOrderEntity(CustomerOrderEntity customerOrderEntity) {
         this.customerOrderEntity = customerOrderEntity;
     }
+
+	/**
+	 * @return the customerOrderEntities
+	 */
+	public List<CustomerOrderEntity> getCustomerOrderEntities() {
+		return customerOrderEntities;
+	}
+
+	/**
+	 * @param customerOrderEntities the customerOrderEntities to set
+	 */
+	public void setCustomerOrderEntities(List<CustomerOrderEntity> customerOrderEntities) {
+		this.customerOrderEntities = customerOrderEntities;
+	}
 }

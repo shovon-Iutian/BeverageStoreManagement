@@ -1,13 +1,11 @@
-/**
- * 
- */
 package de.uniba.dsg.dsam.client;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
@@ -16,53 +14,63 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.uniba.dsg.dsam.model.Beverage;
 import de.uniba.dsg.dsam.model.CustomerOrder;
+import de.uniba.dsg.dsam.persistence.BeverageManagement;
 
 /**
  * @author Mohammed Mehedi Hasan
  *
  */
 public class OrderJMSQueueServlet extends HttpServlet {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = Logger.getLogger(OrderJMSQueueServlet.class.getName());
 	
 	@EJB
-	OrderJMSQueueSender sender;
+	private OrderJMSQueueSender sender;
+	
+	@EJB
+	private BeverageManagement<?, Beverage> beverageManagement;
 	
 	/**
 	 * Default constructor.
 	 */
 	public OrderJMSQueueServlet() {
-		// TODO Auto-generated constructor stub
+		
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Beverage> beverages = beverageManagement.getAll();
+		request.getSession().setAttribute("beverages", beverages);
+		request.getRequestDispatcher("/jmsqueue.jsp").forward(request, response);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String name = req.getParameter("beverage_name").trim();
-		FileOutputStream writer = new FileOutputStream("D:\\Workspace\\DSAM\\Assignment01\\Abdullah\\debug.txt");
-	    writer.write(name.getBytes(), 0, name.length());
-	     
-	    Date date1 = null;
+		String date = req.getParameter("issue_date").trim();
+		int amount = Integer.valueOf(req.getParameter("beverage_amount").trim());
+		int item = Integer.valueOf(req.getParameter("beverage_name").trim());
+		Date date1 = null;
+		int order_id = (int) ((Math.random() * ((5000 - 50) + 1)) + 50);
+		
 		try {
-			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(name);
+			date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("Unable to parse string into date: " + e);
 		}
 		
 		CustomerOrder customerOrder = new CustomerOrder();
-		
+		customerOrder.setOrder_id(order_id);
 		customerOrder.setIssueDate(date1);
-		name = name + "update";
+		if(item != -1) {
+			Optional<Beverage> beverage = beverageManagement.getAll().stream().filter(bever -> bever.getId() == item).findAny();
+			beverage.ifPresent(customerOrder::setOrderItems);
+		}
+		customerOrder.setOrderAmount(amount);
 		
 		sender.sendMessage(customerOrder);
-		writer.write(name.getBytes(), 0, name.length());
-		
-		writer.close();
 		
 		resp.sendRedirect("/frontend");
 	}

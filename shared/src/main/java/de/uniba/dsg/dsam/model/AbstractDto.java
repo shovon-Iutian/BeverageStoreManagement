@@ -1,6 +1,8 @@
 package de.uniba.dsg.dsam.model;
 
-public abstract class AbstractDto {
+import java.io.Serializable;
+
+public abstract class AbstractDto implements Serializable {
     protected int id;
     protected int version;
 

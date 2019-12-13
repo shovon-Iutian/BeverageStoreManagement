@@ -15,7 +15,8 @@ import javax.ejb.Stateless;
 
 @Stateless
 @Remote(BeverageManagement.class)
-public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Beverage> {
+public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Beverage> 
+	implements BeverageManagement<BeverageEntity, Beverage> {
 
     @EJB
     private CrudService<IncentiveEntity> incentiveService;
