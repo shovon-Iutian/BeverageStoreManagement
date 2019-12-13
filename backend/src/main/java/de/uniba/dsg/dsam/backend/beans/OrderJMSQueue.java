@@ -41,6 +41,7 @@ public class OrderJMSQueue extends AbstractCrudBean<CustomerOrderEntity, Custome
 		CustomerOrder customerOrder = new CustomerOrder();
 		customerOrder.setId(customerOrderEntity.getId());
 		customerOrder.setVersion(customerOrderEntity.getVersion());
+		customerOrder.setOrder_id(customerOrderEntity.getOrder_id());
 		BeverageEntity beverageEntity = customerOrderEntity.getBeverageEntity();
 		if(beverageEntity != null) {
 			Beverage beverage = this.beverageManagement.converEntityToDTO(beverageEntity);
@@ -57,6 +58,7 @@ public class OrderJMSQueue extends AbstractCrudBean<CustomerOrderEntity, Custome
 		customerOrderEntity.setBeverageEntity(beverageService.getOne(BeverageEntity.class, customerOrder.getOrderItems().getId()));
 		customerOrderEntity.setId(customerOrder.getId());
 		customerOrderEntity.setVersion(customerOrder.getVersion());
+		customerOrderEntity.setOrder_id(customerOrder.getOrder_id());
 		customerOrderEntity.setIssueDate(customerOrder.getIssueDate());
 		customerOrderEntity.setOrderAmount(customerOrder.getOrderAmount());
 		return customerOrderEntity;
