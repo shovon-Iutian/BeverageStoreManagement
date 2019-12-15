@@ -24,9 +24,10 @@ public class BeveragesServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<Incentive> incentives = this.incentiveManagement.getAllIncentives();
-		System.out.println(incentives.size());
+		List<Incentive> incentives = incentiveManagement.getAll();
+		List<Beverage> beverages = beverageManagement.getAll();
 		request.getSession().setAttribute("incentives", incentives);
+		request.getSession().setAttribute("beverages", beverages);
 		request.getRequestDispatcher("/beverages.jsp").forward(request, response);
 	}
 	
@@ -38,19 +39,35 @@ public class BeveragesServlet extends HttpServlet {
 			double price = Double.valueOf(req.getParameter("beverage_price").trim());
 			int quantity = Integer.valueOf(req.getParameter("beverage_quantity").trim());
 			int incentiveId = Integer.valueOf(req.getParameter("incentive"));
-			Beverage beverage = new Beverage();
+			String id = req.getParameter("beverage_id");
+			List<Beverage> beverages = beverageManagement.getAll();
+			Beverage beverage;
+
+			if(id != null){
+				beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == Integer.valueOf(id)).findAny().get();
+			}
+			else {
+				beverage = new Beverage();
+			}
+
 			beverage.setName(name);
 			beverage.setManufacturer(manufacturer);
 			beverage.setPrice(price);
 			beverage.setQuantity(quantity);
 			if(incentiveId != -1){
-				List<Incentive> incentives = (List<Incentive>) req.getSession().getAttribute("incentives");
+				List<Incentive> incentives = incentiveManagement.getAll();
 				Optional<Incentive> incentive = incentives.stream().filter(incntv -> incntv.getId() == incentiveId).
 						findAny();
 				incentive.ifPresent(beverage::setIncentive);
 			}
-			beverageManagement.create(beverage);
-			res.getWriter().println(beverage);
+
+			if(id != null){beverageManagement.update(beverage);}
+			else {
+				beverage = beverageManagement.create(beverage);
+				beverages.add(beverage);
+			}
+			req.getSession().setAttribute("beverages", beverages);
+			req.getRequestDispatcher("/beverages.jsp").forward(req, res);
 		}
 		catch (NumberFormatException e){
 			System.out.println("error parsing the value of price/quantity");
@@ -61,7 +78,10 @@ public class BeveragesServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
-
+	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		String id = req.getParameter("id");
+		List<Beverage> beverages = beverageManagement.getAll();
+		Beverage beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == Integer.valueOf(id)).findAny().get();
+		beverageManagement.deleteOne(beverage);
 	}
 }

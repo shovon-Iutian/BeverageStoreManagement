@@ -1,13 +1,10 @@
 package de.uniba.dsg.dsam.backend.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Version;
 
 /**
  * 
@@ -15,7 +12,7 @@ import javax.persistence.Version;
  *
  */
 @Entity
-@Table(name = "orders")
+@Table(name = "customer_order")
 public class CustomerOrderEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,7 +24,16 @@ public class CustomerOrderEntity implements Serializable {
 	@Version
 	private int version;
 	
+	private int order_id;
 	private Date issueDate;
+	private int orderAmount;
+	
+	@OneToMany(mappedBy = "customerOrderEntity", fetch = FetchType.LAZY, targetEntity = BeverageEntity.class)
+	private List<BeverageEntity> beverageEntities = new ArrayList<>();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "beverage_id")
+	private BeverageEntity beverageEntity;
 	
 	/**
 	 * Default constructor
@@ -65,6 +71,20 @@ public class CustomerOrderEntity implements Serializable {
 	}
 
 	/**
+	 * @return the order_id
+	 */
+	public int getOrder_id() {
+		return order_id;
+	}
+
+	/**
+	 * @param order_id the order_id to set
+	 */
+	public void setOrder_id(int order_id) {
+		this.order_id = order_id;
+	}
+
+	/**
 	 * @return the issueDate
 	 */
 	public Date getIssueDate() {
@@ -76,5 +96,47 @@ public class CustomerOrderEntity implements Serializable {
 	 */
 	public void setIssueDate(Date issueDate) {
 		this.issueDate = issueDate;
+	}
+
+	/**
+	 * @return the orderAmount
+	 */
+	public int getOrderAmount() {
+		return orderAmount;
+	}
+
+	/**
+	 * @param orderAmount the orderAmount to set
+	 */
+	public void setOrderAmount(int orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+	/**
+	 * @return the beverageEntities
+	 */
+	public List<BeverageEntity> getBeverageEntities() {
+		return beverageEntities;
+	}
+
+	/**
+	 * @param beverageEntities the beverageEntities to set
+	 */
+	public void setBeverageEntities(List<BeverageEntity> beverageEntities) {
+		this.beverageEntities = beverageEntities;
+	}
+
+	/**
+	 * @return the beverageEntity
+	 */
+	public BeverageEntity getBeverageEntity() {
+		return beverageEntity;
+	}
+
+	/**
+	 * @param beverageEntity the beverageEntity to set
+	 */
+	public void setBeverageEntity(BeverageEntity beverageEntity) {
+		this.beverageEntity = beverageEntity;
 	}
 }

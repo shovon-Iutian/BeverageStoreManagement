@@ -12,9 +12,9 @@ import java.util.List;
 public interface CrudService<ENTITY> {
 	ENTITY addOne(ENTITY entity);
 	ENTITY updateOne(ENTITY entity);
-	ENTITY getOne(Class<?> entityClass, int id);
+	ENTITY getOne(Class<ENTITY> entityClass, int id);
 	List<ENTITY> getByIds(Class<ENTITY> entityClass, List<Integer> ids);
-	List<ENTITY> getAll(Class<?> entityClass);
+	List<ENTITY> getAll(Class<ENTITY> entityClass);
 	void deleteOne(ENTITY entity);
 	void deleteAll();
 }

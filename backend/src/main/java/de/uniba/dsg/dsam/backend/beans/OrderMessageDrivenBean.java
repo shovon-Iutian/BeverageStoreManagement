@@ -11,6 +11,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
 import de.uniba.dsg.dsam.model.CustomerOrder;
+import de.uniba.dsg.dsam.persistence.OrderJMSQueueManagement;
 
 /**
  * 
@@ -23,7 +24,7 @@ public class OrderMessageDrivenBean implements MessageListener {
 	private static final Logger logger = Logger.getLogger(OrderMessageDrivenBean.class.getName());
 	
 	@EJB
-	OrderJMSQueueLocal orderJMS;
+	private OrderJMSQueueManagement<CustomerOrder> orderJMSQueueManagement;
 	
 	/**
 	 * Default constructor
@@ -47,7 +48,7 @@ public class OrderMessageDrivenBean implements MessageListener {
     		
     		CustomerOrder customerOrderDTO = (CustomerOrder) dataObject;
     		
-    		if(customerOrderDTO.getIssueDate() == null) {
+    		if(customerOrderDTO.getIssueDate() == null || customerOrderDTO.getIssueDate().toString().isEmpty()) {
     			throw new Exception("Invalid customer order: " + customerOrderDTO);
     		}
     		
@@ -74,7 +75,7 @@ public class OrderMessageDrivenBean implements MessageListener {
 				Object messageObject = ((ObjectMessage) message).getObject();
 				
 				if(validateData(messageObject)) {
-					orderJMS.insertOrder((CustomerOrder) messageObject);
+					orderJMSQueueManagement.create((CustomerOrder) messageObject);
 				}
 			} catch (JMSException jmsEx) {
 				logger.severe("Error in JMS message accessing: " + jmsEx);

@@ -29,11 +29,12 @@
 					<th scope="col">ID</th>
 					<th scope="col">NAME</th>
 					<th scope="col">TYPE</th>
+					<th scope="col">ACTION</th>
 				</tr>
 				</thead>
 				<tbody>
 				<%
-					List<Incentive> incentives = (List<Incentive>) request.getAttribute("incentives");
+					List<Incentive> incentives = (List<Incentive>) request.getSession().getAttribute("incentives");
 					int i=1;
 					for(Incentive incentive: incentives) {
 				%>
@@ -45,10 +46,34 @@
 				}
 				else {%>
 					Promotional gift
-					<%}}%></td></tr>
+					<%}%></td>
+					<td>
+						<p><a href="/frontend/incentives/incentive_form?id=<%= incentive.getId()%>"
+							  class="btn btn-primary">Update</a>
+							<a href="" class="btn btn-primary delete-incentive" id="<%= incentive.getId()%>">Delete</a>
+						</p>
+					</td>
+				</tr>
+				<%}%>
 				</tbody>
 			</table>
 		</div>
 	</div>
+	<a href="/frontend/incentives" id="home"/>
+	<script>
+		$(document).ready(function() {
+			$(".delete-incentive").click(function() {
+				event.preventDefault();
+
+				$.ajax({
+					url: '/frontend/incentives?id=' + event.target.id,
+					type: 'DELETE',
+					success: function(response) {
+						location.replace(location.toString().split('?')[0]);
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

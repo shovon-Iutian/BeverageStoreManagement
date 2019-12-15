@@ -1,15 +1,16 @@
 package de.uniba.dsg.dsam.model;
 
-import java.io.Serializable;
 import java.util.Optional;
 
-public class Beverage extends AbstractDtoWithId  {
+public class Beverage extends AbstractDto {
     private String manufacturer;
     private String name;
     private int quantity;
     private double price;
 
     private Incentive incentive;
+
+    private CustomerOrder customerOrder;
 
     public String getManufacturer() {
         return manufacturer;
@@ -51,6 +52,14 @@ public class Beverage extends AbstractDtoWithId  {
         this.incentive = incentive;
     }
 
+    public Optional<CustomerOrder> getCustomerOrder() {
+        return Optional.ofNullable(customerOrder);
+    }
+
+    public void setCustomerOrder(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
+    }
+
     @Override
     public String toString() {
         return "Beverage{" +
@@ -59,6 +68,7 @@ public class Beverage extends AbstractDtoWithId  {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", incentive=" + incentive +
+                ", customerOrder=" + customerOrder +
                 ", id=" + id +
                 '}';
     }
