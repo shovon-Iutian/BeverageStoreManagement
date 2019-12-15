@@ -53,7 +53,7 @@
 					<div class="col-xs"><%= beverage.getQuantity()%></div>
 				</td>
 				<td>
-					<div class="col-xs"><%= beverage.getIncentive()!=null? "Name: "
+					<div class="col-xs"><%= beverage.getIncentive().isPresent()? "Name: "
 							+beverage.getIncentive().get().getName() :"No incentive"%></div>
 				</td>
 				<td>
