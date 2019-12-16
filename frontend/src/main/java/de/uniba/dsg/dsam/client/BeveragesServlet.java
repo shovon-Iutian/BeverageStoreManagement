@@ -1,9 +1,11 @@
 package de.uniba.dsg.dsam.client;
 
 import de.uniba.dsg.dsam.model.Beverage;
+import de.uniba.dsg.dsam.model.CustomerOrder;
 import de.uniba.dsg.dsam.model.Incentive;
 import de.uniba.dsg.dsam.persistence.BeverageManagement;
 import de.uniba.dsg.dsam.persistence.IncentiveManagement;
+import de.uniba.dsg.dsam.persistence.OrderJMSQueueManagement;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -21,6 +23,9 @@ public class BeveragesServlet extends HttpServlet {
 
 	@EJB
 	private IncentiveManagement<?, Incentive> incentiveManagement;
+
+	@EJB
+	private OrderJMSQueueManagement<CustomerOrder> orderJMSQueueManagement;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -79,9 +84,30 @@ public class BeveragesServlet extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		String id = req.getParameter("id");
-		List<Beverage> beverages = beverageManagement.getAll();
-		Beverage beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == Integer.valueOf(id)).findAny().get();
-		beverageManagement.deleteOne(beverage);
+		try{
+			int id = Integer.valueOf(req.getParameter("id"));
+			int flag=0;
+			List<Beverage> beverages = beverageManagement.getAll();
+			List<CustomerOrder> customerOrders = orderJMSQueueManagement.getAll();
+			for(CustomerOrder customerOrder: customerOrders){
+				if(customerOrder.getOrderItems().getId()==id){
+					res.getWriter().write("Not Delete");
+					break;
+				}
+				else {
+					flag =1;
+				}
+				if (flag==1){
+					Beverage beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == id).findAny().get();
+					beverageManagement.deleteOne(beverage);
+					res.getWriter().write("Delete");
+				}
+			}
+		}
+		catch (NumberFormatException e){
+			System.out.println("Invalid ID "+ e.getMessage());
+		}
+
+
 	}
 }

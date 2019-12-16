@@ -83,7 +83,14 @@
 					url: '/frontend/beverages?id=' + event.target.id,
 					type: 'DELETE',
 					success: function(response) {
-						location.replace(location.toString().split('?')[0]);
+						if(response =="Not Delete"){
+							location.replace(location.toString().split('?')[0]);
+							alert("The beverage is attached to orders");
+						}
+						else {
+							location.replace(location.toString().split('?')[0]);
+							alert("Successfully Deleted");
+						}
 					}
 				});
 			});
