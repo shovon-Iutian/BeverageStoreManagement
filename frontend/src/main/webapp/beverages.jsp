@@ -19,8 +19,10 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Beverage Store</h1>
-		<span class="text-success">${messages.noErrors}</span>
+		<h1>Beverage Management</h1>
+		<span class="text-success" id="success-text">${messages.noErrors}</span>
+		<% request.getSession().removeAttribute("messages"); %>
+		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -72,7 +74,7 @@
 				</tbody>
 			</table>
 		</div>
-		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
+		<p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 	</div>
 
 	<script>

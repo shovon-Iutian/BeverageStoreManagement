@@ -18,9 +18,10 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Incentives</h1>
+		<h1>Incentive Management</h1>
 		<p><a href="/frontend/incentives/incentive_form" class="btn btn-primary">Create new incentive</a></p>
-		<span class="text-success">${messages.noErrors}</span>
+		<span class="text-success" id="success-text">${messages.noErrors}</span>
+		<% request.getSession().removeAttribute("messages"); %>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -58,8 +59,8 @@
 				</tbody>
 			</table>
 		</div>
+		<p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 	</div>
-	<a href="/frontend/incentives" id="home"/>
 	<script>
 		$(document).ready(function() {
 			$(".delete-incentive").click(function() {
