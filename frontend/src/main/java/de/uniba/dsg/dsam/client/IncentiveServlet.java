@@ -28,7 +28,7 @@ public class IncentiveServlet extends HttpServlet {
 	private IncentiveManagement<?, Incentive> incentiveManager;
 
 	@EJB
-	private BeverageManagement<Beverage> beverageManagement;
+	private BeverageManagement<?, Beverage> beverageManagement;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
