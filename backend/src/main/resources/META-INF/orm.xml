@@ -4,12 +4,14 @@
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
                  version="1.0">
     <named-query name="summaryReport">
-        <query>SELECT b.customerOrderEntity.id, SUM (b.price * b.quantity) FROM BeverageEntity b GROUP BY b.customerOrderEntity.id</query>
+        <query>SELECT c.beverageEntity.id, SUM (b.price / b.quantity * c.orderAmount) FROM CustomerOrderEntity c JOIN BeverageEntity b ON 
+        	c.beverageEntity.id = b.id GROUP BY c.beverageEntity.id
+        </query>
     </named-query>
 
     <named-query name="detailedReport">
-        <query>select i.dtype, sum (b.quantity * b.price) from BeverageEntity b left join IncentiveEntity i on
-            b.incentiveEntity = i where b.customerOrderEntity is not null group by i.dtype
+        <query>select c.beverageEntity.incentiveEntity.dtype, sum (b.price / b.quantity * c.orderAmount) from CustomerOrderEntity c join BeverageEntity b on
+            c.beverageEntity.id = b.id where c.beverageEntity is not null group by c.beverageEntity.incentiveEntity.dtype
         </query>
     </named-query>
 </entity-mappings>

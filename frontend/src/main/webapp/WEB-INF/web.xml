@@ -65,9 +65,10 @@
 	<servlet>
 		<servlet-name>OrderJMSQueueServlet</servlet-name>
 		<servlet-class>de.uniba.dsg.dsam.client.OrderJMSQueueServlet</servlet-class>
-	</servlet><servlet-mapping>
-	<servlet-name>OrderJMSQueueServlet</servlet-name>
-	<url-pattern>/createorder</url-pattern>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderJMSQueueServlet</servlet-name>
+		<url-pattern>/createorder</url-pattern>
 </servlet-mapping>
 
 </web-app>
