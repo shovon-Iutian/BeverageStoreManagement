@@ -19,8 +19,8 @@
 <body>
 	<div class="container">
 		<h1>Incentives</h1>
-
 		<p><a href="/frontend/incentives/incentive_form" class="btn btn-primary">Create new incentive</a></p>
+		<span class="text-success">${messages.noErrors}</span>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -64,12 +64,15 @@
 		$(document).ready(function() {
 			$(".delete-incentive").click(function() {
 				event.preventDefault();
-
 				$.ajax({
 					url: '/frontend/incentives?id=' + event.target.id,
 					type: 'DELETE',
 					success: function(response) {
 						location.replace(location.toString().split('?')[0]);
+						if(response =="Not Delete")
+							alert("The incentive is attached to a beverage");
+						else
+							alert("Successfully Deleted");
 					}
 				});
 			});

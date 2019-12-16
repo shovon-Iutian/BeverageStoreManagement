@@ -40,6 +40,7 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Beverage Name</span>
+					<span class="text-danger">${messages.beverage_name}</span>
 					<input name="beverage_name" type="text" class="form-control" <% if(beverage != null){ %>
 						   value="<%= beverage.getName()%>">
 					<input type="hidden" name="beverage_id" value="<%= beverage.getId()%>">
@@ -49,6 +50,7 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Beverage Manufacturer</span>
+					<span class="text-danger">${messages.manufacturer_name}</span>
 					<input name="beverage_manufacturer" type="text" class="form-control" <% if(beverage != null){ %>
 						   value="<%= beverage.getManufacturer()%>">
 					<% }%>
@@ -57,6 +59,8 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Quantity</span>
+					<span class="text-danger">${messages.quantity_value}</span>
+					<span class="text-danger">${messages.quantity}</span>
 					<input name="beverage_quantity" type="number" class="form-control" <% if(beverage != null){ %>
 						   value="<%= beverage.getQuantity()%>">
 					<% }%>
@@ -65,6 +69,8 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Price</span>
+					<span class="text-danger">${messages.price_value}</span>
+					<span class="text-danger">${messages.price}</span>
 					<input name="beverage_price" type="text" class="form-control" <% if(beverage != null){ %>
 						   value="<%= beverage.getPrice()%>">
 					<% }%>
