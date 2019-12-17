@@ -10,9 +10,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import de.uniba.dsg.dsam.model.Beverage;
 import de.uniba.dsg.dsam.model.CustomerOrder;
-import de.uniba.dsg.dsam.persistence.BeverageManagement;
 import de.uniba.dsg.dsam.persistence.OrderJMSQueueManagement;
 
 /**
@@ -27,9 +25,6 @@ public class OrderMessageDrivenBean implements MessageListener {
 	
 	@EJB
 	private OrderJMSQueueManagement<CustomerOrder> orderJMSQueueManagement;
-	
-	@EJB
-	private BeverageManagement<?, Beverage> beverageManagement;
 	
 	/**
 	 * Default constructor
@@ -80,10 +75,7 @@ public class OrderMessageDrivenBean implements MessageListener {
 				Object messageObject = ((ObjectMessage) message).getObject();
 				
 				if(validateData(messageObject)) {
-					CustomerOrder customerOrder = orderJMSQueueManagement.create((CustomerOrder) messageObject);
-					if(customerOrder != null) {
-						beverageManagement.update(customerOrder.getOrderItems());
-					}
+					orderJMSQueueManagement.create((CustomerOrder) messageObject);
 				}
 			} catch (JMSException jmsEx) {
 				logger.severe("Error in JMS message accessing: " + jmsEx);

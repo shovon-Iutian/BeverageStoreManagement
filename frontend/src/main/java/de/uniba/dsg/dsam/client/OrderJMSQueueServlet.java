@@ -121,7 +121,6 @@ public class OrderJMSQueueServlet extends HttpServlet {
 
                 if (quantity > 0) {
                     Beverage beverage = beverageManagement.getOne(Integer.parseInt(beverageIds[i])).get();
-                    beverage.setAvailableQuantity(beverage.getAvailableQuantity() - quantity);
                     customerOrder.setOrderAmount(quantity);
                     customerOrder.setOrderItems(beverage);
                     logger.info("Sending the customer order to the queue");
