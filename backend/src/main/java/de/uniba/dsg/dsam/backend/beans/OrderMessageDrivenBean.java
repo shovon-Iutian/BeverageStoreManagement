@@ -10,7 +10,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
+import de.uniba.dsg.dsam.model.Beverage;
 import de.uniba.dsg.dsam.model.CustomerOrder;
+import de.uniba.dsg.dsam.persistence.BeverageManagement;
 import de.uniba.dsg.dsam.persistence.OrderJMSQueueManagement;
 
 /**
@@ -25,6 +27,9 @@ public class OrderMessageDrivenBean implements MessageListener {
 	
 	@EJB
 	private OrderJMSQueueManagement<CustomerOrder> orderJMSQueueManagement;
+
+	@EJB
+	private BeverageManagement<?, Beverage> beverageManagement;
 	
 	/**
 	 * Default constructor
@@ -42,7 +47,7 @@ public class OrderMessageDrivenBean implements MessageListener {
      */
     private boolean validateData(Object dataObject) {
     	try {
-    		if(dataObject == null || !(dataObject instanceof CustomerOrder)) {
+    		if(!(dataObject instanceof CustomerOrder)) {
 				throw new Exception("Unexpected message object for customer order validation: " + dataObject);
 			}
     		
@@ -75,7 +80,11 @@ public class OrderMessageDrivenBean implements MessageListener {
 				Object messageObject = ((ObjectMessage) message).getObject();
 				
 				if(validateData(messageObject)) {
-					orderJMSQueueManagement.create((CustomerOrder) messageObject);
+					CustomerOrder customerOrder = orderJMSQueueManagement.create((CustomerOrder) messageObject);
+					if(customerOrder != null) {
+						Beverage beverage = ((CustomerOrder) messageObject).getOrderItems();
+						beverageManagement.update(beverage);
+					}
 				}
 			} catch (JMSException jmsEx) {
 				logger.severe("Error in JMS message accessing: " + jmsEx);
