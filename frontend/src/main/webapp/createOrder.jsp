@@ -84,6 +84,7 @@
         </div>
 
     </form>
+    <p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 </div>
 <script>
     function validate(form) {

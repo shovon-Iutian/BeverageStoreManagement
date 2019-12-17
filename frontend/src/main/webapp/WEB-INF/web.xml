@@ -9,6 +9,15 @@
 
 	<!-- JSPs -->
 	<servlet>
+		<servlet-name>Main</servlet-name>
+		<jsp-file>main.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Main</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>NewIncentive</servlet-name>
 		<jsp-file>incentive_form.jsp</jsp-file>
 	</servlet>
@@ -34,11 +43,6 @@
 		<servlet-name>BeveragesServlet</servlet-name>
 		<servlet-class>de.uniba.dsg.dsam.client.BeveragesServlet</servlet-class>
 	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>BeveragesServlet</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>NewBeverage</servlet-name>
