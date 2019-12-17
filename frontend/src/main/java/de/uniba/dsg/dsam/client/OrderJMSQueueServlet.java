@@ -90,6 +90,7 @@ public class OrderJMSQueueServlet extends HttpServlet {
 
         logger.setLevel(Level.ALL);
         logger.info("doPost method initiated.");
+        ArrayList<CustomerOrder> selectedItemList = new ArrayList<>();
         String[] beverageIds = request.getParameterValues("selectedBeverage");
         try {
             if (beverageIds.length == 0) {
@@ -125,13 +126,14 @@ public class OrderJMSQueueServlet extends HttpServlet {
                     customerOrder.setOrderItems(beverage);
                     logger.info("Sending the customer order to the queue");
                     sender.sendMessage(customerOrder);
+                    selectedItemList.add(customerOrder);
                 }
             }
 
         }
-        //request.setAttribute("selectedItems", selectedItemList);
-        response.sendRedirect("/frontend");
-        //request.getRequestDispatcher("/confirmOrder.jsp").forward(request, response);
+        request.setAttribute("selectedItems", selectedItemList);
+        //response.sendRedirect("/frontend");
+        request.getRequestDispatcher("/confirmOrder.jsp").forward(request, response);
     }
 
     private int randomOrderId() {
