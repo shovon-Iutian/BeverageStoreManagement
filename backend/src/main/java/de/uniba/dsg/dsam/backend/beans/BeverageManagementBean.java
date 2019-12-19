@@ -42,6 +42,8 @@ public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Bev
         beverage.setName(beverageEntity.getName());
         beverage.setPrice(beverageEntity.getPrice());
         beverage.setQuantity(beverageEntity.getQuantity());
+        beverage.setAvailableQuantity(beverageEntity.getAvailableQuantity());
+        
         return beverage;
     }
 
@@ -57,10 +59,19 @@ public class BeverageManagementBean extends AbstractCrudBean<BeverageEntity, Bev
             beverageEntity.setId(beverage.getId());
             beverageEntity.setVersion(beverage.getVersion());
         }
+
         beverageEntity.setManufacturer(beverage.getManufacturer());
         beverageEntity.setName(beverage.getName());
         beverageEntity.setPrice(beverage.getPrice());
         beverageEntity.setQuantity(beverage.getQuantity());
+
+        if(beverage.getId() == 0) {
+            beverageEntity.setAvailableQuantity(beverage.getQuantity());
+        }
+        else {
+            if(beverage.getAvailableQuantity() >= 0) beverageEntity.setAvailableQuantity(beverage.getAvailableQuantity());
+        }
+        
         return beverageEntity;
     }
 }

@@ -21,16 +21,13 @@ public class BeverageEntity implements Serializable {
     private String manufacturer;
     private String name;
     private int quantity;
+    private int availableQuantity;
     private double price;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "incentive_id")
     private IncentiveEntity incentiveEntity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_order_id")
-    private CustomerOrderEntity customerOrderEntity;
-    
     @OneToMany(mappedBy = "beverageEntity", fetch = FetchType.LAZY, targetEntity = CustomerOrderEntity.class)
     private List<CustomerOrderEntity> customerOrderEntities = new ArrayList<>();
 
@@ -74,7 +71,21 @@ public class BeverageEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    /**
+	 * @return the availableQuantity
+	 */
+	public int getAvailableQuantity() {
+		return availableQuantity;
+	}
+
+	/**
+	 * @param availableQuantity the availableQuantity to set
+	 */
+	public void setAvailableQuantity(int availableQuantity) {
+		this.availableQuantity = availableQuantity;
+	}
+
+	public double getPrice() {
         return price;
     }
 
@@ -88,14 +99,6 @@ public class BeverageEntity implements Serializable {
 
     public void setIncentiveEntity(IncentiveEntity incentive) {
         this.incentiveEntity = incentive;
-    }
-
-    public CustomerOrderEntity getCustomerOrderEntity() {
-        return customerOrderEntity;
-    }
-
-    public void setCustomerOrderEntity(CustomerOrderEntity customerOrderEntity) {
-        this.customerOrderEntity = customerOrderEntity;
     }
 
 	/**

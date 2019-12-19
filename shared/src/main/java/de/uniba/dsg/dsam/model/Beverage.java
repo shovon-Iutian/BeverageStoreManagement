@@ -6,11 +6,10 @@ public class Beverage extends AbstractDto {
     private String manufacturer;
     private String name;
     private int quantity;
+    private int availableQuantity;
     private double price;
 
     private Incentive incentive;
-
-    private CustomerOrder customerOrder;
 
     public String getManufacturer() {
         return manufacturer;
@@ -36,7 +35,21 @@ public class Beverage extends AbstractDto {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    /**
+	 * @return the availableQuantity
+	 */
+	public int getAvailableQuantity() {
+		return availableQuantity;
+	}
+
+	/**
+	 * @param availableQuantity the availableQuantity to set
+	 */
+	public void setAvailableQuantity(int availableQuantity) {
+		this.availableQuantity = availableQuantity;
+	}
+
+	public double getPrice() {
         return price;
     }
 
@@ -52,24 +65,15 @@ public class Beverage extends AbstractDto {
         this.incentive = incentive;
     }
 
-    public Optional<CustomerOrder> getCustomerOrder() {
-        return Optional.ofNullable(customerOrder);
-    }
-
-    public void setCustomerOrder(CustomerOrder customerOrder) {
-        this.customerOrder = customerOrder;
-    }
-
     @Override
     public String toString() {
         return "Beverage{" +
                 "manufacturer='" + manufacturer + '\'' +
                 ", name='" + name + '\'' +
                 ", quantity=" + quantity +
+                ", availableQuantity=" + availableQuantity +
                 ", price=" + price +
                 ", incentive=" + incentive +
-                ", customerOrder=" + customerOrder +
-                ", id=" + id +
                 '}';
     }
 }

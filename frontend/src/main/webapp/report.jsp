@@ -72,6 +72,7 @@
 			</tbody>
 		</table>
 	</div>
+	<p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 	</div>
 </body>
 </html>

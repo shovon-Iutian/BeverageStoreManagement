@@ -20,7 +20,7 @@
 		<%
 			String strId = request.getParameter("id");
 			Incentive incentive = null;
-			if(strId != null){
+			if(strId != null ){
 				int id = Integer.valueOf(strId);
 				List<Incentive> incentives = (List<Incentive>) request.getSession().getAttribute("incentives");
 				for(Incentive incent: incentives){
@@ -43,6 +43,7 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Incentive Name</span>
+					<span class="text-danger">${messages.incentive_name}</span>
 					<input name="incentive_name" type="text" class="form-control"
 						   <% if(incentive != null){ %>
 					value="<%= incentive.getName()%>">
