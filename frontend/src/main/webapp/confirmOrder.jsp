@@ -44,10 +44,8 @@
             <% } %>
             </tbody>
         </table>
-
-        <div class="col-1" align="center"><a href="/frontend/main.jsp" class="btn btn-default" style="background-color: bisque">Home</a>&nbsp;&nbsp;
-
-        </div>
+        
+        <p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 
     </form>
 
