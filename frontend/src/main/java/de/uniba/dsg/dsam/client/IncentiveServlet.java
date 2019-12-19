@@ -117,15 +117,12 @@ public class IncentiveServlet extends HttpServlet {
 					Incentive incentive_details= beverage.getIncentive().get();
 					if(incentive_details.getId()== id){
 						response.getWriter().write("Not Delete");
-						break;
-					}
-					else{
 						i=1;
-
+						break;
 					}
 				}
 			}
-			if(i==1){
+			if(i==0){
 				Incentive incentive = incentives.stream().filter(incnt -> incnt.getId() == Integer.valueOf(id)).findAny().get();
 				incentiveManager.deleteOne(incentive);
 				response.getWriter().write("Delete");

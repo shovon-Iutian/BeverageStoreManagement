@@ -195,16 +195,14 @@ public class BeveragesServlet extends HttpServlet {
 			for(CustomerOrder customerOrder: customerOrders){
 				if(customerOrder.getOrderItems().getId()==id){
 					res.getWriter().write("Not Delete");
+					flag=1;
 					break;
 				}
-				else {
-					flag =1;
-				}
-				if (flag==1){
-					Beverage beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == id).findAny().get();
-					beverageManagement.deleteOne(beverage);
-					res.getWriter().write("Delete");
-				}
+			}
+			if (flag==0){
+				Beverage beverage = beverages.stream().filter(beverage1 -> beverage1.getId() == id).findAny().get();
+				beverageManagement.deleteOne(beverage);
+				res.getWriter().write("Delete");
 			}
 		}
 		catch (NumberFormatException e){
