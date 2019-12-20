@@ -77,13 +77,18 @@ public class BeveragesServlet extends HttpServlet {
 					messages.put("price_value", "Please enter a valid number");
 				}
 				else {
-					double price = Double.valueOf(price_value);
-					if(price <0 ){
-						messages.put("price", "Please enter a positive number");
-					}
-					else {
-						beverage.setPrice(price);
-					}
+                    if (price_value.matches("-?\\d+(\\.\\d+)?")){
+                        double price =  Double.parseDouble(price_value);
+                        if(price <0 ){
+                            messages.put("price", "Please enter a positive number");
+                        }
+                        else {
+                            beverage.setPrice(price);
+                        }
+                    }
+                    else{
+                        messages.put("price", "Please enter a valid number");
+                    }
 				}
 				if(quantity_value==null || quantity_value.isEmpty()|| quantity_value.matches("^[a-zA-Z]*$")){
 					messages.put("quantity_value", "Please enter a valid number");
@@ -133,13 +138,19 @@ public class BeveragesServlet extends HttpServlet {
 					messages.put("price_value", "Please enter a valid number");
 				}
 				else {
-					double price = Double.valueOf(price_value);
-					if(price <0 ){
-						messages.put("price", "Please enter a positive number");
-					}
-					else {
-						beverage.setPrice(price);
-					}
+                    if (price_value.matches("-?\\d+(\\.\\d+)?")){
+                        double price =  Double.parseDouble(price_value);
+                        if(price <0 ){
+                            messages.put("price", "Please enter a positive number");
+                        }
+                        else {
+                            beverage.setPrice(price);
+                        }
+                    }
+                    else{
+                        messages.put("price", "Please enter a valid number");
+                    }
+
 				}
 				if(quantity_value==null || quantity_value.isEmpty()|| quantity_value.matches("^[a-zA-Z]*$")){
 					messages.put("quantity_value", "Please enter a valid number");
