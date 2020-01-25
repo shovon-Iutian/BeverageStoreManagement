@@ -19,7 +19,10 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Beverage Store</h1>
+		<h1>Beverage Management</h1>
+		<span class="text-success" id="success-text">${messages.noErrors}</span>
+		<% request.getSession().removeAttribute("messages"); %>
+		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -71,7 +74,7 @@
 				</tbody>
 			</table>
 		</div>
-		<p><a href="/frontend/beverages/beverage_form" class="btn btn-primary">Create new beverage</a></p>
+		<p><a href="/frontend/" class="btn btn-primary">Home</a></p>
 	</div>
 
 	<script>
@@ -83,7 +86,14 @@
 					url: '/frontend/beverages?id=' + event.target.id,
 					type: 'DELETE',
 					success: function(response) {
-						location.replace(location.toString().split('?')[0]);
+						if(response =="Not Delete"){
+							location.replace(location.toString().split('?')[0]);
+							alert("The beverage is attached to orders");
+						}
+						else {
+							location.replace(location.toString().split('?')[0]);
+							alert("Successfully Deleted");
+						}
 					}
 				});
 			});
