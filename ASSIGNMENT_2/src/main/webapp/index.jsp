@@ -21,20 +21,66 @@
 <html>
 <head>
   <link href='//fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
-  <title>Hello App Engine Standard Java 8</title>
+  <title>VOTE NOW</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Hello App Engine -- Java 8!</h1>
+<div  align="center">
+ <marquee scrollamount="10"><h1 align="center" style="color:red">Welcome to the Electronic Voting System</h1></marquee> 
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+ <table>
+   <tr>
+   <td style="width:280px;height:80px" >
+  <div >
+    
+      <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Set Date and Time for voting</h2></div></a>
+    
 
-  <p>This is <%= HelloAppEngine.getInfo() %>.</p>
-  <table>
-    <tr>
-      <td colspan="2" style="font-weight:bold;">Available Servlets:</td>
-    </tr>
-    <tr>
-      <td><a href='/hello'>Hello App Engine</a></td>
-    </tr>
-  </table>
+  </div>
+</td>
+  <div >
+    <div>&nbsp;</div>
+  </div>
+  <td style="width:280px;height:80px">
+      <div >
+    
+          <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Voter</h2></div></a>
+        
+    
+      </div>
+  
+  <td style="width:280px;height:80px">
+      <div >
+    
+          <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Candidate</h2></div></a>
+        
+    
+      </div>
+</td>
+  <div >
+    <div>&nbsp;</div>
+  </div>
+    <td style="width:280px;height:80px">
+        <div >
+    
+            <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Voting Booth</h2></div></a>
+          
+      
+        </div>
+  </td>
+  </tr>
+</table>
+  <div >
+    <div>&nbsp;</div>
+  </div>
+
+</div>
+
 
 </body>
 </html>
