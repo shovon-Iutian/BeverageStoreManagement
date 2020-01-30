@@ -4,7 +4,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 public class CandidatesEntity {
-    private String candidateKind = "Candidate";
+    private String candidateKind = "Candidates";
     private String candidateParentsKind = "Election";
     private String candidateParentsKey = "election";
     private Key candidateKey = KeyFactory.createKey(candidateParentsKind, candidateParentsKey);

@@ -1,8 +1,9 @@
-package com.example.appengine.java8.services;
+package com.example.appengine.java8.Management;
 
-import com.example.appengine.java8.Data.Voter;
+import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.modifiedexceptions.VotException;
 import com.example.appengine.java8.Constants;
+import com.example.appengine.java8.Service.VotService;
 import com.google.appengine.api.datastore.*;
 
 import java.util.ArrayList;

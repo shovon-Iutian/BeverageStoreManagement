@@ -1,4 +1,4 @@
-package com.example.appengine.java8.Data;
+package com.example.appengine.java8.DTO;
 
 import com.google.appengine.api.datastore.Key;
 
