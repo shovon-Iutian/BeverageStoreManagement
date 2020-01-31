@@ -2,11 +2,12 @@ package com.example.appengine.java8.DTO;
 
 import com.google.appengine.api.datastore.Key;
 import java.io.Serializable;
+import java.util.Date;
 
 public class VoteTime implements Serializable {
     private Key key;
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
 
     public Key getKey() {
         return key;
@@ -16,19 +17,19 @@ public class VoteTime implements Serializable {
         this.key = key;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

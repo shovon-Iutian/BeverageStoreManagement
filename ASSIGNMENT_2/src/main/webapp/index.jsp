@@ -38,7 +38,7 @@
    <td style="width:280px;height:80px" >
   <div >
     
-      <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Set Date and Time for voting</h2></div></a>
+      <a href="/votingtime"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Set Date and Time for voting</h2></div></a>
     
 
   </div>

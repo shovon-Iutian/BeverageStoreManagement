@@ -5,6 +5,8 @@ import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Service.VoteTimeManagementService;
 import com.google.appengine.api.datastore.Entity;
 
+import java.util.Date;
+
 public class VoteTimeManagement extends AbstractCrudManagement<VoteTime> implements VoteTimeManagementService<VoteTime> {
 
     private VoteTimeEntity voteTimeEntity = new VoteTimeEntity();
@@ -21,8 +23,8 @@ public class VoteTimeManagement extends AbstractCrudManagement<VoteTime> impleme
     protected VoteTime convertEntityToDto(Entity entity) {
         VoteTime voteTime = new VoteTime();
         voteTime.setKey(entity.getKey());
-        voteTime.setStartDate((String) entity.getProperty(voteTimeEntity.getVoteTimeFirstProperty()));
-        voteTime.setEndDate((String) entity.getProperty(voteTimeEntity.getVoteTimeSecondProperty()));
+        voteTime.setStartDate((Date) entity.getProperty(voteTimeEntity.getVoteTimeFirstProperty()));
+        voteTime.setEndDate((Date) entity.getProperty(voteTimeEntity.getVoteTimeSecondProperty()));
         return voteTime;
     }
 }
