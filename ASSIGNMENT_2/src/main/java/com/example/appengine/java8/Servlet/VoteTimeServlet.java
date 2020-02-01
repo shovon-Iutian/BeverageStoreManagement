@@ -55,9 +55,26 @@ public class VoteTimeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String startdate = req.getParameter("startdate").trim();
+        String enddate = req.getParameter("enddate").trim();
+        //String id = req.getParameter("votetime_id").trim();
+        VoteTime voteTime = new VoteTime();
+        Query query = new Query(voteTimeEntity.getVoteTimeKind());
+        List<VoteTime> voteTimes = voteTimeManagement.getAll(query);
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //if(id!= null){
+            //voteTime = voteTimes.stream().filter(voteTime1 -> voteTime1.getKey().getId()==Long.valueOf(id)).findAny().get();
+            try {
+                voteTime.setStartDate(simpleDateFormat.parse(startdate));
+                voteTime.setEndDate(simpleDateFormat.parse(enddate));
+                voteTimeManagement.create(voteTime);
+            } catch (ParseException e) {
+                System.out.println("error parsing the value startdate and enddate");
+                e.printStackTrace();
+            }
+        //}
+        req.getRequestDispatcher("/votetimemanagement.jsp").forward(req,resp);
     }
-
-
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
