@@ -7,7 +7,7 @@ import com.google.appengine.api.datastore.Entity;
 
 import java.util.logging.Logger;
 
-public class CandidatesManagement extends AbstractCrudManagement<Candidates> {
+public class CandidatesManagement extends AbstractCrudManagement<Candidates> implements CandidateManagementService<Candidates> {
     private static Logger logger = Logger.getLogger(CandidatesManagement.class.getName());
 
     private CandidatesEntity candidatesEntity = new CandidatesEntity();
@@ -22,7 +22,7 @@ public class CandidatesManagement extends AbstractCrudManagement<Candidates> {
     }
 
     @Override
-    protected Candidates convertEntityToDto(Entity entity) {
+    public Candidates convertEntityToDto(Entity entity) {
         Candidates candidates = new Candidates();
         candidates.setKey(entity.getKey());
         candidates.setFirstName((String) entity.getProperty(candidatesEntity.getCandidateFirstProperty()));

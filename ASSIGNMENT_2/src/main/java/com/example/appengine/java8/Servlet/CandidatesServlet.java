@@ -2,8 +2,8 @@ package com.example.appengine.java8.Servlet;
 
 import com.example.appengine.java8.DTO.Candidates;
 import com.example.appengine.java8.Entity.CandidatesEntity;
-import com.example.appengine.java8.Service.CandidateManagementService;
-import com.google.appengine.api.datastore.Query;
+import com.example.appengine.java8.Management.CandidatesManagement;
+import com.google.appengine.api.datastore.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +18,13 @@ import java.util.logging.Logger;
 public class CandidatesServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(CandidatesServlet.class.getName());
 
-    private CandidateManagementService<Candidates> candidateManagementService;
+    private Candidates candidates = new Candidates();
+//    private CandidateManagementService<Candidates> candidateManagementService; // Need to look into NullPointer Exception
+    private CandidatesManagement candidateManagementService = new CandidatesManagement();
     private CandidatesEntity candidatesEntity = new CandidatesEntity();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Candidates candidates = new Candidates();
         candidates.setFirstName("Mehedi");
         candidates.setSurName("Shovon");
         candidates.setFaculty("CSE");
