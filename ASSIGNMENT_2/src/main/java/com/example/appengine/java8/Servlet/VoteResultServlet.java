@@ -28,7 +28,7 @@ public class VoteResultServlet extends HttpServlet {
         CandidatesEntity candidatesEntity = new CandidatesEntity();
         Query query = new Query(candidatesEntity.getCandidateKind());
         List<Candidates> candidatesList = new ArrayList<>();
-        candidatesList = candidatesManagement.getAll(query);
+        candidatesList = candidatesManagement.get(query);
         VoteTime voteTime = new VoteTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
