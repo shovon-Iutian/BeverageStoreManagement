@@ -3,7 +3,6 @@ package com.example.appengine.java8.Servlet;
 import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteTimeManagement;
-import com.example.appengine.java8.Service.VoteTimeManagementService;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -45,7 +44,7 @@ public class VoteTimeServlet extends HttpServlet {
         voteTime.setEndDate(enddate);
         voteTime = voteTimeManagement.create(voteTime);
         Query query = new Query(voteTimeEntity.getVoteTimeKind());
-        List<VoteTime> voteTime = voteTimeManagement.getAll(query);
+        List<VoteTime> voteTime = voteTimeManagement.get(query);
         if(voteTime !=null){
             req.getSession().setAttribute("voteTime",voteTime);
         }
@@ -60,8 +59,8 @@ public class VoteTimeServlet extends HttpServlet {
         //String id = req.getParameter("votetime_id").trim();
         VoteTime voteTime = new VoteTime();
         Query query = new Query(voteTimeEntity.getVoteTimeKind());
-        List<VoteTime> voteTimes = voteTimeManagement.getAll(query);
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
+        List<VoteTime> voteTimes = voteTimeManagement.get(query);
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //if(id!= null){
             //voteTime = voteTimes.stream().filter(voteTime1 -> voteTime1.getKey().getId()==Long.valueOf(id)).findAny().get();
             try {

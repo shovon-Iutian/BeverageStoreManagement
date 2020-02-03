@@ -29,14 +29,15 @@ public class VoteResultServlet extends HttpServlet {
         List<Voter> voterList = new ArrayList<>();
         HashMap<String, Integer> votestats = new HashMap<>();
         List<Candidates> candidatesList = new ArrayList<>();
+
         try {
             CandidatesManagement candidatesManagement = new CandidatesManagement();
             CandidatesEntity candidatesEntity = new CandidatesEntity();
             Query query = new Query(candidatesEntity.getCandidateKind());
-            candidatesList = candidatesManagement.getAll(query);
+            candidatesList = candidatesManagement.get(query);
             VoteEntity voteEntity = new VoteEntity();
             Query query1 = new Query(voteEntity.getVOTERS());
-            voterList= voteManagement.getAll(query1);
+            voterList= voteManagement.get(query1);
         } catch (Exception e) {
             e.printStackTrace();
         }
