@@ -27,10 +27,10 @@ public class VoteTimeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
         Date startdate= null;
         try {
-            startdate = simpleDateFormat.parse("2020-06-01");
+            startdate = simpleDateFormat.parse("2020-06-01 00:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class VoteTimeServlet extends HttpServlet {
         Date enddate= null;
 
         try {
-            enddate = simpleDateFormat.parse("2020-06-30");
+            enddate = simpleDateFormat.parse("2020-06-30 00:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class VoteTimeServlet extends HttpServlet {
         VoteTime voteTime = new VoteTime();
         Query query = new Query(voteTimeEntity.getVoteTimeKind());
         List<VoteTime> voteTimes = voteTimeManagement.getAll(query);
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-mm-dd HH:MM:SS");
         //if(id!= null){
             //voteTime = voteTimes.stream().filter(voteTime1 -> voteTime1.getKey().getId()==Long.valueOf(id)).findAny().get();
             try {
