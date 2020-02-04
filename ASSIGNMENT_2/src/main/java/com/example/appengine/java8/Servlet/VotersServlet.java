@@ -24,9 +24,6 @@ import java.util.logging.Logger;
 @WebServlet(name = "Voter", value = "/voter")
 public class VotersServlet extends HttpServlet {
 
-    private String idProperty= Constants.VOTER_ID_PROPERTY;
-    private String emailProperty= Constants.VOTER_EMAIL_PROPERTY;
-    private String nameProperty= Constants.VOTER_NAME_PROPERTY;
     private static Logger logger = Logger.getLogger
             (VotersServlet.class.getName());
     private VoteManagement voterManaging = new VoteManagement();
@@ -44,25 +41,38 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        VoteManagement voterManaging = new VoteManagement();
-        String email = req.getParameter(emailProperty);
-        String name = req.getParameter(nameProperty);
+        Voter voter = new Voter();
+        String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
+        String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
 //            voterManaging.addVoter(name, email);
+
+        voter.setName(name);
+        voter.setEmail(email);
+        voter.setEmailSent(false);
+        voter.setVoted(false);
+        voter.setReminder(false);
+        voter.setToken(null);
+        voterManaging.create(voter);
     }
 
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean updatedResponse=false;
-        VoteManagement voterManaging = new VoteManagement();
+
+        Voter voter = new Voter();
         String token = req.getParameter(Constants.VOTER_TOKEN_PROPERTY);
         Boolean reminder = Boolean.valueOf(req.getParameter(Constants.VOTER_REMINDER_PROPERTY));
         Boolean emailSent = Boolean.valueOf(req.getParameter(Constants.VOTER_EMAILSENT_PROPERTY));
-        String name = req.getParameter(nameProperty);
-        String id = req.getParameter(idProperty);
-        String email = req.getParameter(emailProperty);
+        String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
+        String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
 //            updatedResponse = voterManaging.updateVoter(id, name, email,token,emailSent,reminder);
-
+        voter.setName(name);
+        voter.setEmail(email);
+        voter.setEmailSent(emailSent);
+        voter.setReminder(reminder);
+        voter.setToken(token);
+        voterManaging.update(voter);
         resp.getWriter().write(String.valueOf(updatedResponse));
 
     }
