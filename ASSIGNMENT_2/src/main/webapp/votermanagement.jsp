@@ -1,4 +1,5 @@
-
+<%@ page import="com.example.appengine.java8.DTO.Voter" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -35,7 +36,10 @@
     <p>&nbsp;</p>
 
 
-
+    <%
+        List<Voter> voterList=null;
+        voterList = (List<Voter>) request.getAttribute("voterList");
+    %>
     <form class="check">
         <table id="tableid" class="table table-responsive" border="3" >
 
@@ -47,15 +51,18 @@
 
 
             <tbody>
-          
-            <tr >
+            <%
+                if (voterList != null) {
+                    for (Voter voter : voterList) {
+            %>
+            <tr data-id="<%= voter.getKey()!=null?voter.getKey().getId():""%>">
 
 
                 <td>
                     <div class="col-xs">
                         <input type="text" readonly class="row-values form-control plaintext name"
                                name="name"
-                               value="">
+                               value="<%= voter.getName()!=null?voter.getName():""%>">
                     </div>
                 </td>
 
@@ -63,7 +70,7 @@
                     <div class="col-xs">
                         <input type="text" readonly class="row-values form-control plaintext email"
                                name="email"
-                               value="">
+                               value="<%= voter.getEmail()!=null?voter.getEmail():""%>">
                     </div>
                 </td>
 
@@ -95,7 +102,8 @@
                     </div>
                 </td>
             </tr>
-          
+            <% }
+            }%>
             <tr class="voterinfo" style="display: none">
                 <td>
                     <input type="text" class="row-values form-control plaintext name hidden" name="name">
@@ -157,7 +165,7 @@
 
         $.ajax
         ({
-            // Voter list url here
+            url: '/admin/voterlist',// Voter list url here
             data: {
                 "name": name, "email": email
             },
@@ -183,7 +191,7 @@
           
             $.ajax
             ({
-               // Voter list url here
+                url: '/admin/voterlist',// Voter list url here
                 data: {
                     "id":id,"name": name, "email": email
                 },
@@ -235,7 +243,7 @@
             var id = tr.data("id");
             $.ajax
             ({
-               // Voter list with ID here
+                url: '/admin/voterlist?id='+ id,// Voter list with ID here
                 contentType: "application/json; charset=utf-8",
                 type: 'DELETE',
                 success: function (data) {

@@ -2,8 +2,10 @@ package com.example.appengine.java8.DTO;
 
 import com.google.appengine.api.datastore.Key;
 
+import java.io.Serializable;
 
-public class Voter {
+
+public class Voter implements Serializable {
     private Boolean emailSent;
     private Boolean reminder;
     Key key;
