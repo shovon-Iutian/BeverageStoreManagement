@@ -23,6 +23,10 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     private Transaction txn;
     private DatastoreService ds;
 
+    public VoteManagement(){
+        ds = DatastoreServiceFactory.getDatastoreService();
+    }
+
     @Override
     protected Entity convertDtoToEntity(Voter voter) {
         Entity votingEntity= new Entity(voteEntity.getROOTKIND(),voteEntity.getROOTANCESTOR());
