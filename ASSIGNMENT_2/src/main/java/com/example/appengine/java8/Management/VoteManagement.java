@@ -152,7 +152,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
             Entity voter = pq1.asSingleEntity();
 
             // candidate list, to whom vote was casted
-            if (voter != null) {
+            /*if (voter != null) {
                 CandidatesManagement candidateManagement = new CandidatesManagement();
 //                v = candidateManagement.getCandidateAndUpdateCount(candidateid);
 //                if (v != null) {
@@ -162,7 +162,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
             } else {
                 throw new VotException("If you have voted please come back after the voting period to see" +
                         " the results.If not make sure you are a registered voter");
-            }
+            }*/
             txn.commit();
             return true;
         }finally {
