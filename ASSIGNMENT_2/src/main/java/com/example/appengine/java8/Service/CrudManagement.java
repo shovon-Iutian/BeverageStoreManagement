@@ -7,6 +7,6 @@ import java.util.List;
 public interface CrudManagement<DTO> {
     DTO create(DTO dto);
     DTO update(DTO dto);
-    void delete(Query query);
+    void delete(DTO dto);
     List<DTO> get(Query query);
 }

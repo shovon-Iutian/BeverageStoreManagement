@@ -31,13 +31,10 @@ public abstract class AbstractCrudManagement<DTO> implements CrudManagement<DTO>
     }
 
     @Override
-    public void delete(Query query) {
+    public void delete(DTO dto) {
+        Entity entity = convertDtoToEntity(dto);
         transaction = datastoreService.beginTransaction();
-        PreparedQuery preparedQuery = datastoreService.prepare(query);
-        List<Entity> candidatesList = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-        for (Entity candidate : candidatesList) {
-            datastoreService.delete(transaction, candidate.getKey());
-        }
+        datastoreService.delete(transaction, entity.getKey());
         transaction.commit();
         return;
     }
