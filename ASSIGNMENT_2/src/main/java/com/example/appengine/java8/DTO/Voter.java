@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Voter implements Serializable {
     private Boolean emailSent;
     private Boolean reminder;
+    private Long id;
     Key key;
     String email;
     String name;
@@ -23,6 +24,14 @@ public class Voter implements Serializable {
 //        this.reminder=reminder;
 //        this.isVoted=isVoted;
 //    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Key getKey() {
         return key;
@@ -68,4 +77,17 @@ public class Voter implements Serializable {
 
     public void setVoted(Boolean voted) {isVoted = voted;}
 
+    @Override
+    public String toString() {
+        return "Voter{" +
+                "emailSent=" + emailSent +
+                ", reminder=" + reminder +
+                ", id=" + id +
+                ", key=" + key +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", token='" + token + '\'' +
+                ", isVoted=" + isVoted +
+                '}';
+    }
 }

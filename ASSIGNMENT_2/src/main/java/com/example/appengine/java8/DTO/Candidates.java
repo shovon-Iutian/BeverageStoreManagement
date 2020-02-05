@@ -10,6 +10,7 @@ public class Candidates implements Serializable {
     private String firstName;
     private String surName;
     private String faculty;
+    private Long earnedVote = Long.valueOf(0);
 
     public Long getId() {
         return id;
@@ -51,14 +52,23 @@ public class Candidates implements Serializable {
         this.faculty = faculty;
     }
 
+    public Long getEarnedVote() {
+        return earnedVote;
+    }
+
+    public void setEarnedVote(Long earnedVote) {
+        this.earnedVote = earnedVote;
+    }
+
     @Override
     public String toString() {
         return "Candidates{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", key=" + key +
                 ", firstName='" + firstName + '\'' +
                 ", surName='" + surName + '\'' +
                 ", faculty='" + faculty + '\'' +
+                ", earnedVote=" + earnedVote +
                 '}';
     }
 }

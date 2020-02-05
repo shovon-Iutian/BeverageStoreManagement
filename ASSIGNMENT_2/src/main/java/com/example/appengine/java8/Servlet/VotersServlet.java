@@ -26,7 +26,7 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Query query = new Query(voteEntity.getROOTKIND());
+        Query query = new Query(voteEntity.getVOTERS());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
         System.out.println(voterList);
@@ -53,7 +53,7 @@ public class VotersServlet extends HttpServlet {
         voterManaging.create(voter);
 
 //        test fetch from saved voters
-        Query query = new Query(voteEntity.getROOTKIND());
+        Query query = new Query(voteEntity.getVOTERS());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
         System.out.println("fetching voters"+voterList.get(0).getEmail());
@@ -74,7 +74,7 @@ public class VotersServlet extends HttpServlet {
         String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
         String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
 
-        Query query = new Query(voteEntity.getROOTKIND());
+        Query query = new Query(voteEntity.getVOTERS());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
 //       To DO : update er jnne getOne or getById dorkar

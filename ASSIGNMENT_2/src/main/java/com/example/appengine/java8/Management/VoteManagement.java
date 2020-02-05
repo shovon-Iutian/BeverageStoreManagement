@@ -29,7 +29,13 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
 
     @Override
     protected Entity convertDtoToEntity(Voter voter) {
-        Entity votingEntity= new Entity(voteEntity.getROOTKIND(),voteEntity.getROOTANCESTOR());
+        Entity votingEntity = null;
+        try {
+            votingEntity = voter.getId() == null ? new Entity(voteEntity.getVOTERS(),voteEntity.getElectionKey()) :
+                    DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(voteEntity.getElectionKey(), voteEntity.getVOTERS(), voter.getId()));
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
         votingEntity.setProperty(voteEntity.getVOTER_NAME_PROPERTY(), voter.getName());
         votingEntity.setProperty(voteEntity.getVOTER_EMAIL_PROPERTY(), voter.getEmail());
         votingEntity.setProperty(voteEntity.getVOTER_EMAILSENT_PROPERTY(), voter.getEmailSent());
@@ -135,45 +141,6 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
         PreparedQuery pq1 = ds.prepare(q);
         List<Entity> voters = pq1.asList(FetchOptions.Builder.withDefaults());
         return voters.size();
-    }
-
-
-    @Override
-    public Boolean castVoteWithToken(String candidateid, String token) throws VotException,CandidateException {
-
-        Candidates v;
-        txn = ds.beginTransaction();
-        try {
-            //voter list: with matched token ID and isvoted false
-            Query.Filter tokenfilter = new Query.FilterPredicate(voteEntity.getVOTER_TOKEN_PROPERTY(),
-                    Query.FilterOperator.EQUAL, token);
-            Query.Filter isvotedfilter = new Query.FilterPredicate(voteEntity.getVOTER_ISVOTED_PROPERTY(),
-                    Query.FilterOperator.EQUAL, false);
-            Query.Filter tokenandvoted =
-                    Query.CompositeFilterOperator.and(tokenfilter, isvotedfilter);
-            Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(tokenandvoted);
-            PreparedQuery pq1 = ds.prepare(q);
-            Entity voter = pq1.asSingleEntity();
-
-            // candidate list, to whom vote was casted
-            /*if (voter != null) {
-                CandidatesManagement candidateManagement = new CandidatesManagement();
-//                v = candidateManagement.getCandidateAndUpdateCount(candidateid);
-//                if (v != null) {
-//                    voter.setProperty(voteEntity.getVOTER_ISVOTED_PROPERTY(), true);
-//                    ds.put(txn, voter);
-//                }
-            } else {
-                throw new VotException("If you have voted please come back after the voting period to see" +
-                        " the results.If not make sure you are a registered voter");
-            }*/
-            txn.commit();
-            return true;
-        }finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
-        }
     }
 
     @Override

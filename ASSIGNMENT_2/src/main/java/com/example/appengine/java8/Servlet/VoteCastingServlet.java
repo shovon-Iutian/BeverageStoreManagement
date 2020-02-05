@@ -2,12 +2,16 @@ package com.example.appengine.java8.Servlet;
 
 import com.example.appengine.java8.DTO.Candidates;
 import com.example.appengine.java8.DTO.VoteTime;
+import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Entity.CandidatesEntity;
 import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.CandidatesManagement;
+import com.example.appengine.java8.Management.VoteCastingManagement;
 import com.example.appengine.java8.Management.VoteTimeManagement;
 import com.example.appengine.java8.Service.CandidateManagementService;
+import com.example.appengine.java8.Service.VoteCastingService;
 import com.example.appengine.java8.Service.VoteTimeManagementService;
+import com.example.appengine.java8.modifiedexceptions.VotException;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -21,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@WebServlet(name = "VoteCasting", value = "/public/votecastingingbooth")
+@WebServlet(name = "VoteCasting", value = "/public/votecastingbooth")
 public class VoteCastingServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(VoteCastingServlet.class.getName());
 
@@ -39,7 +43,7 @@ public class VoteCastingServlet extends HttpServlet {
             Query votingTimeQuery = new Query(voteTimeEntity.getVoteTimeKind());
             List<Candidates> candidatesList = candidateManagementService.get(candidatesQuery);
             List<VoteTime> voteTimes = voteTimeManagementService.get(votingTimeQuery);
-            if(voteTimes != null) voteTime = voteTimes.get(0); // set voting schedule
+            if(voteTimes != null && !voteTimes.isEmpty()) voteTime = voteTimes.get(0); // set voting schedule
             calendar.setTime(new Date()); // sets calender time
             Date today = calendar.getTime();
             Date voteTimeStartDate = voteTime.getStartdate();
@@ -53,9 +57,10 @@ public class VoteCastingServlet extends HttpServlet {
                 req.getRequestDispatcher("/votecast.jsp").forward(req, resp);
             }
             else {
+                if(voteTimes != null) req.getSession().setAttribute("votingTime", voteTimes);
                 req.getRequestDispatcher("/notice.jsp").forward(req, resp);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.severe("Unable to load voting booth page " + e.getMessage());
             resp.getWriter().write(e.getMessage());
         }
@@ -63,6 +68,25 @@ public class VoteCastingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        try {
+            String candidateId = req.getParameter("candidateSelection");
+            String token = req.getParameter("token");
+            Voter voter = new Voter();
+            Candidates candidate = new Candidates();
+            VoteCastingService voteCastingService = new VoteCastingManagement();
+            voter.setToken(token);
+            candidate.setId(Long.valueOf(candidateId));
+            if(voteCastingService.castVote(candidate, voter)) {
+                req.getRequestDispatcher("/submission.jsp").forward(req, resp);
+            }
+            else {
+                throw new VotException("You have already casted your vote once.\n" +
+                        "If not Please make sure you are a registered voter.\n" +
+                        "Sorry for the inconvenience");
+            }
+        } catch (VotException e) {
+            logger.severe(e.getMessage());
+            resp.getWriter().write(e.getMessage());
+        }
     }
 }

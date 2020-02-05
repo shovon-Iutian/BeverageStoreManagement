@@ -20,9 +20,18 @@ public class CandidatesManagement extends AbstractCrudManagement<Candidates> imp
         try {
             Entity candidateEntity = candidates.getId() == null ? new Entity(candidatesEntity.getCandidateKind(), candidatesEntity.getCandidateKey()) :
                     DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(candidatesEntity.getCandidateKey(), candidatesEntity.getCandidateKind(), candidates.getId()));
-            candidateEntity.setProperty(candidatesEntity.getCandidateFirstProperty(), candidates.getFirstName());
-            candidateEntity.setProperty(candidatesEntity.getCandidateSecondProperty(), candidates.getSurName());
-            candidateEntity.setProperty(candidatesEntity.getCandidateThirdProperty(), candidates.getFaculty());
+            if(candidates.getFirstName() != null && !candidates.getFirstName().isEmpty()) {
+                candidateEntity.setProperty(candidatesEntity.getCandidateFirstNameProperty(), candidates.getFirstName());
+            }
+            if(candidates.getSurName() != null && !candidates.getSurName().isEmpty()) {
+                candidateEntity.setProperty(candidatesEntity.getCandidateSurNameProperty(), candidates.getSurName());
+            }
+            if(candidates.getFaculty() != null && !candidates.getFaculty().isEmpty()) {
+                candidateEntity.setProperty(candidatesEntity.getCandidateFacultyProperty(), candidates.getFaculty());
+            }
+            if(candidates.getEarnedVote() != null) {
+                candidateEntity.setProperty(candidatesEntity.getCandidateEarnedVoteProperty(), candidates.getEarnedVote());
+            }
             return candidateEntity;
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
@@ -34,9 +43,11 @@ public class CandidatesManagement extends AbstractCrudManagement<Candidates> imp
     public Candidates convertEntityToDto(Entity entity) {
         Candidates candidates = new Candidates();
         candidates.setKey(entity.getKey());
-        candidates.setFirstName((String) entity.getProperty(candidatesEntity.getCandidateFirstProperty()));
-        candidates.setSurName((String) entity.getProperty(candidatesEntity.getCandidateSecondProperty()));
-        candidates.setFaculty((String) entity.getProperty(candidatesEntity.getCandidateThirdProperty()));
+        candidates.setId(entity.getKey().getId());
+        candidates.setFirstName((String) entity.getProperty(candidatesEntity.getCandidateFirstNameProperty()));
+        candidates.setSurName((String) entity.getProperty(candidatesEntity.getCandidateSurNameProperty()));
+        candidates.setFaculty((String) entity.getProperty(candidatesEntity.getCandidateFacultyProperty()));
+        candidates.setEarnedVote((Long) entity.getProperty(candidatesEntity.getCandidateEarnedVoteProperty()));
         return candidates;
     }
 }

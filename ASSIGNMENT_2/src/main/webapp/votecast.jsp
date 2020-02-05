@@ -24,7 +24,7 @@
             }catch (Exception e){
             }
         %>
-        <form id="votting_form" class="table table-responsive" action = "/admin/voterlist" method="post">
+        <form id="votting_form" class="table table-responsive" action = "/public/votecastingbooth" method="post">
         <table id="table_id" align="center" border="3">
 
             <tr border="3" >
@@ -76,6 +76,29 @@
         <p>&nbsp;</p>
     </div>
 
+
+<script type="application/javascript">
+    $("#voteform").submit(function(e) {
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                if(data=="true")
+                    window.location="/submission.jsp";
+                else
+                    alert(data);
+            }
+        });
+
+        e.preventDefault();
+    });
+</script>
 
 </body>
 </html>
