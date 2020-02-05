@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <display-name>HelloAppEngine</display-name>
+
+    <!-- Servlets -->
+
+
+    <servlet-mapping>
+        <servlet-name>VotersServlet</servlet-name>
+        <url-pattern>/admin/voterlist</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VotersServlet</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.VotersServlet</servlet-class>
+    </servlet>
+
+
+
+
+
+
+
+
+</web-app>

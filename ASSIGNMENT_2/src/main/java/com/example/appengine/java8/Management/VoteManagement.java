@@ -23,6 +23,10 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     private Transaction txn;
     private DatastoreService ds;
 
+    public VoteManagement(){
+        ds = DatastoreServiceFactory.getDatastoreService();
+    }
+
     @Override
     protected Entity convertDtoToEntity(Voter voter) {
         Entity votingEntity= new Entity(voteEntity.getROOTKIND(),voteEntity.getROOTANCESTOR());
@@ -154,11 +158,11 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
             // candidate list, to whom vote was casted
             /*if (voter != null) {
                 CandidatesManagement candidateManagement = new CandidatesManagement();
-                v = candidateManagement.getCandidateAndUpdateCount(candidateid);
-                if (v != null) {
-                    voter.setProperty(voteEntity.getVOTER_ISVOTED_PROPERTY(), true);
-                    ds.put(txn, voter);
-                }
+//                v = candidateManagement.getCandidateAndUpdateCount(candidateid);
+//                if (v != null) {
+//                    voter.setProperty(voteEntity.getVOTER_ISVOTED_PROPERTY(), true);
+//                    ds.put(txn, voter);
+//                }
             } else {
                 throw new VotException("If you have voted please come back after the voting period to see" +
                         " the results.If not make sure you are a registered voter");
