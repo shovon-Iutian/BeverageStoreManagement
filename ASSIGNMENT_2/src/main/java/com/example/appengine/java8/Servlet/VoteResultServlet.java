@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(name = "VoteResult", value = "/votingresult")
+@WebServlet(name = "VoteResult", value = "/public/votingresult")
 public class VoteResultServlet extends HttpServlet {
 
     @Override

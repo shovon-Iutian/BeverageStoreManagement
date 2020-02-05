@@ -24,7 +24,6 @@ public class CandidatesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Candidates candidates = new Candidates();
         try {
             Query query = new Query(candidatesEntity.getCandidateKind());
             List<Candidates> candidatesList = candidateManagementService.get(query);
