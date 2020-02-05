@@ -25,53 +25,6 @@ public class EmailServlet extends HttpServlet {
     private VoteEntity voteEntity = new VoteEntity();
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        resp.getWriter().print("Sending simple email.");
-//        sendSimpleMail2();
-    }
-
-    private void sendSimpleMail2(List<Voter> voterList, String votingBoothUrl) {
-        Properties prop = new Properties();
-        prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.starttls.enable", "true");
-        prop.put("mail.smtp.host", "smtp.office365.com");
-        prop.put("mail.smtp.port", "587");
-        Session session = Session.getInstance(prop, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("abdullah-al.noman@stud.uni-bamberg.de", "Nn633250");
-            }
-        });
-
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("abdullah-al.noman@stud.uni-bamberg.de",
-                    "Abdullah Al Noman"));
-            msg.setSubject("Your voter information for voting");
-
-            for(Voter voter : voterList){
-                msg.addRecipient(Message.RecipientType.TO,
-                        new InternetAddress(voter.getEmail(), voter.getName()));
-
-                String message = "<h2>Greetings "+voter.getName()+"!</h2><br>";
-                message += "<h3>Wish you a nice day!</h3><br>";
-                message += "<p>Your voter token: <u>"+voter.getToken()+"<u></p></br></br></br></br>";
-                message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/admin/candidates' target='_blank'>Voting booth</a></p>";
-
-
-                msg.setContent(message, "text/html");
-                Transport.send(msg);
-            }
-        } catch (AddressException e) {
-            // ...
-        } catch (MessagingException e) {
-            // ...
-        } catch (UnsupportedEncodingException e) {
-            // ...
-        }
-    }
-
-    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String votingBothUrl = getBaseUrl(req);
         Query query = new Query(voteEntity.getROOTKIND());
@@ -79,10 +32,10 @@ public class EmailServlet extends HttpServlet {
         List<Voter> voterList = voterManaging.get(query);
         System.out.println(voterList);
 
-        sendSimpleMail3(voterList, votingBothUrl);
+        sendSimpleMail(voterList, votingBothUrl);
     }
 
-    private void sendSimpleMail3(List<Voter> voterList, String votingBoothUrl) {
+    private void sendSimpleMail(List<Voter> voterList, String votingBoothUrl) {
 
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -90,7 +43,7 @@ public class EmailServlet extends HttpServlet {
         try {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("alnoman.cse@gmail.com", "Abdullah Al Noman"));
-            msg.setSubject("Your voter information for voting");
+            msg.setSubject("Your voter information");
 
             for(Voter voter : voterList){
                 msg.addRecipient(Message.RecipientType.TO,
@@ -98,7 +51,7 @@ public class EmailServlet extends HttpServlet {
 
                 String message = "<h2>Greetings "+voter.getName()+"!</h2><br>";
                 message += "<h3>Wish you a nice day!</h3><br>";
-                message += "<p>Your voter token: <u>"+voter.getToken()+"<u></p></br></br></br></br>";
+                message += "<p>Your voter token: <u>"+voter.getToken()+"</u></p></br></br></br></br>";
                 message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/admin/candidates' target='_blank'>Voting booth</a></p>";
 
 
@@ -120,27 +73,5 @@ public class EmailServlet extends HttpServlet {
         String serverPort = (request.getServerPort() == 80) ? "" : ":" + request.getServerPort();
         String contextPath = request.getContextPath();
         return scheme + serverName + serverPort + contextPath;
-    }
-
-    private void sendSimpleMail() {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("alnoman.cse@gmail.com", "Abdullah Al Noman"));
-            msg.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress("abdullah-al.noman@stud.uni-bamberg.de", "Mr. Abdullah Al Noman"));
-            msg.setSubject("Hello world");
-            msg.setText("This is a test");
-            Transport.send(msg);
-        } catch (AddressException e) {
-            // ...
-        } catch (MessagingException e) {
-            // ...
-        } catch (UnsupportedEncodingException e) {
-            // ...
-        }
-        // [END simple_example]
     }
 }
