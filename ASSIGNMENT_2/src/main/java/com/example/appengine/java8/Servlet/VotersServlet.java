@@ -55,7 +55,7 @@ public class VotersServlet extends HttpServlet {
         voter.setEmailSent(false);
         voter.setVoted(false);
         voter.setReminder(false);
-        voter.setToken("Empty");
+        voter.setToken(token);
         voterManaging.create(voter);
 
 //        test fetch from saved voters

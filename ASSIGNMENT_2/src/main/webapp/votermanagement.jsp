@@ -222,11 +222,11 @@
     });
 
     $(".voterNotification").click(function () {
-        alert("Notification has been sent to voters!!!!!!!");
+        // alert("Notification has been sent to voters!!!!!!!");
         $.ajax
         ({
-            // Voter notification url here
-            type: 'get',
+            url: '/admin/voterlist',// Voter list url here
+            type: 'GET',
             success:function (data) {
                 if(!data.includes("true")&& data.toString().length>0)
                 alert(data);
