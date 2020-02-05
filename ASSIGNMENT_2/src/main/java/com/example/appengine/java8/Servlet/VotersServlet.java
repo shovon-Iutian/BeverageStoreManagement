@@ -1,15 +1,9 @@
 package com.example.appengine.java8.Servlet;
 
-
-import com.example.appengine.java8.DTO.Candidates;
-import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Constants;
 import com.example.appengine.java8.Entity.VoteEntity;
-import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteManagement;
-import com.example.appengine.java8.Management.VoteTimeManagement;
-import com.example.appengine.java8.modifiedexceptions.VotException;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -22,12 +16,10 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
-@WebServlet(name = "Voter", value = "/voter")
+
+@WebServlet(name = "VotersServlet", value = "/admin/voterlist")
 public class VotersServlet extends HttpServlet {
 
-    private String idProperty= Constants.VOTER_ID_PROPERTY;
-    private String emailProperty= Constants.VOTER_EMAIL_PROPERTY;
-    private String nameProperty= Constants.VOTER_NAME_PROPERTY;
     private static Logger logger = Logger.getLogger
             (VotersServlet.class.getName());
     private VoteManagement voterManaging = new VoteManagement();
@@ -40,20 +32,38 @@ public class VotersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Query query = new Query(voteEntity.getROOTKIND());
         System.out.println(query.toString());
-        List<Voter> voterList = voterManaging.getAll(query);
-        if(voterList != null) req.getSession().setAttribute("voterList", voterList);
-        req.getRequestDispatcher("/voterManagement.jsp").forward(req, resp);
+        List<Voter> voterList = voterManaging.get(query);
+        System.out.println(voterList);
+        if(voterList != null){
+            req.setAttribute("voterList", voterList);
+        }
+        req.getRequestDispatcher("/votermanagement.jsp").forward(req, resp);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         VoteManagement voterManaging = new VoteManagement();
-        String email = req.getParameter(emailProperty);
-        String name = req.getParameter(nameProperty);
 
+        Voter voter = new Voter();
+        String email = req.getParameter("email");
+        String name = req.getParameter("name");
         String token = generateVoterToken();
-//            voterManaging.addVoter(name, email);
+
+        voter.setName(name);
+        voter.setEmail(email);
+        voter.setEmailSent(false);
+        voter.setVoted(false);
+        voter.setReminder(false);
+        voter.setToken("Empty");
+        voterManaging.create(voter);
+
+//        test fetch from saved voters
+        Query query = new Query(voteEntity.getROOTKIND());
+        System.out.println(query.toString());
+        List<Voter> voterList = voterManaging.get(query);
+        System.out.println("fetching voters"+voterList.get(0).getEmail());
+        System.out.println(voterList.get(0).getName());
     }
 
     public String generateVoterToken() {
@@ -65,27 +75,35 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        boolean updatedResponse=false;
-        VoteManagement voterManaging = new VoteManagement();
-        String token = req.getParameter(Constants.VOTER_TOKEN_PROPERTY);
-        Boolean reminder = Boolean.valueOf(req.getParameter(Constants.VOTER_REMINDER_PROPERTY));
-        Boolean emailSent = Boolean.valueOf(req.getParameter(Constants.VOTER_EMAILSENT_PROPERTY));
-        String name = req.getParameter(nameProperty);
-        String id = req.getParameter(idProperty);
-        String email = req.getParameter(emailProperty);
-//            updatedResponse = voterManaging.updateVoter(id, name, email,token,emailSent,reminder);
+        boolean res = false;
 
-        resp.getWriter().write(String.valueOf(updatedResponse));
+        Voter voter = new Voter();
+//        String token = req.getParameter(Constants.VOTER_TOKEN_PROPERTY);
+//        Boolean reminder = Boolean.valueOf(req.getParameter(Constants.VOTER_REMINDER_PROPERTY));
+//        Boolean emailSent = Boolean.valueOf(req.getParameter(Constants.VOTER_EMAILSENT_PROPERTY));
+        String id = req.getParameter("id");
+        String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
+        String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
 
+        Query query = new Query(voteEntity.getROOTKIND());
+        System.out.println(query.toString());
+        List<Voter> voterList = voterManaging.get(query);
+//       To DO : update er jnne getOne or getById dorkar
+        voter.setName(name);
+        voter.setEmail(email);
+//        voter.setEmailSent(emailSent);
+//        voter.setReminder(reminder);
+//        voter.setToken(token);
+        if( voterManaging.update(voter) != null){
+            res = true;
+        }
+        resp.getWriter().write(String.valueOf(res));
     }
 
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        boolean deletedResult=false;
-        VoteManagement voterManaging = new VoteManagement();
-        String id = req.getParameter(idProperty);
-//            deletedResult = voterManaging.delete(id);
-        resp.getWriter().write(String.valueOf(deletedResult));
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String id = req.getParameter("id");
+        super.doDelete(req, resp); //Eta kmne kaj korbe ?
     }
 }

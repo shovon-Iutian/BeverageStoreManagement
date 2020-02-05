@@ -6,8 +6,16 @@ import java.util.Date;
 
 public class VoteTime implements Serializable {
     private Key key;
-    private Date startDate;
-    private Date endDate;
+    private Date startdate;
+    private Date enddate;
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Key getKey() {
         return key;
@@ -17,28 +25,29 @@ public class VoteTime implements Serializable {
         this.key = key;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStartdate() {
+        return startdate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEnddate() {
+        return enddate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEnddate(Date enddate) {
+        this.enddate = enddate;
     }
 
     @Override
     public String toString(){
         return "VoteTime{" +
+                "id='" + id + '\'' +
                 "key=" + key +
-                "startDate"+ startDate +'\'' +
-                "endDate"+ endDate + '\'' +
+                "startDate"+ startdate +'\'' +
+                "endDate"+ enddate + '\'' +
                 '}';
     }
 }

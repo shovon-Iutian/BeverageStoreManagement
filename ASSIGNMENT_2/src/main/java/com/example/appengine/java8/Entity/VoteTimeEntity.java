@@ -3,24 +3,15 @@ package com.example.appengine.java8.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class VoteTimeEntity {
+public class VoteTimeEntity extends ParentsEntity{
     private String voteTimeKind = "VoteTime";
-    private String voteTimeParentsKind = "Election";
-    private String voteTimeParentsKey = "election";
-    private Key voteTimeKey = KeyFactory.createKey(voteTimeParentsKind, voteTimeParentsKey);
-    private String voteTimeFirstProperty = "StartDate";
-    private String voteTimeSecondProperty = "EndDate";
+
+    private Key voteTimeKey = KeyFactory.createKey(getParentsKind(), getParentsKey());
+    private String voteTimeFirstProperty = "startdate";
+    private String voteTimeSecondProperty = "enddate";
 
     public String getVoteTimeKind() {
         return voteTimeKind;
-    }
-
-    public String getVoteTimeParentsKind() {
-        return voteTimeParentsKind;
-    }
-
-    public String getVoteTimeParentsKey() {
-        return voteTimeParentsKey;
     }
 
     public Key getVoteTimeKey() {

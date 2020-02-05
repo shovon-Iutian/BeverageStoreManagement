@@ -38,7 +38,7 @@
    <td style="width:280px;height:80px" >
   <div >
     
-      <a href="/votingtime"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Set Date and Time for voting</h2></div></a>
+      <a href="/admin/votingtime"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Set Date and Time for voting</h2></div></a>
     
 
   </div>
@@ -49,7 +49,7 @@
   <td style="width:280px;height:80px">
       <div >
     
-          <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Voter</h2></div></a>
+          <a href="/admin/voterlist"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Voter</h2></div></a>
         
     
       </div>
@@ -57,7 +57,7 @@
   <td style="width:280px;height:80px">
       <div >
     
-          <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Candidate</h2></div></a>
+          <a href="/admin/candidates"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Manage Candidate</h2></div></a>
         
     
       </div>
@@ -68,7 +68,7 @@
     <td style="width:280px;height:80px">
         <div >
     
-            <a href=""><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Voting Booth</h2></div></a>
+            <a href="/public/votecastingingbooth"><div style="width:250px;height:80px;background-color: bisque" align="center"><h2>Voting Booth</h2></div></a>
           
       
         </div>

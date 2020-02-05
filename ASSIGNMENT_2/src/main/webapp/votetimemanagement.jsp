@@ -19,15 +19,26 @@
 </head>
 <body>
 <h1>Vote Time Management</h1>
+
+
 <%
 
     List<VoteTime> voteTime = null;
     try {
-        voteTime = (List<VoteTime>) request.getSession().getAttribute("voteTime");
+        voteTime = (List<VoteTime>) request.getSession().getAttribute("voteTimes");
     }catch (Exception e){
     }
 %>
-<form action="/votingtime" id="votetime" method="POST" class="formvalidation">
+<%
+    if (voteTime.isEmpty()){
+%>
+<p>
+    <button href="/admin/votingtime" class="add-new btn btn-primary">Add Vote time</button>
+</p>
+<%
+    }
+%>
+<form action="/admin/votingtime" id="votetime" method="POST" class="formvalidation">
     <table id="tableid" class="table table-responsive" border="1">
         <tr>
             <th>Start Date</th>
@@ -39,20 +50,23 @@
             if (voteTime != null) {
                 for (VoteTime votetime : voteTime) {
         %>
-        <tr class="keydata" data-id="<%=votetime.getKey()!=null?votetime.getKey().getId():""%>">
+        <tr  class="keydata" data-id="<%=votetime.getKey()!=null?votetime.getKey().getId():""%>">
+            <td style="display:none;">
+                <input id="id" value="<%=votetime.getKey()!=null?votetime.getKey().getId():""%>">
+            </td>
             <%
                 SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String startdate="";
-                if(votetime.getStartDate()!=null){
-                    startdate= simpleDateFormat.format(votetime.getStartDate());
+                if(votetime.getStartdate()!=null){
+                    startdate= simpleDateFormat.format(votetime.getStartdate());
                 }
             %>
             <td>
                 <div class="form-group">
-                    <div class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
+                    <div id="startdate3" class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
                          data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
                         <input type="text" onkeydown="return false" required class="form_datetime form-control" <%=voteTime!=null ?"readonly":""%>
-                               id="startdate" aria-describedby="startdateHelp" name="startdate" value=<%=voteTime!=null ?"'"+startdate+"'":""%>>
+                               aria-describedby="enddateHelp" name="startdate" value=<%=voteTime!=null ?"'"+startdate+"'":""%>>
 
                     </div>
                 </div>
@@ -60,16 +74,16 @@
             <%
                 SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String enddate="";
-                if(votetime.getEndDate()!=null){
-                    enddate= simpleDateFormat.format(votetime.getEndDate());
+                if(votetime.getEnddate()!=null){
+                    enddate= simpleDateFormat.format(votetime.getEnddate());
                 }
             %>
             <td>
                 <div class="form-group">
-                    <div class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
+                    <div id="enddate3" class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
                          data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input2">
                         <input type="text" onkeydown="return false" required class="form_datetime form-control" <%=voteTime!=null ?"readonly":""%>
-                               id="enddate" aria-describedby="enddateHelp" name="enddate" value=<%=voteTime!=null ?"'"+enddate+"'":""%>>
+                                aria-describedby="enddateHelp" name="enddate" value=<%=voteTime!=null ?"'"+enddate+"'":""%>>
 
                     </div>
                 </div>
@@ -81,15 +95,54 @@
         </tr>
         <% }
         }%>
+        <tr class="newitem" style="display: none">
+            <td>
+                <div class="form-group">
+                    <div id="startdate2" class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
+                         data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input3">
+                        <input type="text" onkeydown="return false" required class="form_datetime form-control"
+                                aria-describedby="startdateHelp" name="startdate1" >
+
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div id="enddate2" class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
+                     data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input4">
+                    <input type="text" onkeydown="return false" required class="form_datetime form-control"
+                            aria-describedby="enddateHelp" name="enddate1" >
+
+                </div>
+            </td>
+
+            <td>
+                <button type="button" class="button btn btn-primary submit saveCandidate">Create</button>
+            </td>
+
+            <td>
+                <button type="button" class="button btn btn-primary newitemcancel cancel">Cancel</button>
+            </td>
+        </tr>
         </tbody>
     </table>
     <button type="button" align="center" class="btn btn-danger cancel <%=voteTime!=null ?"hidden":""%>">Cancel</button>
-    <button type="submit" align="center" class="btn btn-primary save <%=voteTime!=null ?"hidden":""%>">Update</button>
+    <button type="button" align="center" class="btn btn-primary save updatecandidate <%=voteTime!=null ?"hidden":""%>">Update</button>
 </form>
-
+<div class="col-1" align="center">
+    <a href="/" class="btn btn-danger">Home</a>
+</div>
 </body>
 </html>
 <script type="application/javascript">
+    $(".add-new").click(function () {
+        $(this).attr("disabled", "disabled");
+        $(".newitem").show();
+        $(".newitem").children("td").children().removeClass("hidden");
+        $(".newitem").children("td").children(".form-control").attr("required", "required");
+    });
+    $(".cancel").click(function () {
+        location.reload();
+    });
     $(".edit").click(function () {
         $("input").removeAttr("readonly");
         $(".save").removeClass("hidden");
@@ -101,8 +154,62 @@
         $(".save").addClass("hidden");
         $(".cancel").addClass("hidden");
     });
+    $(".submit").click(function () {
+
+        if (!$(".formvalidation")[0].checkValidity({ignore: ':readonly,:hidden'})) {
+            $(".formvalidation")[0].reportValidity();
+        }
+        else {
+            if ($(this).hasClass("saveCandidate")) {
+                savetime();
+            }
+            else if ($(this).hasClass("updatecandidate")){
+            }
+        }
+
+    });
+    savetime = function () {
+        var startdate = $("#startdate2").find("input").val();
+        var enddate = $("#enddate2").find("input").val();
+        console.log(startdate);
+        console.log(enddate);
+        $.ajax
+        ({
+
+            url: '/admin/votingtime',
+            data: {
+                "startdate": startdate, "enddate": enddate,
+            },
+            type: 'POST',
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+    }
+    $(".updatecandidate").click(function () {
+        var startdate = $("#startdate3").find("input").val();
+        var enddate = $("#enddate3").find("input").val();
+        var table=$("table");
+        var id = table.find('tr td:eq(0) input').val();
+        console.log(startdate);
+        console.log(enddate);
+        console.log(id);
+        $.ajax
+        ({
+            url: '/admin/votingtime',
+            data: {
+                "id":id, "startdate": startdate, "enddate": enddate,
+            },
+            type: 'POST',
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+    });
     var setdate = new Date();
-    setdate.setDate(setdate.getDate()-1);
+    setdate.setDate(setdate.getDate());
     $('.form_datetime').datetimepicker({
         format : "YYYY-MM-DD HH:mm:ss",
         minDate: setdate
@@ -112,8 +219,6 @@
         var url = form.attr('action');
         var sdate= startdate.value();
         var edate= enddate.value();
-        console.log(sdate);
-        console.log(edate);
         e.preventDefault();
     });
 </script>
