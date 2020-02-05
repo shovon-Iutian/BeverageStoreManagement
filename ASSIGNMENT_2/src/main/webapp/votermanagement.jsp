@@ -46,6 +46,8 @@
             <tr>
                 <th style="color: blueviolet;">Name</th>
                 <th style="color: blueviolet;">Email</th>
+                <th style="color: blueviolet;">Voter Notified</th>
+                <th style="color: blueviolet;">Voting Reminder</th>
                 <th colspan="2" style="color: blueviolet;">Actions</th>
             </tr>
 
@@ -73,7 +75,25 @@
                                value="<%= voter.getEmail()!=null?voter.getEmail():""%>">
                     </div>
                 </td>
+                <td>
+                    <div class="col-xs">
+                        <input type="checkbox" disabled readonly class="row-values form-control plaintext emailSent"
+                               name="emailSent"
+                               value="<%= voter.getEmailSent()!=null?voter.getEmailSent()+"":"false"%>"
+                            <%=voter.getEmailSent()!=null?(voter.getEmailSent()?"checked":""):""%>
+                        >
+                    </div>
+                </td>
 
+                <td>
+                    <div class="col-xs">
+                        <input type="checkbox" disabled readonly class="row-values form-control plaintext reminder"
+                               name="reminder"
+                               value="<%= voter.getReminder()!=null?voter.getReminder()+"":"false"%>"
+                            <%=voter.getReminder()!=null?(voter.getReminder()?"checked":""):""%>
+                        >
+                    </div>
+                </td>
                
                 <td class="updateVot" style="display: none">
                     <div class="col-xs">
@@ -113,6 +133,11 @@
                            name="email">
                 </td>
 
+                <td>
+                </td>
+
+                <td>
+                </td>
        
                 <td>
                     <button type="button" class=" submit voterInfosave">Create</button>
@@ -188,12 +213,14 @@
             var id = tr.data("id");
             var name = elem.children(".name").val();
             var email = elem.children(".email").val();
-          
+            var emailSent = elem.children(".emailsent").val();
+            var reminder = elem.children(".reminder").val();
+
             $.ajax
             ({
                 url: '/admin/voterlist',// Voter list url here
                 data: {
-                    "id":id,"name": name, "email": email
+                    "id":id,"name": name, "email": email,"emailsent":emailSent,"reminder":reminder
                 },
                 type: 'put',
                 success: function (data) {

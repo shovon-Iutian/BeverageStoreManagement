@@ -1,5 +1,6 @@
 package com.example.appengine.java8.Servlet;
 
+import com.example.appengine.java8.DTO.Candidates;
 import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Constants;
 import com.example.appengine.java8.Entity.VoteEntity;
@@ -51,14 +52,6 @@ public class VotersServlet extends HttpServlet {
         voter.setReminder(false);
         voter.setToken("Empty");
         voterManaging.create(voter);
-
-//        test fetch from saved voters
-        Query query = new Query(voteEntity.getROOTKIND());
-        System.out.println(query.toString());
-        List<Voter> voterList = voterManaging.get(query);
-        System.out.println("fetching voters"+voterList.get(0).getEmail());
-        System.out.println(voterList.get(0).getName());
-//        logger.severe("Error fetching voters" + voterManaging.create(voter));
     }
 
 
@@ -68,21 +61,19 @@ public class VotersServlet extends HttpServlet {
 
         Voter voter = new Voter();
 //        String token = req.getParameter(Constants.VOTER_TOKEN_PROPERTY);
-//        Boolean reminder = Boolean.valueOf(req.getParameter(Constants.VOTER_REMINDER_PROPERTY));
-//        Boolean emailSent = Boolean.valueOf(req.getParameter(Constants.VOTER_EMAILSENT_PROPERTY));
+        Boolean reminder = Boolean.valueOf(req.getParameter(voteEntity.getVOTER_REMINDER_PROPERTY()));
+        Boolean emailSent = Boolean.valueOf(req.getParameter(voteEntity.getVOTER_EMAILSENT_PROPERTY()));
         String id = req.getParameter("id");
         String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
         String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
 
-        Query query = new Query(voteEntity.getROOTKIND());
-        System.out.println(query.toString());
-        List<Voter> voterList = voterManaging.get(query);
-//       To DO : update er jnne getOne or getById dorkar
         voter.setName(name);
         voter.setEmail(email);
-//        voter.setEmailSent(emailSent);
-//        voter.setReminder(reminder);
-//        voter.setToken(token);
+        voter.setId(Long.valueOf(id));
+        voter.setEmailSent(emailSent);
+        voter.setReminder(reminder);
+        voter.setVoted(false);
+        voter.setToken("Empty");
         if( voterManaging.update(voter) != null){
             res = true;
         }
@@ -92,7 +83,16 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = req.getParameter("id");
-        super.doDelete(req, resp); //Eta kmne kaj korbe ?
+        boolean res = true;
+        Voter voter = new Voter();
+        try {
+            String id = req.getParameter("id");
+            voter.setId(Long.valueOf(id));
+            voterManaging.delete(voter);
+            resp.getWriter().write(String.valueOf(res));
+        } catch (Exception e){
+            logger.severe("Unable to delete a voter " + e.getMessage());
+            resp.getWriter().write(e.getMessage());
+        }
     }
 }
