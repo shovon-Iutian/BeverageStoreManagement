@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,6 +24,9 @@ public class VotersServlet extends HttpServlet {
             (VotersServlet.class.getName());
     private VoteManagement voterManaging = new VoteManagement();
     private VoteEntity voteEntity = new VoteEntity();
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,17 +43,19 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        VoteManagement voterManaging = new VoteManagement();
+
         Voter voter = new Voter();
         String email = req.getParameter("email");
         String name = req.getParameter("name");
-
+        String token = generateVoterToken();
 
         voter.setName(name);
         voter.setEmail(email);
         voter.setEmailSent(false);
         voter.setVoted(false);
         voter.setReminder(false);
-        voter.setToken("Empty");
+        voter.setToken(token);
         voterManaging.create(voter);
 
 //        test fetch from saved voters
@@ -58,7 +64,12 @@ public class VotersServlet extends HttpServlet {
         List<Voter> voterList = voterManaging.get(query);
         System.out.println("fetching voters"+voterList.get(0).getEmail());
         System.out.println(voterList.get(0).getName());
-//        logger.severe("Error fetching voters" + voterManaging.create(voter));
+    }
+
+    public String generateVoterToken() {
+        byte[] byteSequence = new byte[24];
+        secureRandom.nextBytes(byteSequence);
+        return base64Encoder.encodeToString(byteSequence);
     }
 
 
