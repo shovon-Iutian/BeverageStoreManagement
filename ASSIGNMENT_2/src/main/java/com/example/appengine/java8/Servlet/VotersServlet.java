@@ -5,6 +5,7 @@ import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Constants;
 import com.example.appengine.java8.Entity.VoteEntity;
 import com.example.appengine.java8.Management.VoteManagement;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -27,11 +28,12 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Query query = new Query(voteEntity.getROOTKIND());
-        System.out.println(query.toString());
+        Query query = new Query(voteEntity.getVoterKind());
         List<Voter> voterList = voterManaging.get(query);
-        System.out.println(voterList);
         if(voterList != null){
+//            for (Voter voter : voterList) {
+//                logger.severe("VOTER " + voter.getName());
+//            }
             req.setAttribute("voterList", voterList);
         }
         req.getRequestDispatcher("/votermanagement.jsp").forward(req, resp);
@@ -51,7 +53,11 @@ public class VotersServlet extends HttpServlet {
         voter.setVoted(false);
         voter.setReminder(false);
         voter.setToken("Empty");
-        voterManaging.create(voter);
+        try {
+            voterManaging.create(voter);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -74,8 +80,12 @@ public class VotersServlet extends HttpServlet {
         voter.setReminder(reminder);
         voter.setVoted(false);
         voter.setToken("Empty");
-        if( voterManaging.update(voter) != null){
-            res = true;
+        try {
+            if( voterManaging.update(voter) != null){
+                res = true;
+            }
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
         }
         resp.getWriter().write(String.valueOf(res));
     }

@@ -23,9 +23,9 @@
         <button style="background-color: bisque;"><a style="text-decoration: none;color: black;" >Home</a></button> <br><br>
         <button style="background-color: bisque;" class="addNewvoter">ADD NEW VOTER</button><br><br>
         <button style="background-color: bisque;" class="voterNotification">VOTER NOTIFICATION</button><br><br>
-        <button style="background-color: bisque;" id="uploadDir" >EXPORT VOTER LIST</button><br><br>
+        <button style="background-color: bisque;" id="uploadDir" >IMPORT VOTER LIST</button><br><br>
     </p>
-    <form id="fileUpload"  action="" method="post" enctype="multipart/form-data">
+    <form id="fileUpload"  action="/admin/uploadfile" method="post" enctype="multipart/form-data">
         <div class="custom-file">
             <input type="file" style="background-color: bisque;" class="custom-file-input" id="file_id" name="myFile"><br>
             <input type="submit" style="background-color: bisque;" style="display:inline;"  value="Upload voter list file">
@@ -56,6 +56,7 @@
             <%
                 if (voterList != null) {
                     for (Voter voter : voterList) {
+//                        System.out.println(voter.getEmail()+" key "+voter.getKey().getId());
             %>
             <tr data-id="<%= voter.getKey()!=null?voter.getKey().getId():""%>">
 
@@ -64,7 +65,7 @@
                     <div class="col-xs">
                         <input type="text" readonly class="row-values form-control plaintext name"
                                name="name"
-                               value="<%= voter.getName()!=null?voter.getName():""%>">
+                               value="<%= voter.getName()!=null?voter.getEmail():""%>">
                     </div>
                 </td>
 
@@ -248,20 +249,6 @@
 
     });
 
-    $(".voterNotification").click(function () {
-        alert("Notification has been sent to voters!!!!!!!");
-        $.ajax
-        ({
-            // Voter notification url here
-            type: 'get',
-            success:function (data) {
-                if(!data.includes("true")&& data.toString().length>0)
-                alert(data);
-                else
-                    location.reload();
-            }
-        });
-    });
 
     $(".voterDelete").click(function () {
         var x = confirm("Are you sure you want to delete this Voter?");

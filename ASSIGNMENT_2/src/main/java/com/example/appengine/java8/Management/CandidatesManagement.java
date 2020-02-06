@@ -19,7 +19,7 @@ public class CandidatesManagement extends AbstractCrudManagement<Candidates> imp
     public Entity convertDtoToEntity(Candidates candidates) {
         try {
             Entity candidateEntity = candidates.getId() == null ? new Entity(candidatesEntity.getCandidateKind(), candidatesEntity.getCandidateKey()) :
-                    DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(candidatesEntity.getCandidateKey(), candidatesEntity.getCandidateKind(), candidates.getId()));
+            DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(candidatesEntity.getCandidateKey(), candidatesEntity.getCandidateKind(), candidates.getId()));
             candidateEntity.setProperty(candidatesEntity.getCandidateFirstProperty(), candidates.getFirstName());
             candidateEntity.setProperty(candidatesEntity.getCandidateSecondProperty(), candidates.getSurName());
             candidateEntity.setProperty(candidatesEntity.getCandidateThirdProperty(), candidates.getFaculty());

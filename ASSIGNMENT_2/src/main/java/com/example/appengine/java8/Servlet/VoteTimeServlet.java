@@ -3,6 +3,7 @@ package com.example.appengine.java8.Servlet;
 import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteTimeManagement;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -42,7 +43,11 @@ public class VoteTimeServlet extends HttpServlet {
             e.printStackTrace();
         }
         voteTime.setEndDate(enddate);
-        voteTime = voteTimeManagement.create(voteTime);
+        try {
+            voteTime = voteTimeManagement.create(voteTime);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
         Query query = new Query(voteTimeEntity.getVoteTimeKind());
         List<VoteTime> voteTime = voteTimeManagement.get(query);
         if(voteTime !=null){
@@ -67,7 +72,7 @@ public class VoteTimeServlet extends HttpServlet {
                 voteTime.setStartDate(simpleDateFormat.parse(startdate));
                 voteTime.setEndDate(simpleDateFormat.parse(enddate));
                 voteTimeManagement.create(voteTime);
-            } catch (ParseException e) {
+            } catch (ParseException | EntityNotFoundException e) {
                 System.out.println("error parsing the value startdate and enddate");
                 e.printStackTrace();
             }

@@ -17,12 +17,12 @@
         <servlet-class>com.example.appengine.java8.Servlet.VotersServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UploadFileServelet</servlet-name>
+        <servlet-name>UploadVoterServelet</servlet-name>
         <url-pattern>/admin/uploadfile</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UploadFileServelet</servlet-name>
-        <servlet-class>com.example.appengine.java8.servlet.UploadFileServelet</servlet-class>
+        <servlet-name>UploadVoterServelet</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.UploadVoterServelet</servlet-class>
     </servlet>
 
 
