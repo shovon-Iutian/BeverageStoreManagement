@@ -35,6 +35,15 @@
         <servlet-class>com.example.appengine.java8.Servlet.EmailServlet</servlet-class>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>VoteTime</servlet-name>
+        <url-pattern>/admin/votingtime</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VoteTime</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.VoteTimeServlet</servlet-class>
+    </servlet>
+
 
 
 

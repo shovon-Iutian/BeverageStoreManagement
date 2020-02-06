@@ -225,13 +225,11 @@
         // alert("Notification has been sent to voters!!!!!!!");
         $.ajax
         ({
-            url: '/admin/voterlist',// Voter list url here
-            type: 'GET',
+            url: '/admin/emailSender',// Voter list url here
+            type: 'POST',
             success:function (data) {
-                if(!data.includes("true")&& data.toString().length>0)
-                alert(data);
-                else
-                    location.reload();
+                alert("Email sent successfully");
+                location.reload();
             }
         });
     });
