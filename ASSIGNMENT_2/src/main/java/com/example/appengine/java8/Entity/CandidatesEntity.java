@@ -6,9 +6,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class CandidatesEntity extends ParentsEntity {
     private String candidateKind = "Candidates";
     private Key candidateKey = KeyFactory.createKey(getParentsKind(), getParentsKey());
-    private String candidateFirstProperty = "FirstName";
-    private String candidateSecondProperty = "SurName";
-    private String candidateThirdProperty = "Faculty";
+    private String candidateFirstNameProperty = "FirstName";
+    private String candidateSurNameProperty = "SurName";
+    private String candidateFacultyProperty = "Faculty";
+    private String candidateEarnedVoteProperty = "EarnedVote";
 
     public String getCandidateKind() {
         return candidateKind;
@@ -18,15 +19,19 @@ public class CandidatesEntity extends ParentsEntity {
         return candidateKey;
     }
 
-    public String getCandidateFirstProperty() {
-        return candidateFirstProperty;
+    public String getCandidateFirstNameProperty() {
+        return candidateFirstNameProperty;
     }
 
-    public String getCandidateSecondProperty() {
-        return candidateSecondProperty;
+    public String getCandidateSurNameProperty() {
+        return candidateSurNameProperty;
     }
 
-    public String getCandidateThirdProperty() {
-        return candidateThirdProperty;
+    public String getCandidateFacultyProperty() {
+        return candidateFacultyProperty;
+    }
+
+    public String getCandidateEarnedVoteProperty() {
+        return candidateEarnedVoteProperty;
     }
 }

@@ -136,45 +136,6 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
         return voters.size();
     }
 
-
-    @Override
-    public Boolean castVoteWithToken(String candidateid, String token) throws VotException,CandidateException {
-
-        Candidates v;
-        txn = ds.beginTransaction();
-        try {
-            //voter list: with matched token ID and isvoted false
-            Query.Filter tokenfilter = new Query.FilterPredicate(voteEntity.getVOTER_TOKEN_PROPERTY(),
-                    Query.FilterOperator.EQUAL, token);
-            Query.Filter isvotedfilter = new Query.FilterPredicate(voteEntity.getVOTER_ISVOTED_PROPERTY(),
-                    Query.FilterOperator.EQUAL, false);
-            Query.Filter tokenandvoted =
-                    Query.CompositeFilterOperator.and(tokenfilter, isvotedfilter);
-            Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(tokenandvoted);
-            PreparedQuery pq1 = ds.prepare(q);
-            Entity voter = pq1.asSingleEntity();
-
-            // candidate list, to whom vote was casted
-            /*if (voter != null) {
-                CandidatesManagement candidateManagement = new CandidatesManagement();
-//                v = candidateManagement.getCandidateAndUpdateCount(candidateid);
-//                if (v != null) {
-//                    voter.setProperty(voteEntity.getVOTER_ISVOTED_PROPERTY(), true);
-//                    ds.put(txn, voter);
-//                }
-            } else {
-                throw new VotException("If you have voted please come back after the voting period to see" +
-                        " the results.If not make sure you are a registered voter");
-            }*/
-            txn.commit();
-            return true;
-        }finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
-        }
-    }
-
     @Override
     public Voter getVoterByEmail(String email) throws VotException {
         checkVoterEmail(email);

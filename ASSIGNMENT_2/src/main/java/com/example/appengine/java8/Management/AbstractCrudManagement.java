@@ -43,9 +43,15 @@ public abstract class AbstractCrudManagement<DTO> implements CrudManagement<DTO>
     public List<DTO> get(Query query) {
         transaction = datastoreService.beginTransaction();
         PreparedQuery preparedQuery = datastoreService.prepare(query);
-        List<Entity> candidatesList = preparedQuery.asList(FetchOptions.Builder.withDefaults());
+        List<Entity> entityList = preparedQuery.asList(FetchOptions.Builder.withDefaults());
         transaction.commit();
-        return candidatesList.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+        return entityList.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public DTO getById(Key key) throws EntityNotFoundException {
+        Entity entity = datastoreService.get(key);
+        return convertEntityToDto(entity);
     }
 
     protected abstract Entity convertDtoToEntity(DTO dto) throws EntityNotFoundException;

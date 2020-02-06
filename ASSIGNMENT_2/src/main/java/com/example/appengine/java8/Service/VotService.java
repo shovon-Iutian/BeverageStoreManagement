@@ -15,7 +15,5 @@ public interface VotService<DTO> extends CrudManagement<DTO> {
 
     int getCastedVoterCount();
 
-    Boolean castVoteWithToken(String candidateid, String token) throws VotException, CandidateException;
-
     Voter getVoterByEmail(String email) throws VotException;
 }

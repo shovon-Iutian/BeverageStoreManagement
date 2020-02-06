@@ -1,3 +1,5 @@
+<%@ page import="com.example.appengine.java8.DTO.Candidates" %>
+<%@ page import="java.util.List" %>
 <html>
 <head>
     <title>Votingwindow</title>
@@ -12,64 +14,91 @@
 
 </head>
 <body>
-  
+<marquee><h1 style="color: red">Voting Booth. Select your candidate and submit your vote carefully</h1></marquee>
 
-       <marquee> <h1 style="color: red">Voting Booth. Select your candidate and submit your vote carefully</h1></marquee>
-
-    <div style="width:900px">
-  
-        <form id="votting_form" action = "" method="post">
-        <table id="table_id" border="3">
+<div style="width:900px">
+    <%
+            List<Candidates> candidatesList =null;
+            try {
+                candidatesList = (List<Candidates>) request.getSession().getAttribute("candidates");
+            }catch (Exception e){
+            }
+        %>
+        <form id="votting_form" class="table table-responsive" action = "/public/votecastingbooth" method="post">
+        <table id="table_id" align="center" border="3">
 
             <tr border="3" >
                 <th style="color:green">Select your candidate here</th>
                 <th style="color:green">Candidate Name and info</th>
                 <th style="color:green">Faculty of the candidate</th>
-
             </tr>
-
-
             <tbody>
-                
-            <tr style="height: 60px">
-
+                <%
+                if (candidatesList != null) {
+                    for (Candidates candidate : candidatesList) {
+                %>
+            <tr style="height: 60px" class="keydata" data-id="<%=candidate.getKey()!=null?candidate.getKey().getId():""%>">
                 <td>
                     <div class="radio">
-                        <input type="radio"  style="width:30px; height:20px; left:30px;bottom:-15px;margin-left: 90px"  name="" value="" required >
+                        <input type="radio" style="width:30px; height:20px; left:30px;bottom:-15px;margin-left: 90px" class=" form-control plaintext candidateSelection" name="candidateSelection"
+                               value="<%= candidate.getKey()!=null?candidate.getKey().getId():""  %>" required >
                     </div>
                 </td>
-                <td>
-                       NAME
 
+                <td>
+                    <div class="col-xs">
+                        <input type="text" readonly class="row-values form-control plaintext candidateName" name="candidateName"
+                               value="<%= candidate.getFirstName() !=null?candidate.getFirstName()+" "+ candidate.getSurName():"" %>">
+                    </div>
                 </td>
 
-
                 <td>
-
-                      Faculty
-
+                    <div class="col-xs">
+                        <input type="text" readonly class="row-values form-control plaintext faculty" name="faculty"
+                               value="<%= candidate.getFaculty()!=null?candidate.getFaculty():""%>">
+                    </div>
                 </td>
             </tr>
-
+                <% }
+            }%>
            
         </table><br>
-            <div  >
+
+            <div align="center" >
                 <h3>Voter token</h3>
                 <input type="text"  id="token" style="border-radius:50px;"  border:7; required name="token" >
             </div><br>
-       
-            <p>
+            <p align="center" >
                <button style="border-radius:50px"  > <input type="submit" value="submit my vote now!!!" style="height: 60px; width: 300px;background-color: wheat;border-radius:70px" ></input></button>
             </p>
-
-       
         </form>
-
-
 
         <p>&nbsp;</p>
     </div>
 
+
+<script type="application/javascript">
+    $("#voteform").submit(function(e) {
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                if(data=="true")
+                    window.location="/submission.jsp";
+                else
+                    alert(data);
+            }
+        });
+
+        e.preventDefault();
+    });
+</script>
 
 </body>
 </html>
