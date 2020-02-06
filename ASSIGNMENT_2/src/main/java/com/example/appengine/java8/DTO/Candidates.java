@@ -5,10 +5,19 @@ import com.google.appengine.api.datastore.Key;
 import java.io.Serializable;
 
 public class Candidates implements Serializable {
+    private Long id;
     private Key key;
     private String firstName;
     private String surName;
     private String faculty;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Key getKey() {
         return key;
@@ -45,7 +54,8 @@ public class Candidates implements Serializable {
     @Override
     public String toString() {
         return "Candidates{" +
-                "key=" + key +
+                "id='" + id + '\'' +
+                ", key=" + key +
                 ", firstName='" + firstName + '\'' +
                 ", surName='" + surName + '\'' +
                 ", faculty='" + faculty + '\'' +

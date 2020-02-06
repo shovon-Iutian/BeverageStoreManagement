@@ -20,7 +20,7 @@
 <body>
 <div class="container">
     <p>
-        <button href="/candidates/candidates_form" class="add-new btn btn-primary">Add Candidate</button>
+        <button href="/admin/candidates" class="add-new btn btn-primary">Add Candidate</button>
     </p>
 
     <p> </p>
@@ -37,8 +37,8 @@
         <table id="tableid" class="table table-responsive" border="1">
 
             <tr>
-                <th>First_Name</th>
-                <th>Sur_Name</th>
+                <th>First Name</th>
+                <th>Sur Name</th>
                 <th>Faculty</th>
                 <th colspan="2">Actions</th>
             </tr>
@@ -133,5 +133,111 @@
         <a href="/" class="btn btn-danger">Home</a>
     </div>
 </div>
+
+<script type="application/javascript">
+    $(".add-new").click(function () {
+        $(this).attr("disabled", "disabled");
+        $(".newitem").show();
+        $(".newitem").children("td").children().removeClass("hidden");
+        $(".newitem").children("td").children(".form-control").attr("required", "required");
+    });
+
+
+    $(".cancel").click(function () {
+        location.reload();
+    });
+    $(".submit").click(function () {
+
+        if (!$(".formvalidation")[0].checkValidity({ignore: ':readonly,:hidden'})) {
+            $(".formvalidation")[0].reportValidity();
+        }
+        else {
+            if ($(this).hasClass("saveCandidate")) {
+                saveCandidate();
+            }
+            else if ($(this).hasClass("updatecandidate")) {
+                var tr = $(this).closest('tr');
+                updateCandidateFunc(tr);
+            }
+        }
+
+    });
+    saveCandidate = function () {
+        var firstname = $(".newitem").children("td").children(".name").val();
+        var surname = $(".newitem").children("td").children(".surname").val();
+        var faculty = $(".newitem").children("td").children(".faculty").val();
+
+        $.ajax
+        ({
+            url: '/admin/candidates',
+            data: {
+                "firstname": firstname, "surname": surname,
+                "faculty": faculty
+            },
+            type: 'POST',
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+    }
+
+
+    updateCandidateFunc = function (sRow) {
+        try {
+            var tr = sRow;
+            var elem = tr.children("td").children("div");
+            var id = tr.data("id");
+            var firstname = elem.children(".name").val();
+            var surname = elem.children(".surname").val();
+            var faculty = elem.children(".faculty").val();
+
+            $.ajax
+            ({
+                url: '/admin/candidates',
+                data: {
+                    "id":id, "firstname": firstname, "surname": surname,
+                    "faculty": faculty
+                },
+                type: 'POST',
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        } catch (err) {
+        }
+    }
+
+
+    $(".editcandidate").click(function () {
+        var tr = $(this).closest('tr');
+        var elem = tr.children("td").children("div");
+        tr.children('.editCan').hide();
+        tr.children('.deletecan').hide();
+        tr.children('.updateCan').show();
+        elem.children("input").removeAttr("readonly");
+        elem.children("input").attr("required", "required");
+        elem.children().removeAttr("disabled");
+
+    });
+
+
+    $(".deletecandidate").click(function () {
+        var x = confirm("Are you sure you want to delete this candidate?");
+        if (x) {
+            var tr = $(this).closest('tr');
+            var id = tr.data("id");
+            $.ajax
+            ({
+                url: '/admin/candidates?id='+ id,
+                contentType: "application/json; charset=utf-8",
+                type: 'DELETE',
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

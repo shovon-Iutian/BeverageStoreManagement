@@ -2,8 +2,10 @@ package com.example.appengine.java8.DTO;
 
 import com.google.appengine.api.datastore.Key;
 
+import java.io.Serializable;
 
-public class Voter {
+
+public class Voter implements Serializable {
     private Boolean emailSent;
     private Boolean reminder;
     Key key;
@@ -12,15 +14,15 @@ public class Voter {
     String token;
     Boolean isVoted;
 
-    public Voter(Key key, String email, String name, String token, Boolean emailSent, Boolean reminder, Boolean isVoted) {
-        this.key=key;
-        this.email=email;
-        this.name=name;
-        this.token = token;
-        this.emailSent=emailSent;
-        this.reminder=reminder;
-        this.isVoted=isVoted;
-    }
+//    public Voter(Key key, String email, String name, String token, Boolean emailSent, Boolean reminder, Boolean isVoted) {
+//        this.key=key;
+//        this.email=email;
+//        this.name=name;
+//        this.token = token;
+//        this.emailSent=emailSent;
+//        this.reminder=reminder;
+//        this.isVoted=isVoted;
+//    }
 
     public Key getKey() {
         return key;
