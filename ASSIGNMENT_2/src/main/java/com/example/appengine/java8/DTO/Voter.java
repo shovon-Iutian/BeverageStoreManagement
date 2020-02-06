@@ -9,7 +9,6 @@ public class Voter implements Serializable {
     private Long id;
     private Boolean emailSent;
     private Boolean reminder;
-    private Long id;
     Key key;
     String email;
     String name;
@@ -22,13 +21,7 @@ public class Voter implements Serializable {
 //        this.name=name;
 //        this.token = token;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 //        this.emailSent=emailSent;
 //        this.reminder=reminder;
 //        this.isVoted=isVoted;

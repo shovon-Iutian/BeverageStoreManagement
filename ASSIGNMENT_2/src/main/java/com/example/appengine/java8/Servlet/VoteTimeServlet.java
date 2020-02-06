@@ -34,7 +34,7 @@ public class VoteTimeServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        voteTime.setStartDate(startdate);
+        voteTime.setStartdate(startdate);
         Date enddate= null;
 
         try {
@@ -42,7 +42,7 @@ public class VoteTimeServlet extends HttpServlet {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        voteTime.setEndDate(enddate);
+        voteTime.setEnddate(enddate);
         try {
             voteTime = voteTimeManagement.create(voteTime);
         } catch (EntityNotFoundException e) {
@@ -69,8 +69,8 @@ public class VoteTimeServlet extends HttpServlet {
         //if(id!= null){
             //voteTime = voteTimes.stream().filter(voteTime1 -> voteTime1.getKey().getId()==Long.valueOf(id)).findAny().get();
             try {
-                voteTime.setStartDate(simpleDateFormat.parse(startdate));
-                voteTime.setEndDate(simpleDateFormat.parse(enddate));
+                voteTime.setStartdate(simpleDateFormat.parse(startdate));
+                voteTime.setEnddate(simpleDateFormat.parse(enddate));
                 voteTimeManagement.create(voteTime);
             } catch (ParseException | EntityNotFoundException e) {
                 System.out.println("error parsing the value startdate and enddate");
