@@ -44,7 +44,14 @@
         <servlet-class>com.example.appengine.java8.Servlet.VoteTimeServlet</servlet-class>
     </servlet>
 
-
+    <servlet-mapping>
+        <servlet-name>UploadVoterServelet</servlet-name>
+        <url-pattern>/admin/uploadfile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UploadVoterServelet</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.UploadVoterServelet</servlet-class>
+    </servlet>
 
 
 

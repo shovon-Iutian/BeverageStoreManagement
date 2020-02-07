@@ -6,9 +6,9 @@ import java.io.Serializable;
 
 
 public class Voter implements Serializable {
+    private Long id;
     private Boolean emailSent;
     private Boolean reminder;
-    private Long id;
     Key key;
     String email;
     String name;
@@ -20,6 +20,8 @@ public class Voter implements Serializable {
 //        this.email=email;
 //        this.name=name;
 //        this.token = token;
+
+
 //        this.emailSent=emailSent;
 //        this.reminder=reminder;
 //        this.isVoted=isVoted;

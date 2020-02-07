@@ -3,8 +3,8 @@ package com.example.appengine.java8.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
-public class VoteEntity {
-
+public class VoteEntity extends ParentsEntity{
+    private String voterKind = "Voter";
     private String VOTERS = "voters";
 //    private String VOTER_ID_PROPERTY = "id";
     private String VOTER_NAME_PROPERTY = "name";
@@ -17,19 +17,18 @@ public class VoteEntity {
     private String VOTER_REMINDER_PROPERTY = "reminder";
     private String VOTER_ISVOTED_PROPERTY = "isvoted";
 
-    //VALIDATION VALUES AND MESSAGES
-    private boolean VALID = true;
-    private boolean INVALID = false;
+    private Key voterKey = KeyFactory.createKey(getParentsKind(), getParentsKey());
 
-    //ROOT ANCESTOR FOR ALL KINDS
-    private String ROOTANCESTOR = "election";
-    private String ROOTKIND = "Election";
 
-    public Key getElectionKey() {
-        return electionKey;
+    public String getVoterKind() {
+        return voterKind;
     }
 
-    private Key electionKey = KeyFactory.createKey(ROOTKIND, ROOTANCESTOR);
+
+
+    public Key getVoterKey() {
+        return voterKey;
+    }
 
     public String getVOTERS() {
         return VOTERS;
@@ -63,20 +62,8 @@ public class VoteEntity {
         return VOTER_ISVOTED_PROPERTY;
     }
 
-    public boolean isVALID() {
-        return VALID;
-    }
 
-    public boolean isINVALID() {
-        return INVALID;
-    }
 
-    public String getROOTANCESTOR() {
-        return ROOTANCESTOR;
-    }
 
-    public String getROOTKIND() {
-        return ROOTKIND;
-    }
 
 }

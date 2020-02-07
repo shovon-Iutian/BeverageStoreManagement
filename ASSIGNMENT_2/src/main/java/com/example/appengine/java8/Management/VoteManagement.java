@@ -1,18 +1,15 @@
 package com.example.appengine.java8.Management;
 
 import com.example.appengine.java8.DTO.Candidates;
-import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Entity.VoteEntity;
 import com.example.appengine.java8.Service.VotService;
-import com.example.appengine.java8.Service.VoteTimeManagementService;
 import com.example.appengine.java8.modifiedexceptions.CandidateException;
 import com.example.appengine.java8.modifiedexceptions.VotException;
 import com.google.appengine.api.datastore.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,14 +25,10 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     }
 
     @Override
-    protected Entity convertDtoToEntity(Voter voter) {
-        Entity votingEntity = null;
-        try {
-            votingEntity = voter.getId() == null ? new Entity(voteEntity.getVOTERS(),voteEntity.getElectionKey()) :
-                    DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(voteEntity.getElectionKey(), voteEntity.getVOTERS(), voter.getId()));
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
+    protected Entity convertDtoToEntity(Voter voter) throws EntityNotFoundException {
+        Entity votingEntity = voter.getId() == null ? new Entity(voteEntity.getVoterKind(), voteEntity.getVoterKey()) :
+        DatastoreServiceFactory.getDatastoreService().get(KeyFactory.createKey(voteEntity.getVoterKey(), voteEntity.getVoterKind(), voter.getId()));
+
         votingEntity.setProperty(voteEntity.getVOTER_NAME_PROPERTY(), voter.getName());
         votingEntity.setProperty(voteEntity.getVOTER_EMAIL_PROPERTY(), voter.getEmail());
         votingEntity.setProperty(voteEntity.getVOTER_EMAILSENT_PROPERTY(), voter.getEmailSent());
@@ -102,7 +95,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     public List<Voter> getUnnotifiedVoters() throws VotException {
         Query.Filter keyFilter = new Query.FilterPredicate(voteEntity.getVOTER_EMAILSENT_PROPERTY(),
                 Query.FilterOperator.EQUAL, false);
-        Query query = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(keyFilter);
+        Query query = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(keyFilter);
         PreparedQuery pq1 = ds.prepare(query);
         List<Entity> voters = pq1.asList(FetchOptions.Builder.withDefaults());
         List<Voter> voterList = convert(voters);
@@ -114,7 +107,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     public List<Voter> getVoterListForReminderEmail() throws VotException {
         Query.Filter keyFilter = new Query.FilterPredicate(voteEntity.getVOTER_REMINDER_PROPERTY(),
                 Query.FilterOperator.EQUAL, false);
-        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(keyFilter);
+        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(keyFilter);
         PreparedQuery pq1 = ds.prepare(q);
         List<Entity> voters = pq1.asList(FetchOptions.Builder.withDefaults());
         List<Voter> voterList = convert(voters);
@@ -126,7 +119,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     public int getPendingVoterCount() {
         Query.Filter keyFilter = new Query.FilterPredicate(voteEntity.getVOTER_ISVOTED_PROPERTY(),
                 Query.FilterOperator.EQUAL, false);
-        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(keyFilter);
+        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(keyFilter);
         PreparedQuery pq1 = ds.prepare(q);
         List<Entity> voters = pq1.asList(FetchOptions.Builder.withDefaults());
         return voters.size();
@@ -137,7 +130,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     public int getCastedVoterCount() {
         Query.Filter keyFilter = new Query.FilterPredicate(voteEntity.getVOTER_ISVOTED_PROPERTY(),
                 Query.FilterOperator.EQUAL, true);
-        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(keyFilter);
+        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(keyFilter);
         PreparedQuery pq1 = ds.prepare(q);
         List<Entity> voters = pq1.asList(FetchOptions.Builder.withDefaults());
         return voters.size();
@@ -147,7 +140,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     public Voter getVoterByEmail(String email) throws VotException {
         checkVoterEmail(email);
         Query.FilterPredicate emailfilter=new Query.FilterPredicate(voteEntity.getVOTER_EMAIL_PROPERTY(), Query.FilterOperator.EQUAL,email);
-        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getElectionKey()).setFilter(emailfilter);
+        Query q = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(emailfilter);
         PreparedQuery pq = ds.prepare(q);
         Entity voter = pq.asSingleEntity();
 

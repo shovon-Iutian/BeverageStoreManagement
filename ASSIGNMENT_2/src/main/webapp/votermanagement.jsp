@@ -23,9 +23,9 @@
         <button style="background-color: bisque;"><a style="text-decoration: none;color: black;" >Home</a></button> <br><br>
         <button style="background-color: bisque;" class="addNewvoter">ADD NEW VOTER</button><br><br>
         <button style="background-color: bisque;" class="voterNotification">VOTER NOTIFICATION</button><br><br>
-        <button style="background-color: bisque;" id="uploadDir" >EXPORT VOTER LIST</button><br><br>
+        <button style="background-color: bisque;" id="uploadDir" >IMPORT VOTER LIST</button><br><br>
     </p>
-    <form id="fileUpload"  action="" method="post" enctype="multipart/form-data">
+    <form id="fileUpload"  action="/admin/uploadfile" method="post" enctype="multipart/form-data">
         <div class="custom-file">
             <input type="file" style="background-color: bisque;" class="custom-file-input" id="file_id" name="myFile"><br>
             <input type="submit" style="background-color: bisque;" style="display:inline;"  value="Upload voter list file">
@@ -46,6 +46,8 @@
             <tr>
                 <th style="color: blueviolet;">Name</th>
                 <th style="color: blueviolet;">Email</th>
+                <th style="color: blueviolet;">Voter Notified</th>
+                <th style="color: blueviolet;">Voting Reminder</th>
                 <th colspan="2" style="color: blueviolet;">Actions</th>
             </tr>
 
@@ -54,6 +56,7 @@
             <%
                 if (voterList != null) {
                     for (Voter voter : voterList) {
+//                        System.out.println(voter.getEmail()+" key "+voter.getKey().getId());
             %>
             <tr data-id="<%= voter.getKey()!=null?voter.getKey().getId():""%>">
 
@@ -73,7 +76,25 @@
                                value="<%= voter.getEmail()!=null?voter.getEmail():""%>">
                     </div>
                 </td>
+                <td>
+                    <div class="col-xs">
+                        <input type="checkbox" disabled readonly class="row-values form-control plaintext emailSent"
+                               name="emailSent"
+                               value="<%= voter.getEmailSent()!=null?voter.getEmailSent()+"":"false"%>"
+                            <%=voter.getEmailSent()!=null?(voter.getEmailSent()?"checked":""):""%>
+                        >
+                    </div>
+                </td>
 
+                <td>
+                    <div class="col-xs">
+                        <input type="checkbox" disabled readonly class="row-values form-control plaintext reminder"
+                               name="reminder"
+                               value="<%= voter.getReminder()!=null?voter.getReminder()+"":"false"%>"
+                            <%=voter.getReminder()!=null?(voter.getReminder()?"checked":""):""%>
+                        >
+                    </div>
+                </td>
                
                 <td class="updateVot" style="display: none">
                     <div class="col-xs">
@@ -113,6 +134,11 @@
                            name="email">
                 </td>
 
+                <td>
+                </td>
+
+                <td>
+                </td>
        
                 <td>
                     <button type="button" class=" submit voterInfosave">Create</button>
@@ -188,12 +214,14 @@
             var id = tr.data("id");
             var name = elem.children(".name").val();
             var email = elem.children(".email").val();
-          
+            var emailSent = elem.children(".emailsent").val();
+            var reminder = elem.children(".reminder").val();
+
             $.ajax
             ({
                 url: '/admin/voterlist',// Voter list url here
                 data: {
-                    "id":id,"name": name, "email": email
+                    "id":id,"name": name, "email": email,"emailsent":emailSent,"reminder":reminder
                 },
                 type: 'put',
                 success: function (data) {
