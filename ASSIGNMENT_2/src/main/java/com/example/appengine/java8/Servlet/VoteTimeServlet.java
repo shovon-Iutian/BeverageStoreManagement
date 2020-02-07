@@ -1,9 +1,9 @@
 package com.example.appengine.java8.Servlet;
 
+import com.example.appengine.java8.DTO.Candidates;
 import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteTimeManagement;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query;
 
 import javax.servlet.ServletException;
@@ -16,10 +16,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
-@WebServlet(name = "VoteTime", value = "/votingtime")
+@WebServlet(name = "VoteTime", value = "/admin/votingtime")
 public class VoteTimeServlet extends HttpServlet {
-
+    private static Logger logger = Logger.getLogger(VoteTimeServlet.class.getName());
     private VoteTime voteTime = new VoteTime();
 
     private VoteTimeManagement voteTimeManagement = new VoteTimeManagement();
@@ -27,57 +28,42 @@ public class VoteTimeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd");
-        Date startdate= null;
+        VoteTime voteTime =new VoteTime();
         try {
-            startdate = simpleDateFormat.parse("2020-06-01");
-        } catch (ParseException e) {
-            e.printStackTrace();
+            Query query = new Query(voteTimeEntity.getVoteTimeKind());
+            List<VoteTime> voteTimes = voteTimeManagement.get(query);
+            if (voteTimes != null) req.getSession().setAttribute("voteTimes", voteTimes);
+            req.getRequestDispatcher("/votetimemanagement.jsp").forward(req,resp);
+        } catch (Exception e){
+            logger.severe("Unable to retrieve candidates " + e.getMessage());
+            resp.getWriter().write(e.getMessage());
         }
-        voteTime.setStartdate(startdate);
-        Date enddate= null;
-
-        try {
-            enddate = simpleDateFormat.parse("2020-06-30");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        voteTime.setEnddate(enddate);
-        try {
-            voteTime = voteTimeManagement.create(voteTime);
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
-        Query query = new Query(voteTimeEntity.getVoteTimeKind());
-        List<VoteTime> voteTime = voteTimeManagement.get(query);
-        if(voteTime !=null){
-            req.getSession().setAttribute("voteTime",voteTime);
-        }
-        req.getRequestDispatcher("/votetimemanagement.jsp").forward(req,resp);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String startdate = req.getParameter("startdate").trim();
-        String enddate = req.getParameter("enddate").trim();
-        //String id = req.getParameter("votetime_id").trim();
-        VoteTime voteTime = new VoteTime();
-        Query query = new Query(voteTimeEntity.getVoteTimeKind());
-        List<VoteTime> voteTimes = voteTimeManagement.get(query);
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //if(id!= null){
-            //voteTime = voteTimes.stream().filter(voteTime1 -> voteTime1.getKey().getId()==Long.valueOf(id)).findAny().get();
-            try {
-                voteTime.setStartdate(simpleDateFormat.parse(startdate));
-                voteTime.setEnddate(simpleDateFormat.parse(enddate));
-                voteTimeManagement.create(voteTime);
-            } catch (ParseException | EntityNotFoundException e) {
-                System.out.println("error parsing the value startdate and enddate");
-                e.printStackTrace();
+        VoteTime voteTime =new VoteTime();
+
+        try{
+            String startdate = req.getParameter("startdate");
+            String enddate = req.getParameter("enddate");
+            String id= req.getParameter("id");
+            SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            voteTime.setStartdate(simpleDateFormat.parse(startdate));
+            voteTime.setEnddate(simpleDateFormat.parse(enddate));
+            if(id == null) {
+                voteTime.setKey(voteTimeEntity.getVoteTimeKey());
+                voteTime = voteTimeManagement.create(voteTime);
             }
-        //}
-        req.getRequestDispatcher("/votetimemanagement.jsp").forward(req,resp);
+            else {
+                voteTime.setId(Long.valueOf(id));
+                voteTime = voteTimeManagement.update(voteTime);
+            }
+            resp.sendRedirect(req.getContextPath() + "/admin/votingtime");
+        }catch (Exception e){
+            logger.severe("Unable to create or update voting time " + e.getMessage());
+            resp.getWriter().write(e.getMessage());
+        }
     }
 
     @Override

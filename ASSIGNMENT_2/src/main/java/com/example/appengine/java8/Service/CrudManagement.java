@@ -1,7 +1,6 @@
 package com.example.appengine.java8.Service;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Query;
 

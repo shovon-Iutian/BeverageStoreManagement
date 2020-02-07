@@ -252,6 +252,18 @@
 
     });
 
+    $(".voterNotification").click(function () {
+        // alert("Notification has been sent to voters!!!!!!!");
+        $.ajax
+        ({
+            url: '/admin/emailSender',// Voter list url here
+            type: 'POST',
+            success:function (data) {
+                alert("Email sent successfully");
+                location.reload();
+            }
+        });
+    });
 
     $(".voterDelete").click(function () {
         var x = confirm("Are you sure you want to delete this Voter?");

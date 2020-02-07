@@ -50,7 +50,7 @@ public class VoteCastingServlet extends HttpServlet {
             Date voteTimeEndDate = voteTime.getEnddate();
 
             if(today.after(voteTimeEndDate)) {
-                req.getRequestDispatcher("/votingresults.jsp").forward(req, resp);
+                resp.sendRedirect("/public/votingresult");
             }
             else if(today.after(voteTimeStartDate) && (today.before(voteTimeEndDate))) {
                 if (candidatesList != null) req.getSession().setAttribute("candidates", candidatesList);
