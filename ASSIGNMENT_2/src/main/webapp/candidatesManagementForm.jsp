@@ -18,6 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<h1 style="color: red;margin-left: 600px;">Candidate Information List</h1>
 <div class="container">
     <p>
         <button href="/admin/candidates" class="add-new btn btn-primary">Add Candidate</button>
@@ -91,14 +92,12 @@
                 </td>
                 <td class="editCan">
                     <div class="col-xs">
-                        <button type="button" class="glyphicon glyphicon-pencil btn btn-primary editcandidate">
-                        </button>
+                        <button type="button" class="btn btn-primary editcandidate">Edit</button>
                     </div>
                 </td>
                 <td class="deletecan">
                     <div class="col-xs">
-                        <button type="button" class="glyphicon glyphicon-remove btn btn-danger deletecandidate">
-                        </button>
+                        <button type="button" class="btn btn-danger deletecandidate">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -129,7 +128,7 @@
             </tbody>
         </table>
     </form>
-    <div class="col-1" align="center">
+    <div style="color:blue;margin-left: 30px" class="col-1" align="center">
         <a href="/" class="btn btn-danger">Home</a>
     </div>
 </div>

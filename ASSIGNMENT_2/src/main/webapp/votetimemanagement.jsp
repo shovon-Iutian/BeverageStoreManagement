@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 </head>
 <body>
-<h1>Vote Time Management</h1>
+<h1 style="color: red;margin-left: 600px;">Vote Time Management</h1>
 
 
 <%
@@ -128,7 +128,7 @@
     <button type="button" align="center" class="btn btn-danger cancel <%=voteTime!=null ?"hidden":""%>">Cancel</button>
     <button type="button" align="center" class="btn btn-primary save updatecandidate <%=voteTime!=null ?"hidden":""%>">Update</button>
 </form>
-<div class="col-1" align="center">
+<div style="color:blue;margin-left: 30px" class="col-1" align="center">
     <a href="/" class="btn btn-danger">Home</a>
 </div>
 </body>

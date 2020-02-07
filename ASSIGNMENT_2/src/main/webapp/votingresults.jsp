@@ -13,13 +13,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 </head>
 <body>
-<h1>Voting Result</h1>
+<h1 style="color: red;margin-left: 600px;">Election Result</h1>
 <%
     HashMap<String,Integer> votestats=new HashMap<>();
     votestats= (HashMap<String, Integer>) request.getAttribute("votestats");
     Float votepercentage=(Float)request.getAttribute("percentagevoter");
 %>
 <div>
+    <h2 style="color: blue;margin-left: 600px;">Summary</h2>
     <table id="tableid" class="table table-responsive" border="1">
         <tr>
             <th>Total Voters</th>
@@ -54,7 +55,8 @@
         }catch (Exception e){
         }
     %>
-    <h1>Candidate Information</h1>
+
+    <h2 style="color: blue;margin-left: 600px;">Candidate Information</h2>
     <table id="tableid" class="table table-responsive" border="1">
 
         <tr>
@@ -73,35 +75,19 @@
         <tr class="keydata" data-id="<%=candidate.getKey()!=null?candidate.getKey().getId():""%>">
 
             <td>
-                <div class="col-xs">
-                    <input type="text" readonly class="row-values form-control plaintext name"
-                           name="name"
-                           value="<%= candidate.getFirstName()!=null?candidate.getFirstName():""%>">
-                </div>
+                <%= candidate.getFirstName()!=null?candidate.getFirstName():""%>
             </td>
 
             <td>
-                <div class="col-xs">
-                    <input type="text" readonly class="row-values form-control plaintext surname"
-                           name="surname"
-                           value="<%= candidate.getSurName()!=null?candidate.getSurName():""%>">
-                </div>
+                <%= candidate.getSurName()!=null?candidate.getSurName():""%>
             </td>
 
 
             <td>
-                <div class="col-xs">
-                    <input type="text" readonly class="row-values form-control plaintext faculty"
-                           name="faculty"
-                           value="<%= candidate.getFaculty()!=null?candidate.getFaculty():""%>">
-                </div>
+                <%= candidate.getFaculty()!=null?candidate.getFaculty():""%>
             </td>
             <td>
-                <div class="col-xs">
-                    <input type="text" readonly class="row-values form-control plaintext earnedvote"
-                           name="earnedvote"
-                           value="<%= candidate.getEarnedVote()!=null?candidate.getEarnedVote():""%>">
-                </div>
+                <%= candidate.getEarnedVote()!=null?candidate.getEarnedVote():""%>
             </td>
 
         </tr>
@@ -109,6 +95,9 @@
         }%>
         </tbody>
     </table>
+    <div style="color:blue;margin-left: 30px" class="col-1" align="center">
+        <a href="/" class="btn btn-danger">Home</a>
+    </div>
 </div>
 </body>
 </html>

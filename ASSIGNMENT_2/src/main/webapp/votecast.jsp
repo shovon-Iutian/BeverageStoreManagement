@@ -74,6 +74,9 @@
         </form>
 
         <p>&nbsp;</p>
+    <div style="color:blue;margin-left: 30px" class="col-1" align="center">
+        <a href="/" class="btn btn-danger">Home</a>
+    </div>
     </div>
 
 

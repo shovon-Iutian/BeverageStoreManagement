@@ -31,8 +31,9 @@
         Please register yourself to cast vote ontime. Thank you.
         <br>
     </p>
+
     <div style="color:blue;margin-left: 30px" class="col-1" align="center">
-        <a style="text-decoration: none;color: black;" href="/" class="btn btn-danger">Home</a>
+        <a href="/" class="btn btn-danger">Home</a>
     </div>
 </body>
 </html>
