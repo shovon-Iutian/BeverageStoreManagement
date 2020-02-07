@@ -45,8 +45,6 @@
             <tr>
                 <th style="color: blueviolet;">Name</th>
                 <th style="color: blueviolet;">Email</th>
-                <th style="color: blueviolet;">Voter Notified</th>
-                <th style="color: blueviolet;">Voting Reminder</th>
                 <th colspan="2" style="color: blueviolet;">Actions</th>
             </tr>
 
