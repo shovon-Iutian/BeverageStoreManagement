@@ -68,3 +68,26 @@ to (`src/main/test/...`).  The following resources are quite useful:
 * [Junit4](http://junit.org/junit4/)
 * [Mockito](http://mockito.org/)
 * [Truth](http://google.github.io/truth/)
+
+## Functionalties:
+#### Voter Management (http://localhost:8080/admin/voterlist)
+- Creation of new voter
+- Import voter list
+- Modification of voters
+- Deletion of voters
+- Sending notifications to voters
+
+#### Candidates Management (http://localhost:8080/admin/candidates)
+- Creation of new candidate
+- Modification of candidates
+- Deletion of candidates
+
+#### Voting Time Management (http://localhost:8080/admin/votingtime)
+- Creation of voting time
+- Modification of voting time
+
+#### Casting Vote (http://localhost:8080/public/votecastingbooth)
+- Casting Vote
+
+#### Election Result (http://localhost:8080/public/votecastingbooth)
+- Overview of election result
