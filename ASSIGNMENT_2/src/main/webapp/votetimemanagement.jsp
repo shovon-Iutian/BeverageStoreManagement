@@ -66,7 +66,7 @@
                     <div id="startdate3" class="col-xs-12 input-group date form_datetime" data-date="1979-09-16T05:25:07Z"
                          data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
                         <input type="text" onkeydown="return false" required class="form_datetime form-control" <%=voteTime!=null ?"readonly":""%>
-                               aria-describedby="enddateHelp" name="startdate" value=<%=voteTime!=null ?"'"+startdate+"'":""%>>
+                               aria-describedby="startdateHelp" name="startdate" value=<%=voteTime!=null ?"'"+startdate+"'":""%>>
 
                     </div>
                 </div>
