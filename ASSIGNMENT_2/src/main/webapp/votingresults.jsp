@@ -61,7 +61,7 @@
             <th>First Name</th>
             <th>Sur Name</th>
             <th>Faculty</th>
-            <th colspan="2">number of votes </th>
+            <th >number of votes </th>
         </tr>
 
 
@@ -98,8 +98,8 @@
             </td>
             <td>
                 <div class="col-xs">
-                    <input type="text" readonly class="row-values form-control plaintext faculty"
-                           name="faculty"
+                    <input type="text" readonly class="row-values form-control plaintext earnedvote"
+                           name="earnedvote"
                            value="<%= candidate.getEarnedVote()!=null?candidate.getEarnedVote():""%>">
                 </div>
             </td>

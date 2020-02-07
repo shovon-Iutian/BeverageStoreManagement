@@ -39,7 +39,7 @@ public class VoteResultServlet extends HttpServlet {
             candidatesList = candidatesManagement.get(query1);
             if (candidatesList != null) req.getSession().setAttribute("candidates", candidatesList);
         }catch (Exception e) {
-            System.out.println("no voters found."+e.getMessage());
+            System.out.println("no candidates found."+e.getMessage());
             e.printStackTrace();
         }
 
