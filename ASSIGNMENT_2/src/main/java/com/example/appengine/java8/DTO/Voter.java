@@ -15,18 +15,6 @@ public class Voter implements Serializable {
     String token;
     Boolean isVoted;
 
-//    public Voter(Key key, String email, String name, String token, Boolean emailSent, Boolean reminder, Boolean isVoted) {
-//        this.key=key;
-//        this.email=email;
-//        this.name=name;
-//        this.token = token;
-
-
-//        this.emailSent=emailSent;
-//        this.reminder=reminder;
-//        this.isVoted=isVoted;
-//    }
-
     public Long getId() {
         return id;
     }
@@ -51,20 +39,28 @@ public class Voter implements Serializable {
         this.email = email;
     }
 
-    public String getName() { return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
-    public void setName(String name) {  this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getToken() { return this.token; }
+    public String getToken() {
+        return this.token;
+    }
 
-    public void setToken(String token) {  this.token = token; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Boolean getEmailSent() {
         return emailSent;
     }
 
     public void setEmailSent(boolean emailSent) {
-        this.emailSent=emailSent;
+        this.emailSent = emailSent;
     }
 
     public Boolean getReminder() {
@@ -72,12 +68,16 @@ public class Voter implements Serializable {
     }
 
     public void setReminder(boolean reminder) {
-        this.reminder=reminder;
+        this.reminder = reminder;
     }
 
-    public Boolean getVoted() {return isVoted;}
+    public Boolean getVoted() {
+        return isVoted;
+    }
 
-    public void setVoted(Boolean voted) {isVoted = voted;}
+    public void setVoted(Boolean voted) {
+        isVoted = voted;
+    }
 
     @Override
     public String toString() {

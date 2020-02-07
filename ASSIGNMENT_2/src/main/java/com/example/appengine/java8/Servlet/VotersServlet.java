@@ -1,8 +1,6 @@
 package com.example.appengine.java8.Servlet;
 
-import com.example.appengine.java8.DTO.Candidates;
 import com.example.appengine.java8.DTO.Voter;
-import com.example.appengine.java8.Constants;
 import com.example.appengine.java8.Entity.VoteEntity;
 import com.example.appengine.java8.Management.VoteManagement;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -34,10 +32,7 @@ public class VotersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Query query = new Query(voteEntity.getVoterKind());
         List<Voter> voterList = voterManaging.get(query);
-        if(voterList != null){
-//            for (Voter voter : voterList) {
-//                logger.severe("VOTER " + voter.getName());
-//            }
+        if (voterList != null) {
             req.setAttribute("voterList", voterList);
         }
         req.getRequestDispatcher("/votermanagement.jsp").forward(req, resp);
@@ -69,7 +64,7 @@ public class VotersServlet extends HttpServlet {
         Query query = new Query(voteEntity.getVoterKind());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
-        System.out.println("fetching voters"+voterList.get(0).getEmail());
+        System.out.println("fetching voters" + voterList.get(0).getEmail());
         System.out.println(voterList.get(0).getName());
     }
 
@@ -101,7 +96,7 @@ public class VotersServlet extends HttpServlet {
         voter.setVoted(false);
         voter.setToken(token);
         try {
-            if( voterManaging.update(voter) != null){
+            if (voterManaging.update(voter) != null) {
                 res = true;
             }
         } catch (EntityNotFoundException e) {
@@ -120,7 +115,7 @@ public class VotersServlet extends HttpServlet {
             voter.setId(Long.valueOf(id));
             voterManaging.delete(voter);
             resp.getWriter().write(String.valueOf(res));
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.severe("Unable to delete a voter " + e.getMessage());
             resp.getWriter().write(e.getMessage());
         }

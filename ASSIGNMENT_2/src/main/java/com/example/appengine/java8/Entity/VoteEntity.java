@@ -5,15 +5,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class VoteEntity extends ParentsEntity{
     private String voterKind = "Voter";
-    private String VOTERS = "voters";
-//    private String VOTER_ID_PROPERTY = "id";
     private String VOTER_NAME_PROPERTY = "name";
     private String VOTER_EMAIL_PROPERTY = "email";
     private String VOTER_TOKEN_PROPERTY = "token";
     private String VOTER_EMAILSENT_PROPERTY = "emailsent";
-
-    //EMAIL RELATED
-
     private String VOTER_REMINDER_PROPERTY = "reminder";
     private String VOTER_ISVOTED_PROPERTY = "isvoted";
 
@@ -24,19 +19,9 @@ public class VoteEntity extends ParentsEntity{
         return voterKind;
     }
 
-
-
     public Key getVoterKey() {
         return voterKey;
     }
-
-    public String getVOTERS() {
-        return VOTERS;
-    }
-
-//    public String getVOTER_ID_PROPERTY() {
-//        return VOTER_ID_PROPERTY;
-//    }
 
     public String getVOTER_NAME_PROPERTY() {
         return VOTER_NAME_PROPERTY;
