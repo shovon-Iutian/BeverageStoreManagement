@@ -11,19 +11,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 </head>
 <body>
-<h1>Voting Result</h1>
+<h1 style="color:red;margin-left: 500px;">Voting Result</h1>
 <%
     HashMap<String,Integer> votestats=new HashMap<>();
     votestats= (HashMap<String, Integer>) request.getAttribute("votestats");
     Float votepercentage=(Float)request.getAttribute("percentagevoter");
 %>
-<div>
+<br>
+<div style="margin-left: 300px;margin-right: 300px;">
+    <br><br>
     <table id="tableid" class="table table-responsive" border="1">
         <tr>
-            <th>Total Voters</th>
-            <th>Vote Casted</th>
-            <th>Participation (%)</th>
-            <th>Not Participated (%)</th>
+            <th style="color:blueviolet">Total Voters</th>
+            <th style="color:blueviolet">Vote Casted</th>
+            <th style="color:blueviolet">Participation (%)</th>
+            <th style="color:blueviolet">Not Participated (%)</th>
         </tr>
         <tbody>
         <td>
