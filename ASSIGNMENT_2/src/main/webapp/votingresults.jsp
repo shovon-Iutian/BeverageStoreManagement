@@ -1,4 +1,6 @@
 <%@ page import="java.util.HashMap" %>
+<%@ page import="com.example.appengine.java8.DTO.Candidates" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -42,6 +44,69 @@
             <%= votepercentage!=null?(100-votepercentage):"0"%>
             <% }%>
         </td>
+        </tbody>
+    </table>
+
+    <%
+        List<Candidates> candidatesList =null;
+        try {
+            candidatesList = (List<Candidates>) request.getSession().getAttribute("candidates");
+        }catch (Exception e){
+        }
+    %>
+    <h1>Candidate Information</h1>
+    <table id="tableid" class="table table-responsive" border="1">
+
+        <tr>
+            <th>First Name</th>
+            <th>Sur Name</th>
+            <th>Faculty</th>
+            <th >number of votes </th>
+        </tr>
+
+
+        <tbody>
+        <%
+            if (candidatesList != null) {
+                for (Candidates candidate : candidatesList) {
+        %>
+        <tr class="keydata" data-id="<%=candidate.getKey()!=null?candidate.getKey().getId():""%>">
+
+            <td>
+                <div class="col-xs">
+                    <input type="text" readonly class="row-values form-control plaintext name"
+                           name="name"
+                           value="<%= candidate.getFirstName()!=null?candidate.getFirstName():""%>">
+                </div>
+            </td>
+
+            <td>
+                <div class="col-xs">
+                    <input type="text" readonly class="row-values form-control plaintext surname"
+                           name="surname"
+                           value="<%= candidate.getSurName()!=null?candidate.getSurName():""%>">
+                </div>
+            </td>
+
+
+            <td>
+                <div class="col-xs">
+                    <input type="text" readonly class="row-values form-control plaintext faculty"
+                           name="faculty"
+                           value="<%= candidate.getFaculty()!=null?candidate.getFaculty():""%>">
+                </div>
+            </td>
+            <td>
+                <div class="col-xs">
+                    <input type="text" readonly class="row-values form-control plaintext earnedvote"
+                           name="earnedvote"
+                           value="<%= candidate.getEarnedVote()!=null?candidate.getEarnedVote():""%>">
+                </div>
+            </td>
+
+        </tr>
+        <% }
+        }%>
         </tbody>
     </table>
 </div>
