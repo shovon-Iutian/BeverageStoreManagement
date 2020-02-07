@@ -65,7 +65,7 @@
                     <div class="col-xs">
                         <input type="text" readonly class="row-values form-control plaintext name"
                                name="name"
-                               value="<%= voter.getName()!=null?voter.getEmail():""%>">
+                               value="<%= voter.getName()!=null?voter.getName():""%>">
                     </div>
                 </td>
 
