@@ -7,6 +7,8 @@ import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteManagement;
 import com.example.appengine.java8.Management.VoteTimeManagement;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -33,6 +35,13 @@ public class EmailServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        UserService userService = UserServiceFactory.getUserService();
+        String thisUrl = req.getRequestURI();
+        if(req.getUserPrincipal() == null){
+            userService.createLoginURL(thisUrl);
+        }
+
         String votingBoothUrl = getBaseUrl(req);
         Query query = new Query(voteEntity.getParentsKind());
         System.out.println(query.toString());
@@ -74,7 +83,7 @@ public class EmailServlet extends HttpServlet {
                     String message = "<h2>Dear voter, greetings from group 16!</h2><br>";
                     message += "<h3>Wish you a nice day!</h3><br>";
                     message += "<p>We wanted to remind you that your voting will start at: "+strDateTime+"</p></br></br></br></br>";
-                    message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/admin/candidates' target='_blank'>Voting booth</a></p>";
+                    message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/public/votecastingbooth' target='_blank'>Voting booth</a></p>";
 
 
                     msg.setContent(message, "text/html");
@@ -119,7 +128,7 @@ public class EmailServlet extends HttpServlet {
                 String message = "<h2>Greetings "+voter.getName()+"!</h2><br>";
                 message += "<h3>Wish you a nice day!</h3><br>";
                 message += "<p>Your voter token: <u>"+voter.getToken()+"</u></p></br></br></br></br>";
-                message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/admin/candidates' target='_blank'>Voting booth</a></p>";
+                message += "<p>To cast your vote please go to <a href='"+votingBoothUrl+"/public/votecastingbooth' target='_blank'>Voting booth</a></p>";
 
 
                 msg.setContent(message, "text/html");

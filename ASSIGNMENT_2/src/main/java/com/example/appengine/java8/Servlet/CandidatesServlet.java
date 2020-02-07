@@ -5,6 +5,8 @@ import com.example.appengine.java8.Entity.CandidatesEntity;
 import com.example.appengine.java8.Management.CandidatesManagement;
 import com.example.appengine.java8.Service.CandidateManagementService;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +26,13 @@ public class CandidatesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        UserService userService = UserServiceFactory.getUserService();
+        String thisUrl = req.getRequestURI();
+        if(req.getUserPrincipal() == null){
+            userService.createLoginURL(thisUrl);
+        }
+
         try {
             Query query = new Query(candidatesEntity.getCandidateKind());
             List<Candidates> candidatesList = candidateManagementService.get(query);

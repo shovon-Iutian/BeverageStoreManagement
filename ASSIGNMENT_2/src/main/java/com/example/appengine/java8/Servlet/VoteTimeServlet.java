@@ -5,6 +5,8 @@ import com.example.appengine.java8.DTO.VoteTime;
 import com.example.appengine.java8.Entity.VoteTimeEntity;
 import com.example.appengine.java8.Management.VoteTimeManagement;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +30,13 @@ public class VoteTimeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        UserService userService = UserServiceFactory.getUserService();
+        String thisUrl = req.getRequestURI();
+        if(req.getUserPrincipal() == null){
+            userService.createLoginURL(thisUrl);
+        }
+
         VoteTime voteTime =new VoteTime();
         try {
             Query query = new Query(voteTimeEntity.getVoteTimeKind());

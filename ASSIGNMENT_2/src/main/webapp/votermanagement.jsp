@@ -77,25 +77,6 @@
                                value="<%= voter.getEmail()!=null?voter.getEmail():""%>">
                     </div>
                 </td>
-                <td>
-                    <div class="col-xs">
-                        <input type="checkbox" disabled readonly class="row-values form-control plaintext emailSent"
-                               name="emailSent"
-                               value="<%= voter.getEmailSent()!=null?voter.getEmailSent()+"":"false"%>"
-                            <%=voter.getEmailSent()!=null?(voter.getEmailSent()?"checked":""):""%>
-                        >
-                    </div>
-                </td>
-
-                <td>
-                    <div class="col-xs">
-                        <input type="checkbox" disabled readonly class="row-values form-control plaintext reminder"
-                               name="reminder"
-                               value="<%= voter.getReminder()!=null?voter.getReminder()+"":"false"%>"
-                            <%=voter.getReminder()!=null?(voter.getReminder()?"checked":""):""%>
-                        >
-                    </div>
-                </td>
                
                 <td class="updateVot" style="display: none">
                     <div class="col-xs">

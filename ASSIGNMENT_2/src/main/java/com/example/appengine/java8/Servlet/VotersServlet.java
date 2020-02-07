@@ -5,6 +5,8 @@ import com.example.appengine.java8.Entity.VoteEntity;
 import com.example.appengine.java8.Management.VoteManagement;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,13 @@ public class VotersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        UserService userService = UserServiceFactory.getUserService();
+        String thisUrl = req.getRequestURI();
+        if(req.getUserPrincipal() == null){
+            userService.createLoginURL(thisUrl);
+        }
+
         Query query = new Query(voteEntity.getVoterKind());
         List<Voter> voterList = voterManaging.get(query);
         if (voterList != null) {
