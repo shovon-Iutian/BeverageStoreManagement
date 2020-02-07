@@ -53,6 +53,15 @@
         <servlet-class>com.example.appengine.java8.Servlet.UploadVoterServelet</servlet-class>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>VoteResult</servlet-name>
+        <url-pattern>/public/votingresult</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VoteResult</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.VoteResultServlet</servlet-class>
+    </servlet>
+
 
 
 
