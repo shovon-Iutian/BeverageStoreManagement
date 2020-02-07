@@ -33,9 +33,17 @@ public class VoteResultServlet extends HttpServlet {
 
         CandidatesManagement candidatesManagement = new CandidatesManagement();
         CandidatesEntity candidatesEntity = new CandidatesEntity();
-        Query query1 = new Query(candidatesEntity.getCandidateKind());
         List<Candidates> candidatesList = new ArrayList<>();
-        candidatesList = candidatesManagement.get(query1);
+        try{
+            Query query1 = new Query(candidatesEntity.getCandidateKind());
+            candidatesList = candidatesManagement.get(query1);
+            candidatesList.stream().sorted((object1, object2) -> object1.getEarnedVote().compareTo(object2.getEarnedVote()));
+            if (candidatesList != null) req.getSession().setAttribute("candidates", candidatesList);
+        }catch (Exception e) {
+            System.out.println("no voters found."+e.getMessage());
+            e.printStackTrace();
+        }
+
 
         VoteManagement voteManagement = new VoteManagement();
         List<Voter> voterList = new ArrayList<>();
