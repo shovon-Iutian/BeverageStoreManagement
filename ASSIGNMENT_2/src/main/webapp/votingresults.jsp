@@ -54,6 +54,7 @@
         }catch (Exception e){
         }
     %>
+    <h1>Candidate Information</h1>
     <table id="tableid" class="table table-responsive" border="1">
 
         <tr>
