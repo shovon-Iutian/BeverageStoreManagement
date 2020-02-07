@@ -91,3 +91,6 @@ to (`src/main/test/...`).  The following resources are quite useful:
 
 #### Election Result (http://localhost:8080/public/votecastingbooth)
 - Overview of election result
+
+#### Cron jobs
+- sending Reminder email to voters via sendReminderMail()
