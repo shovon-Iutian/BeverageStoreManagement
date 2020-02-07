@@ -43,6 +43,7 @@ public class VoteManagement extends AbstractCrudManagement<Voter> implements Vot
     protected Voter convertEntityToDto(Entity entity) {
         Voter voter = new Voter();
         voter.setKey(entity.getKey());
+        voter.setId(entity.getKey().getId());
         voter.setName((String) entity.getProperty(voteEntity.getVOTER_NAME_PROPERTY()));
         voter.setEmail((String) entity.getProperty(voteEntity.getVOTER_EMAIL_PROPERTY()));
         voter.setEmailSent((boolean) entity.getProperty(voteEntity.getVOTER_EMAILSENT_PROPERTY()));
