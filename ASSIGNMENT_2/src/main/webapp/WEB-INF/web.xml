@@ -54,6 +54,15 @@
     </servlet>
 
     <servlet-mapping>
+        <servlet-name>VoteCasting</servlet-name>
+        <url-pattern>/public/votecastingbooth</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VoteCasting</servlet-name>
+        <servlet-class>com.example.appengine.java8.Servlet.VoteCastingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
         <servlet-name>VoteResult</servlet-name>
         <url-pattern>/public/votingresult</url-pattern>
     </servlet-mapping>
