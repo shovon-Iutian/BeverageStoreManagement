@@ -20,7 +20,7 @@
 <div style="width: 1000px;margin-left: 200px;">
     <p><br>
         
-        <button style="background-color: bisque;"><a style="text-decoration: none;color: black;" >Home</a></button> <br><br>
+        <button style="background-color: bisque;"><a style="text-decoration: none;color: black;" href="/">Home</a></button> <br><br>
         <button style="background-color: bisque;" class="addNewvoter">ADD NEW VOTER</button><br><br>
         <button style="background-color: bisque;" class="voterNotification">VOTER NOTIFICATION</button><br><br>
         <button style="background-color: bisque;" id="uploadDir" >IMPORT VOTER LIST</button><br><br>
@@ -56,7 +56,6 @@
             <%
                 if (voterList != null) {
                     for (Voter voter : voterList) {
-//                        System.out.println(voter.getEmail()+" key "+voter.getKey().getId());
             %>
             <tr data-id="<%= voter.getKey()!=null?voter.getKey().getId():""%>">
 
@@ -66,6 +65,9 @@
                         <input type="text" readonly class="row-values form-control plaintext name"
                                name="name"
                                value="<%= voter.getName()!=null?voter.getName():""%>">
+                        <input type="text" style="display: none" class="token hidden" name="token"
+                               value="<%= voter.getToken()!=null?voter.getToken():""%>"
+                        >
                     </div>
                 </td>
 
@@ -216,12 +218,13 @@
             var email = elem.children(".email").val();
             var emailSent = elem.children(".emailsent").val();
             var reminder = elem.children(".reminder").val();
+            var token = elem.children(".token").val();
 
             $.ajax
             ({
                 url: '/admin/voterlist',// Voter list url here
                 data: {
-                    "id":id,"name": name, "email": email,"emailsent":emailSent,"reminder":reminder
+                    "id":id,"name": name, "email": email,"emailsent":emailSent,"reminder":reminder,"token":token
                 },
                 type: 'put',
                 success: function (data) {

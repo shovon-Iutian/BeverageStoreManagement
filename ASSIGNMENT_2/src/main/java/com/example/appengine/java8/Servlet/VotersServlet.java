@@ -70,6 +70,7 @@ public class VotersServlet extends HttpServlet {
         Boolean reminder = Boolean.valueOf(req.getParameter(voteEntity.getVOTER_REMINDER_PROPERTY()));
         Boolean emailSent = Boolean.valueOf(req.getParameter(voteEntity.getVOTER_EMAILSENT_PROPERTY()));
         String id = req.getParameter("id");
+        String token = req.getParameter("token");
         String name = req.getParameter(voteEntity.getVOTER_NAME_PROPERTY());
         String email = req.getParameter(voteEntity.getVOTER_EMAIL_PROPERTY());
 
@@ -79,7 +80,7 @@ public class VotersServlet extends HttpServlet {
         voter.setEmailSent(emailSent);
         voter.setReminder(reminder);
         voter.setVoted(false);
-        voter.setToken("Empty");
+        voter.setToken(token);
         try {
             if( voterManaging.update(voter) != null){
                 res = true;
