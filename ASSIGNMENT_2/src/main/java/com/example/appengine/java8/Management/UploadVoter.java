@@ -4,12 +4,16 @@ import com.example.appengine.java8.DTO.Voter;
 import com.example.appengine.java8.Service.UploadVoterInterface;
 import com.google.appengine.api.datastore.Query;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class UploadVoter implements UploadVoterInterface {
     private static Logger logger = Logger.getLogger
             (UploadVoter.class.getName());
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
 
     @Override
@@ -28,7 +32,7 @@ public class UploadVoter implements UploadVoterInterface {
                     voter.setEmailSent(false);
                     voter.setVoted(false);
                     voter.setReminder(false);
-                    voter.setToken("Empty");
+                    voter.setToken(generateVoterToken());
                     voterManaging.create(voter);
                 }
             } catch (Exception e) {
@@ -36,5 +40,11 @@ public class UploadVoter implements UploadVoterInterface {
                 logger.severe("Error adding voter" + e.getMessage());
             }
         }
+    }
+
+    public String generateVoterToken() {
+        byte[] byteSequence = new byte[24];
+        secureRandom.nextBytes(byteSequence);
+        return base64Encoder.encodeToString(byteSequence);
     }
 }
