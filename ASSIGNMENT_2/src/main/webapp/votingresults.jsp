@@ -27,16 +27,20 @@
         </tr>
         <tbody>
         <td>
-            <%--<%= votestats.get("votercount")!=null?votestats.get("votercount"):"0"%>--%>
+            <%= votestats.get("votercount")!=null?votestats.get("votercount"):"0"%>
         </td>
         <td>
-           <%-- <%= votestats.get("votecasted")!=null?votestats.get("votecasted"):"0"%>--%>
+            <%= votestats.get("votecasted")!=null?votestats.get("votecasted"):"0"%>
         </td>
         <td>
-            <%--<%= votepercentage!=null?votepercentage:"0"%>--%>
+            <%= votepercentage!=null?votepercentage:"0"%>
         </td>
         <td>
-           <%-- <%= votepercentage!=null?(100-votepercentage):"0"%>--%>
+            <% if (votestats.get("votercount") <= 0) { %>
+            <%= 0.0 %>
+            <%} else { %>
+            <%= votepercentage!=null?(100-votepercentage):"0"%>
+            <% }%>
         </td>
         </tbody>
     </table>

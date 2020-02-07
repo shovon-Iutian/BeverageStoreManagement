@@ -40,9 +40,14 @@ public class VoteResultServlet extends HttpServlet {
         VoteManagement voteManagement = new VoteManagement();
         List<Voter> voterList = new ArrayList<>();
         VoteEntity voteEntity = new VoteEntity();
-        Query query2 = new Query(voteEntity.getVOTERS());
-        voterList= voteManagement.get(query2);
-
+        Query query2 = null;
+        try {
+            query2 = new Query(voteEntity.getVOTERS());
+            voterList= voteManagement.get(query2);
+        } catch (Exception e) {
+            System.out.println("no voters found."+e.getMessage());
+            e.printStackTrace();
+        }
         Date date = null;
         //Date enddate= null;
         VoteTime voteTime = new VoteTime();
@@ -58,17 +63,26 @@ public class VoteResultServlet extends HttpServlet {
                 Integer votecasted = voteManagement.getCastedVoterCount();
                 Integer pendingvote= voteManagement.getPendingVoterCount();
                 Integer votercount= voterList.size();
+                if(votercount <= 0){
+                    votercount =0;
+                }
                 votestats.put("votecasted",votecasted);
                 votestats.put("pendingvote",pendingvote);
                 votestats.put("votercount",votercount);
-                float percentagevoter =  ((float) votecasted / (float) votercount) * 100;
+                float percentagevoter =0;
+                if(votecasted ==0 || pendingvote==0){
+                    percentagevoter =0;
+                }
+                else {
+                    percentagevoter =  ((float) votecasted / (float) votercount) * 100;
+                }
                 req.setAttribute("percentagevoter", percentagevoter);
                 req.setAttribute("candidatesList",candidatesList);
                 req.setAttribute("votestats",votestats);
                 req.getRequestDispatcher("/votingresults.jsp").forward(req, resp);
             }
             else {
-                req.getRequestDispatcher("/votingresultpublish.jsp").forward(req, resp);
+                req.getRequestDispatcher("/periodnotice.jsp").forward(req, resp);
             }
         }
 
