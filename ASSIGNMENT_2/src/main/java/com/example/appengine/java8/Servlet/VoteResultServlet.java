@@ -82,7 +82,7 @@ public class VoteResultServlet extends HttpServlet {
                 req.getRequestDispatcher("/votingresults.jsp").forward(req, resp);
             }
             else {
-                req.getRequestDispatcher("/votingresultpublish.jsp").forward(req, resp);
+                req.getRequestDispatcher("/periodnotice.jsp").forward(req, resp);
             }
         }
 
