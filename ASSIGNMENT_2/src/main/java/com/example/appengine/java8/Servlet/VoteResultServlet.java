@@ -70,8 +70,8 @@ public class VoteResultServlet extends HttpServlet {
                 votestats.put("pendingvote",pendingvote);
                 votestats.put("votercount",votercount);
                 float percentagevoter =0;
-                if(votecasted ==0 || pendingvote==0){
-                    percentagevoter =0;
+                if(votercount == 0 || (votecasted == 0 && pendingvote == 0)){
+                    percentagevoter = 0;
                 }
                 else {
                     percentagevoter =  ((float) votecasted / (float) votercount) * 100;
