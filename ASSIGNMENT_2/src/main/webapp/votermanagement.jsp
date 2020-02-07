@@ -238,7 +238,7 @@
             url: '/admin/emailSender',// Voter list url here
             type: 'POST',
             success:function (data) {
-            
+                alert("EMAIL has been sent successfully");
                 location.reload();
             }
         });
