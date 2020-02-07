@@ -47,15 +47,19 @@
 
                 <td>
                     <div class="col-xs">
-                        <input type="text" readonly class="row-values form-control plaintext candidateName" name="candidateName"
-                               value="<%= candidate.getFirstName() !=null?candidate.getFirstName()+" "+ candidate.getSurName():"" %>">
+                        <label>
+                            <input type="text" readonly class="row-values form-control plaintext candidateName" name="candidateName"
+                                   value="<%= candidate.getFirstName() !=null?candidate.getFirstName()+" "+ candidate.getSurName():"" %>">
+                        </label>
                     </div>
                 </td>
 
                 <td>
                     <div class="col-xs">
-                        <input type="text" readonly class="row-values form-control plaintext faculty" name="faculty"
-                               value="<%= candidate.getFaculty()!=null?candidate.getFaculty():""%>">
+                        <label>
+                            <input type="text" readonly class="row-values form-control plaintext faculty" name="faculty"
+                                   value="<%= candidate.getFaculty()!=null?candidate.getFaculty():""%>">
+                        </label>
                     </div>
                 </td>
             </tr>

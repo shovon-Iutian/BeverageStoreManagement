@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Voting period </title>
+    <title>Voting period</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
@@ -27,10 +27,10 @@
     Voting booth will open from <%=voteTimeList.get(0).getStartdate()%>.
 </h1>
 </div>
-    <p style="color:blue;margin-left: 30px">
+    <h2 style="color:blue;margin-left: 30px">
         Please register yourself to cast vote ontime. Thank you.
         <br>
-    </p>
+    </h2>
 
     <div style="color:blue;margin-left: 30px" class="col-1" align="center">
         <a href="/" class="btn btn-danger">Home</a>

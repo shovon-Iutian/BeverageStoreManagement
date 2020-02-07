@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Submission</title>
+    <title>Election Result Notice</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
@@ -13,12 +13,11 @@
 
 </head>
 <body>
-<div style="height:100px;width:800px;background-color: bisque;margin-left: 100px;border-radius: 50px">
-        <h1 style="color:red;margin-left: 50px;margin-top: 100px;">Thanks for your vote. Have a nice day.</h1>
+<div>
+    <h1 style="color:blue;margin-left: 30px">Vote casting is not completed yet. Result will be published after voting is done.</h1>
+    <h2 style="color:blue;margin-left: 30px" align="center">Thank you for your patience.</h2>
 </div>
-<p style="color:blue;margin-left: 30px">
-    <br>
-</p>
+<p><br></p>
 <div style="color:blue;margin-left: 30px" class="col-1" align="center">
     <a href="/" class="btn btn-danger">Home</a>
 </div>

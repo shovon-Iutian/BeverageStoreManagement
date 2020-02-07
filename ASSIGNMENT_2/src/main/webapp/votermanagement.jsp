@@ -19,11 +19,10 @@
     <h1 style="color: red;margin-left: 600px;">Voter Information List</h1>
 <div style="width: 1000px;margin-left: 200px;">
     <p><br>
-        
-        <button style="background-color: bisque;"><a style="text-decoration: none;color: black;" href="/">Home</a></button> <br><br>
+
         <button style="background-color: bisque;" class="addNewvoter">ADD NEW VOTER</button><br><br>
         <button style="background-color: bisque;" class="voterNotification">VOTER NOTIFICATION</button><br><br>
-        <button style="background-color: bisque;" id="uploadDir" >IMPORT VOTER LIST</button><br><br>
+        <button style="background-color: bisque;" id="uploadDir" >IMPORT VOTER LIST</button>
     </p>
     <form id="fileUpload"  action="/admin/uploadfile" method="post" enctype="multipart/form-data">
         <div class="custom-file">
@@ -155,6 +154,9 @@
             </tbody>
         </table>
     </form>
+
+    <div align="center"><button style="background-color: bisque;"><a style="text-decoration: none;color: black;" href="/">Home</a></button>
+
 
 </div>
 

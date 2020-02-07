@@ -60,7 +60,6 @@ public class VoteResultServlet extends HttpServlet {
         VoteTime voteTime = new VoteTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.HOUR_OF_DAY,1);
         date = calendar.getTime();
         for (VoteTime votetime : voteTimes) {
             Date enddate = votetime.getEnddate();
