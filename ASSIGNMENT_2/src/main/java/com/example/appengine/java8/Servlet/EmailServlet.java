@@ -34,7 +34,7 @@ public class EmailServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String votingBoothUrl = getBaseUrl(req);
-        Query query = new Query(voteEntity.getROOTKIND());
+        Query query = new Query(voteEntity.getParentsKind());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
         System.out.println(voterList);
@@ -94,7 +94,7 @@ public class EmailServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String votingBothUrl = getBaseUrl(req);
-        Query query = new Query(voteEntity.getROOTKIND());
+        Query query = new Query(voteEntity.getParentsKind());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
         System.out.println(voterList);

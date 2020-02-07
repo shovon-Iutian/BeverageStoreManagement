@@ -26,7 +26,7 @@ public class VoteCastingManagement implements VoteCastingService {
             Query.Filter filteredByToken = new Query.FilterPredicate(voteEntity.getVOTER_TOKEN_PROPERTY(), Query.FilterOperator.EQUAL, voter.getToken());
             Query.Filter filteredByCastedVote = new Query.FilterPredicate(voteEntity.getVOTER_ISVOTED_PROPERTY(), Query.FilterOperator.EQUAL, false);
             Query.Filter tokenAndCastedVoteFilter = Query.CompositeFilterOperator.and(filteredByToken, filteredByCastedVote);
-            Query uncastedVoteQuery = new Query(voteEntity.getVOTERS()).setAncestor(voteEntity.getVoterKey()).setFilter(tokenAndCastedVoteFilter);
+            Query uncastedVoteQuery = new Query(voteEntity.getVoterKind()).setAncestor(voteEntity.getVoterKey()).setFilter(tokenAndCastedVoteFilter);
             List<Voter> eligibleVoters = voterVoteService.get(uncastedVoteQuery);
             if(eligibleVoters != null && !eligibleVoters.isEmpty()) {
                 Voter eligibleVoter = eligibleVoters.get(0);

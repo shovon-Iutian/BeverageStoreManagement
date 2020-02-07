@@ -59,10 +59,14 @@ public class VotersServlet extends HttpServlet {
         voter.setVoted(false);
         voter.setReminder(false);
         voter.setToken(token);
-        voterManaging.create(voter);
+        try {
+            voterManaging.create(voter);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
 
 //        test fetch from saved voters
-        Query query = new Query(voteEntity.getVOTERS());
+        Query query = new Query(voteEntity.getVoterKind());
         System.out.println(query.toString());
         List<Voter> voterList = voterManaging.get(query);
         System.out.println("fetching voters"+voterList.get(0).getEmail());

@@ -42,7 +42,7 @@ public class VoteResultServlet extends HttpServlet {
         VoteEntity voteEntity = new VoteEntity();
         Query query2 = null;
         try {
-            query2 = new Query(voteEntity.getVOTERS());
+            query2 = new Query(voteEntity.getVoterKind());
             voterList= voteManagement.get(query2);
         } catch (Exception e) {
             System.out.println("no voters found."+e.getMessage());
