@@ -43,10 +43,9 @@ public class EmailServlet extends HttpServlet {
         }
 
         String votingBoothUrl = getBaseUrl(req);
-        Query query = new Query(voteEntity.getParentsKind());
-        System.out.println(query.toString());
+
+        Query query = new Query(voteEntity.getVoterKind());
         List<Voter> voterList = voterManaging.get(query);
-        System.out.println(voterList);
 
         sendReminderMail(voterList, votingBoothUrl);
     }
@@ -102,13 +101,12 @@ public class EmailServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String votingBothUrl = getBaseUrl(req);
-        Query query = new Query(voteEntity.getParentsKind());
-        System.out.println(query.toString());
-        List<Voter> voterList = voterManaging.get(query);
-        System.out.println(voterList);
+        String votingBoothUrl = getBaseUrl(req);
 
-        sendVotingInfoMail(voterList, votingBothUrl);
+        Query query = new Query(voteEntity.getVoterKind());
+        List<Voter> voterList = voterManaging.get(query);
+
+        sendVotingInfoMail(voterList, votingBoothUrl);
     }
 
     private void sendVotingInfoMail(List<Voter> voterList, String votingBoothUrl) {
@@ -117,11 +115,12 @@ public class EmailServlet extends HttpServlet {
         Session session = Session.getDefaultInstance(props, null);
 
         try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("alnoman.cse@gmail.com", "Abdullah Al Noman"));
-            msg.setSubject("Your voter information");
-
             for(Voter voter : voterList){
+//                System.out.println(voter.getName()+" "+voter.getEmail()+" "+voter.getToken());
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("alnoman.cse@gmail.com", "Abdullah Al Noman"));
+                msg.setSubject("Your voter information");
+
                 msg.addRecipient(Message.RecipientType.TO,
                         new InternetAddress(voter.getEmail(), voter.getName()));
 
