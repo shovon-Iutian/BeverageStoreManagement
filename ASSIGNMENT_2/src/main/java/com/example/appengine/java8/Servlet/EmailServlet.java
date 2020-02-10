@@ -62,7 +62,7 @@ public class EmailServlet extends HttpServlet {
             long scheduledStartTimeInMilli = scheduledStartTime.getTime();
             long currentTime = Calendar.getInstance().getTimeInMillis();
 
-            if((scheduledStartTimeInMilli - currentTime) < 86400000){
+            if(currentTime < scheduledStartTimeInMilli && (scheduledStartTimeInMilli - currentTime) < 86400000){
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 String strDateTime = dateFormat.format(scheduledStartTime);
